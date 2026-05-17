@@ -268,7 +268,20 @@ body{
   <!-- HOME -->
 
   <div id="homeContent">
+<div
+  id="profileCard"
 
+  style="
+  background:white;
+  padding:25px;
+  border-radius:24px;
+  margin-bottom:25px;
+  "
+>
+
+  ⏳ Loading profile...
+
+</div>
     <div class="hero">
 
       <h1>
@@ -394,6 +407,9 @@ window.getDoc = getDoc;
 </script>
 <script type="module"
         src="js/authLink.js">
+</script>
+<script type="module"
+        src="js/profile.js">
 </script>
  <!-- =========================
      LINK EMAIL MODAL
@@ -556,6 +572,21 @@ document.addEventListener(
   }
 );
 </script>
+
+<script>
+document.addEventListener(
+  "DOMContentLoaded",
+  async ()=>{
+    if(window.updateLinkButtons){
+      updateLinkButtons();
+    }
+    if(window.loadCurrentUser){
+      await loadCurrentUser();
+    }
+  }
+);
+</script>
+
       
 </body>
 </html>
