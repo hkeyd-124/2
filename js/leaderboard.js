@@ -1,8 +1,13 @@
 import {
+
   collection,
   getDocs,
-  onSnapshot
+  onSnapshot,
+  doc,
+  getDoc
 }
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 /* =========================
    LEADERBOARD
 ========================= */
@@ -228,89 +233,5 @@ async function(){
       </div>
 
     `;
-  }
-}
-/* =========================
-   REALTIME LEADERBOARD
-========================= */
-
-window.startLeaderboardRealtime =
-function(){
-
-  try{
-
-    const ref =
-      collection(
-        db,
-        "users"
-      );
-
-    onSnapshot(
-
-      ref,
-
-      async (snapshot)=>{
-
-        console.log(
-          "LEADERBOARD REALTIME UPDATE"
-        );
-
-        const users = [];
-
-        snapshot.forEach(doc=>{
-
-          const data =
-            doc.data();
-
-          users.push({
-
-            id:doc.id,
-
-            ...data
-
-          });
-        });
-
-        /* SORT */
-
-        users.sort(
-
-          (a,b)=>
-
-            (b.points || 0)
-
-            -
-
-            (a.points || 0)
-
-        );
-
-        /* SAVE GLOBAL */
-
-        APP_STATE.leaderboard =
-          users;
-
-        /* RENDER */
-
-        if(
-          window.renderLeaderboard
-        ){
-
-          renderLeaderboard(
-            users
-          );
-        }
-      }
-    );
-
-  }catch(err){
-
-    console.error(
-
-      "LEADERBOARD REALTIME ERROR:",
-
-      err
-
-    );
   }
 }
