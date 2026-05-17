@@ -187,7 +187,8 @@ function(){
 
 window.linkEmail =
 async function(){
-
+  const uid =
+    getUID();
   try{
 
     const email =
