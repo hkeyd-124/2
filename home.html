@@ -2,7 +2,8 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
 <title>HackChem SPA</title>
 
@@ -27,7 +28,7 @@ body{
 ========================= */
 
 .sidebar{
-  width:250px;
+  width:260px;
   background:white;
   border-right:1px solid #eee;
   padding:20px;
@@ -88,7 +89,6 @@ body{
 .hero p{
   margin-top:10px;
   color:#666;
-  font-size:16px;
 }
 
 /* =========================
@@ -107,11 +107,15 @@ body{
   border-radius:22px;
   cursor:pointer;
   transition:0.2s;
-  box-shadow:0 5px 20px rgba(0,0,0,0.04);
+  box-shadow:0 5px 20px rgba(0,0,0,0.05);
 }
 
 .card:hover{
   transform:translateY(-5px);
+}
+
+.card-icon{
+  font-size:34px;
 }
 
 .card h3{
@@ -123,12 +127,8 @@ body{
   color:#666;
 }
 
-.card-icon{
-  font-size:34px;
-}
-
 /* =========================
-   SPA
+   SPA CONTAINER
 ========================= */
 
 #spaContainer{
@@ -136,19 +136,11 @@ body{
   animation:fadeIn .25s ease;
 }
 
-.tab-page{
-  background:white;
-  padding:30px;
-  border-radius:24px;
-  box-shadow:0 5px 20px rgba(0,0,0,0.05);
-}
-
 .loading-box{
   background:white;
-  padding:60px;
+  padding:50px;
   border-radius:24px;
   text-align:center;
-  font-size:18px;
   color:#666;
 }
 
@@ -266,7 +258,7 @@ body{
       </h1>
 
       <p>
-        Single Layer SPA Architecture
+        Production Single Layer SPA Architecture
       </p>
 
     </div>
@@ -322,21 +314,38 @@ body{
 
 </div>
 
-<script>
+<!-- =========================
+     FIREBASE
+========================= -->
+
+<script type="module">
+
+import {
+  db
+}
+from "./firebase.js";
+
+import {
+  collection,
+  query,
+  orderBy,
+  limit,
+  getDocs
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 /* =========================
    GLOBAL
 ========================= */
 
 window.currentTab = "home";
-
 window.tabCache = {};
 
 /* =========================
    ACTIVE MENU
 ========================= */
 
-function setActiveMenu(id){
+window.setActiveMenu = function(id){
 
   document.querySelectorAll(".menu-item")
     .forEach(el=>el.classList.remove("active"));
@@ -353,7 +362,7 @@ function setActiveMenu(id){
    HOME
 ========================= */
 
-function loadHome(){
+window.loadHome = function(){
 
   window.currentTab = "home";
 
@@ -372,7 +381,7 @@ function loadHome(){
    LOAD TAB
 ========================= */
 
-async function loadTab(tab){
+window.loadTab = async function(tab){
 
   try{
 
@@ -425,7 +434,9 @@ async function loadTab(tab){
       container.innerHTML = html;
     }
 
-    /* TAB INIT */
+    /* =========================
+       TAB INIT
+    ========================= */
 
     if(tab === "courses"){
 
@@ -433,11 +444,12 @@ async function loadTab(tab){
 
       applyCourseProgress();
     }
-  if(tab === "leaderboard"){
+
+    if(tab === "leaderboard"){
 
       loadLeaderboard();
-
     }
+
   }catch(err){
 
     console.error(err);
@@ -445,9 +457,11 @@ async function loadTab(tab){
     document.getElementById(
       "spaContainer"
     ).innerHTML = `
-      <div class="tab-page">
+
+      <div class="loading-box">
         ❌ Cannot load ${tab}
       </div>
+
     `;
   }
 }
@@ -456,7 +470,7 @@ async function loadTab(tab){
    RESOURCES TAB
 ========================= */
 
-function toggleTopic(id){
+window.toggleTopic = function(id){
 
   const el =
     document.getElementById(id);
@@ -469,14 +483,14 @@ function toggleTopic(id){
       : "block";
 }
 
-function openLessonSPA(id){
+window.openLessonSPA = function(id){
 
   console.log("OPEN LESSON:", id);
 
   if(id === "organic_2"){
 
     window.location.href =
-      "alkane.html";
+      "lesson/alkane.html?lesson=" + id;
 
     return;
   }
@@ -498,7 +512,7 @@ const totals = {
 
 };
 
-function toggleCourse(id){
+window.toggleCourse = function(id){
 
   const el =
     document.getElementById(id);
@@ -511,7 +525,7 @@ function toggleCourse(id){
       : "none";
 }
 
-function openCourseLesson(id,name){
+window.openCourseLesson = function(id,name){
 
   localStorage.setItem(
     "currentLessonName",
@@ -534,7 +548,7 @@ function openCourseLesson(id,name){
     id;
 }
 
-function bindCourseEvents(){
+window.bindCourseEvents = function(){
 
   const buttons =
     document.querySelectorAll(
@@ -559,10 +573,9 @@ function bindCourseEvents(){
     };
 
   });
-
 }
 
-function getCoursePercent(id){
+window.getCoursePercent = function(id){
 
   const wallet =
     localStorage.getItem("wallet")
@@ -601,7 +614,7 @@ function getCoursePercent(id){
   );
 }
 
-function setCourseColor(el,percent){
+window.setCourseColor = function(el,percent){
 
   if(percent < 25){
 
@@ -628,7 +641,7 @@ function setCourseColor(el,percent){
   }
 }
 
-function checkBossUnlockCourse(
+window.checkBossUnlockCourse = function(
   p1,p2,p3,p4
 ){
 
@@ -660,7 +673,7 @@ function checkBossUnlockCourse(
   }
 }
 
-function openBossLesson(){
+window.openBossLesson = function(){
 
   const boss =
     document.getElementById(
@@ -683,7 +696,7 @@ function openBossLesson(){
     "lesson/boss.html";
 }
 
-function applyCourseProgress(){
+window.applyCourseProgress = function(){
 
   const p1 =
     getCoursePercent(
@@ -764,7 +777,7 @@ function applyCourseProgress(){
    LEADERBOARD
 ========================= */
 
-async function loadLeaderboard(){
+window.loadLeaderboard = async function(){
 
   const container =
     document.getElementById(
@@ -773,66 +786,124 @@ async function loadLeaderboard(){
 
   if(!container) return;
 
-  /*
-    DEMO DATA
-    Sau này thay bằng Firebase
-  */
+  try{
 
-  const fakeData = [
+    container.innerHTML = `
 
-    {
-      name:"Alice",
-      score:980
-    },
+      <div class="loading-box">
+        ⏳ Loading leaderboard...
+      </div>
 
-    {
-      name:"Bob",
-      score:870
-    },
+    `;
 
-    {
-      name:"Charlie",
-      score:820
-    },
+    const q = query(
 
-    {
-      name:"David",
-      score:760
+      collection(db, "users"),
+
+      orderBy("points", "desc"),
+
+      limit(20)
+
+    );
+
+    const snapshot =
+      await getDocs(q);
+
+    container.innerHTML = "";
+
+    let rank = 1;
+
+    snapshot.forEach(doc=>{
+
+      const data = doc.data();
+
+      const name =
+        data.name
+        || data.displayName
+        || "Unknown";
+
+      const points =
+        data.points || 0;
+
+      container.innerHTML += `
+
+        <div class="rank-item"
+             style="
+               display:flex;
+               justify-content:space-between;
+               align-items:center;
+               padding:18px;
+               border-bottom:1px solid #eee;
+             ">
+
+          <div style="
+            display:flex;
+            align-items:center;
+            gap:15px;
+          ">
+
+            <div style="
+              width:42px;
+              height:42px;
+              border-radius:50%;
+              background:#111;
+              color:white;
+              display:flex;
+              align-items:center;
+              justify-content:center;
+              font-weight:bold;
+            ">
+              ${rank}
+            </div>
+
+            <div style="font-weight:bold;">
+              ${name}
+            </div>
+
+          </div>
+
+          <div style="
+            font-size:18px;
+            font-weight:bold;
+            color:#2ecc71;
+          ">
+            ${points}
+          </div>
+
+        </div>
+
+      `;
+
+      rank++;
+
+    });
+
+    if(rank === 1){
+
+      container.innerHTML = `
+
+        <div class="loading-box">
+          No users found
+        </div>
+
+      `;
     }
 
-  ];
+  }catch(err){
 
-  container.innerHTML = "";
+    console.error(err);
 
-  fakeData.forEach((user,index)=>{
+    container.innerHTML = `
 
-    container.innerHTML += `
-
-      <div class="rank-item">
-
-        <div class="rank-left">
-
-          <div class="rank-number">
-            ${index+1}
-          </div>
-
-          <div class="rank-name">
-            ${user.name}
-          </div>
-
-        </div>
-
-        <div class="rank-score">
-          ${user.score}
-        </div>
-
+      <div class="loading-box">
+        ❌ Failed to load leaderboard
       </div>
+
     `;
-  });
+  }
 }
 
-
-  
 </script>
+
 </body>
 </html>
