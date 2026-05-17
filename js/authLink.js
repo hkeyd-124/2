@@ -154,7 +154,7 @@ window.linkWallet = async function(){
       "wallet",
       wallet
     );
-
+updateLinkButtons();
     alert(
       "✅ Link wallet thành công!"
     );
@@ -306,7 +306,7 @@ async function(){
     document.getElementById(
       "linkEmailModal"
     ).style.display = "none";
-
+updateLinkButtons();
     alert(
       "✅ Link email thành công!"
     );
