@@ -227,7 +227,45 @@ async function loadTab(tab){
     `;
   }
 }
+<script>
 
+/* =========================
+   RESOURCES TAB
+========================= */
+
+function toggleTopic(id){
+
+  const el = document.getElementById(id);
+
+  el.style.display =
+    el.style.display === "block"
+      ? "none"
+      : "block";
+}
+
+/* lesson navigation */
+
+function openLessonSPA(id){
+
+  console.log("OPEN LESSON:", id);
+
+  /*
+    TẠM THỜI:
+    vẫn dùng page cũ
+  */
+
+  if(id === "organic_2"){
+
+    window.location.href = "alkane.html";
+
+    return;
+  }
+
+  window.location.href =
+    "lesson/lesson1.html?lesson=" + id;
+}
+
+</script>
 </script>
 
 </body>
