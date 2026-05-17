@@ -496,13 +496,10 @@ window.loadTab = async function(tab){
    RESOURCES TAB
 ========================= */
 
-/* =========================
-   RESOURCES TAB
-========================= */
+window.toggleTopic = function(id){
 
-function toggleTopic(id){
-
-  const el = document.getElementById(id);
+  const el =
+    document.getElementById(id);
 
   if(!el) return;
 
@@ -516,20 +513,41 @@ function toggleTopic(id){
    OPEN LESSON
 ========================= */
 
-function openLessonSPA(id){
+window.openLessonSPA = function(id){
 
   console.log("OPEN LESSON:", id);
 
+  const lessonMap = {
 
-  if(id === "organic_2"){
+    organic_1:"organic.html",
 
-    window.location.href = "alkane.html";
+    organic_2:"alkane.html",
+
+    organic_3:"alkene.html",
+
+    organic_4:"fuel.html"
+
+  };
+
+  const file =
+    lessonMap[id];
+
+  if(!file){
+
+    alert("Lesson not found");
 
     return;
   }
 
+  /*
+    FILES ĐANG CÙNG CẤP
+    VỚI home.html
+  */
+
   window.location.href =
-    "lesson/lesson1.html?lesson=" + id;
+    file +
+    "?lesson=" +
+    id;
 }
 /* =========================
    COURSES TAB
