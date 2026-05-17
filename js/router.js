@@ -41,7 +41,11 @@ window.setActiveMenu = function(id){
    HOME
 ========================= */
 
-window.loadHome = function(){
+window.loadHome = function(
+
+  push = true
+
+){
 
   window.currentTab = "home";
 
@@ -54,6 +58,23 @@ window.loadHome = function(){
   document.getElementById(
     "spaContainer"
   ).style.display = "none";
+
+  /* URL */
+
+  if(push){
+
+    history.pushState(
+
+      {
+        tab:"home"
+      },
+
+      "",
+
+      "home.html"
+
+    );
+  }
 }
 
 /* =========================
@@ -61,7 +82,12 @@ window.loadHome = function(){
 ========================= */
 
 window.loadTab =
-async function(tab){
+async function(
+
+  tab,
+  push = true
+
+){
 
   try{
 
@@ -123,6 +149,25 @@ async function(tab){
     }
 
     /* =========================
+       URL
+    ========================= */
+
+    if(push){
+
+      history.pushState(
+
+        {
+          tab
+        },
+
+        "",
+
+        `home.html#${tab}`
+
+      );
+    }
+
+    /* =========================
        TAB INIT
     ========================= */
 
@@ -157,3 +202,59 @@ async function(tab){
     `;
   }
 }
+
+/* =========================
+   HANDLE BACK BUTTON
+========================= */
+
+window.addEventListener(
+
+  "popstate",
+
+  async ()=>{
+
+    const hash =
+      window.location.hash
+      .replace("#","");
+
+    if(!hash){
+
+      loadHome(false);
+
+      return;
+    }
+
+    await loadTab(
+      hash,
+      false
+    );
+  }
+);
+
+/* =========================
+   INITIAL LOAD
+========================= */
+
+window.addEventListener(
+
+  "DOMContentLoaded",
+
+  async ()=>{
+
+    const hash =
+      window.location.hash
+      .replace("#","");
+
+    if(!hash){
+
+      loadHome(false);
+
+      return;
+    }
+
+    await loadTab(
+      hash,
+      false
+    );
+  }
+);
