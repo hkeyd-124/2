@@ -412,13 +412,19 @@ z-index:9999;
 ">
 
   <div style="
-    width:350px;
+    width:380px;
     background:white;
     padding:25px;
-    border-radius:20px;
+    border-radius:24px;
   ">
 
-    <h2>📧 Link Email</h2>
+    <h2 style="
+      margin-bottom:20px;
+    ">
+      📧 Link Email
+    </h2>
+
+    <!-- EMAIL -->
 
     <input
       id="linkEmailInput"
@@ -426,38 +432,106 @@ z-index:9999;
 
       style="
       width:100%;
-      padding:12px;
-      margin-top:15px;
-      border-radius:12px;
+      padding:14px;
+      border-radius:14px;
       border:1px solid #ddd;
+      margin-bottom:14px;
       "
     >
 
-    <input
-      id="linkPasswordInput"
-      type="password"
-      placeholder="Password"
+    <!-- PASSWORD -->
 
-      style="
-      width:100%;
-      padding:12px;
-      margin-top:10px;
-      border-radius:12px;
-      border:1px solid #ddd;
-      "
-    >
+    <div style="
+      position:relative;
+      margin-bottom:14px;
+    ">
+
+      <input
+        id="linkPasswordInput"
+        type="password"
+        placeholder="Password"
+
+        style="
+        width:100%;
+        padding:14px;
+        border-radius:14px;
+        border:1px solid #ddd;
+        padding-right:50px;
+        "
+      >
+
+      <div
+        onclick="toggleLinkPassword()"
+
+        style="
+        position:absolute;
+        right:15px;
+        top:50%;
+        transform:translateY(-50%);
+        cursor:pointer;
+        font-size:20px;
+        "
+      >
+
+        👁
+
+      </div>
+
+    </div>
+
+    <!-- CONFIRM PASSWORD -->
+
+    <div style="
+      position:relative;
+      margin-bottom:18px;
+    ">
+
+      <input
+        id="linkConfirmPasswordInput"
+        type="password"
+        placeholder="Confirm Password"
+
+        style="
+        width:100%;
+        padding:14px;
+        border-radius:14px;
+        border:1px solid #ddd;
+        padding-right:50px;
+        "
+      >
+
+      <div
+        onclick="toggleLinkConfirmPassword()"
+
+        style="
+        position:absolute;
+        right:15px;
+        top:50%;
+        transform:translateY(-50%);
+        cursor:pointer;
+        font-size:20px;
+        "
+      >
+
+        👁
+
+      </div>
+
+    </div>
+
+    <!-- BUTTON -->
 
     <button
       onclick="linkEmail()"
 
       style="
       width:100%;
-      margin-top:15px;
-      padding:12px;
+      padding:14px;
       border:none;
-      border-radius:12px;
+      border-radius:14px;
       background:#111;
       color:white;
+      font-weight:bold;
       cursor:pointer;
       "
     >
