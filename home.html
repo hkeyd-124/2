@@ -3,9 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>HackChem SPA</title>
 
 <style>
+
 *{
   margin:0;
   padding:0;
@@ -17,31 +19,39 @@ body{
   background:#f5f7fb;
   display:flex;
   min-height:100vh;
+  overflow:hidden;
 }
+
+/* =========================
+   SIDEBAR
+========================= */
 
 .sidebar{
   width:250px;
   background:white;
   border-right:1px solid #eee;
   padding:20px;
+  overflow:auto;
 }
 
 .logo{
-  font-size:24px;
+  font-size:28px;
   font-weight:bold;
-  margin-bottom:30px;
+  margin-bottom:35px;
 }
 
 .menu-item{
   padding:14px;
-  border-radius:12px;
+  border-radius:14px;
   cursor:pointer;
-  margin-bottom:10px;
+  margin-bottom:12px;
   transition:0.2s;
+  font-weight:bold;
 }
 
 .menu-item:hover{
   background:#f1f5f9;
+  transform:translateX(4px);
 }
 
 .menu-item.active{
@@ -49,17 +59,41 @@ body{
   color:white;
 }
 
+/* =========================
+   MAIN
+========================= */
+
 .main{
   flex:1;
   padding:25px;
+  overflow:auto;
 }
+
+/* =========================
+   HERO
+========================= */
 
 .hero{
   background:white;
-  padding:30px;
+  padding:35px;
   border-radius:24px;
   margin-bottom:25px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.05);
 }
+
+.hero h1{
+  font-size:34px;
+}
+
+.hero p{
+  margin-top:10px;
+  color:#666;
+  font-size:16px;
+}
+
+/* =========================
+   CARDS
+========================= */
 
 .cards{
   display:grid;
@@ -70,88 +104,212 @@ body{
 .card{
   background:white;
   padding:25px;
-  border-radius:20px;
+  border-radius:22px;
   cursor:pointer;
   transition:0.2s;
+  box-shadow:0 5px 20px rgba(0,0,0,0.04);
 }
 
 .card:hover{
   transform:translateY(-5px);
 }
 
+.card h3{
+  margin-top:15px;
+}
+
+.card p{
+  margin-top:10px;
+  color:#666;
+}
+
+.card-icon{
+  font-size:34px;
+}
+
+/* =========================
+   SPA
+========================= */
+
 #spaContainer{
   display:none;
+  animation:fadeIn .25s ease;
 }
 
 .tab-page{
   background:white;
   padding:30px;
   border-radius:24px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.05);
 }
+
+.loading-box{
+  background:white;
+  padding:60px;
+  border-radius:24px;
+  text-align:center;
+  font-size:18px;
+  color:#666;
+}
+
+/* =========================
+   ANIMATION
+========================= */
+
+@keyframes fadeIn{
+
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+
+  to{
+    opacity:1;
+    transform:none;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:900px){
+
+  .sidebar{
+    width:90px;
+    padding:15px 10px;
+  }
+
+  .logo{
+    font-size:16px;
+    text-align:center;
+  }
+
+  .menu-item{
+    font-size:12px;
+    text-align:center;
+    padding:10px 5px;
+  }
+
+  .main{
+    padding:15px;
+  }
+
+  .hero h1{
+    font-size:24px;
+  }
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
+<!-- =========================
+     SIDEBAR
+========================= -->
+
 <div class="sidebar">
 
   <div class="logo">
     🧪 HACKCHEM
   </div>
 
-  <div class="menu-item active" id="menu-home" onclick="loadHome()">
+  <div class="menu-item active"
+       id="menu-home"
+       onclick="loadHome()">
+
     🏠 Home
+
   </div>
 
-  <div class="menu-item" id="menu-courses" onclick="loadTab('courses')">
+  <div class="menu-item"
+       id="menu-courses"
+       onclick="loadTab('courses')">
+
     📘 Courses
+
   </div>
 
-  <div class="menu-item" id="menu-resources" onclick="loadTab('resources')">
+  <div class="menu-item"
+       id="menu-resources"
+       onclick="loadTab('resources')">
+
     📚 Resources
+
   </div>
 
-  <div class="menu-item" id="menu-leaderboard" onclick="loadTab('leaderboard')">
+  <div class="menu-item"
+       id="menu-leaderboard"
+       onclick="loadTab('leaderboard')">
+
     🏆 Leaderboard
+
   </div>
 
 </div>
 
-<!-- MAIN -->
+<!-- =========================
+     MAIN
+========================= -->
+
 <div class="main">
 
-  <!-- HOME CONTENT -->
+  <!-- HOME -->
+
   <div id="homeContent">
 
     <div class="hero">
-      <h1>👋 Welcome to HackChem</h1>
-      <p style="margin-top:10px;color:#666;">
-        Single Layer SPA Version
+
+      <h1>
+        👋 Welcome to HackChem
+      </h1>
+
+      <p>
+        Single Layer SPA Architecture
       </p>
+
     </div>
 
     <div class="cards">
 
-      <div class="card" onclick="loadTab('courses')">
-        <h3>📘 Courses</h3>
-        <p style="margin-top:10px;color:#666;">
-          Learn chemistry
+      <div class="card"
+           onclick="loadTab('courses')">
+
+        <div class="card-icon">📘</div>
+
+        <h3>Courses</h3>
+
+        <p>
+          Explore chemistry lessons
         </p>
+
       </div>
 
-      <div class="card" onclick="loadTab('resources')">
-        <h3>📚 Resources</h3>
-        <p style="margin-top:10px;color:#666;">
+      <div class="card"
+           onclick="loadTab('resources')">
+
+        <div class="card-icon">📚</div>
+
+        <h3>Resources</h3>
+
+        <p>
           Study materials
         </p>
+
       </div>
 
-      <div class="card" onclick="loadTab('leaderboard')">
-        <h3>🏆 Leaderboard</h3>
-        <p style="margin-top:10px;color:#666;">
-          Rankings
+      <div class="card"
+           onclick="loadTab('leaderboard')">
+
+        <div class="card-icon">🏆</div>
+
+        <h3>Leaderboard</h3>
+
+        <p>
+          Rankings and scores
         </p>
+
       </div>
 
     </div>
@@ -159,72 +317,130 @@ body{
   </div>
 
   <!-- SPA CONTENT -->
+
   <div id="spaContainer"></div>
 
 </div>
 
 <script>
 
-window.currentTab = 'home';
+/* =========================
+   GLOBAL
+========================= */
+
+window.currentTab = "home";
+
+window.tabCache = {};
+
+/* =========================
+   ACTIVE MENU
+========================= */
 
 function setActiveMenu(id){
 
-  document.querySelectorAll('.menu-item')
-    .forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll(".menu-item")
+    .forEach(el=>el.classList.remove("active"));
 
-  const menu = document.getElementById(`menu-${id}`);
+  const menu =
+    document.getElementById(`menu-${id}`);
 
   if(menu){
-    menu.classList.add('active');
+    menu.classList.add("active");
   }
 }
 
+/* =========================
+   HOME
+========================= */
+
 function loadHome(){
 
-  setActiveMenu('home');
+  window.currentTab = "home";
 
-  document.getElementById('homeContent').style.display = 'block';
+  setActiveMenu("home");
 
-  document.getElementById('spaContainer').style.display = 'none';
+  document.getElementById(
+    "homeContent"
+  ).style.display = "block";
+
+  document.getElementById(
+    "spaContainer"
+  ).style.display = "none";
 }
+
+/* =========================
+   LOAD TAB
+========================= */
 
 async function loadTab(tab){
 
   try{
 
+    window.currentTab = tab;
+
     setActiveMenu(tab);
 
-    document.getElementById('homeContent').style.display = 'none';
+    document.getElementById(
+      "homeContent"
+    ).style.display = "none";
 
-    const container = document.getElementById('spaContainer');
+    const container =
+      document.getElementById(
+        "spaContainer"
+      );
 
-    container.style.display = 'block';
+    container.style.display = "block";
 
     container.innerHTML = `
-      <div class="tab-page">
+      <div class="loading-box">
         ⏳ Loading ${tab}...
       </div>
     `;
 
-    const res = await fetch(`tabs/${tab}.html`);
+    /* CACHE */
 
-    if(!res.ok){
-      throw new Error('Cannot load tab');
+    if(window.tabCache[tab]){
+
+      container.innerHTML =
+        window.tabCache[tab];
+
+    }else{
+
+      const res =
+        await fetch(`tabs/${tab}.html`);
+
+      if(!res.ok){
+        throw new Error(
+          `Cannot load ${tab}`
+        );
+      }
+
+      container.innerHTML = "";
+
+      const html =
+        await res.text();
+
+      window.tabCache[tab] = html;
+
+      container.innerHTML = html;
     }
 
-    const html = await res.text();
+    /* TAB INIT */
 
-    container.innerHTML = html;
-    
-if(tab === "courses"){
-  bindCourseEvents();
-  applyCourseProgress();
-}
+    if(tab === "courses"){
+
+      bindCourseEvents();
+
+      applyCourseProgress();
+    }
+
   }catch(err){
 
     console.error(err);
 
-    document.getElementById('spaContainer').innerHTML = `
+    document.getElementById(
+      "spaContainer"
+    ).innerHTML = `
       <div class="tab-page">
         ❌ Cannot load ${tab}
       </div>
@@ -238,7 +454,10 @@ if(tab === "courses"){
 
 function toggleTopic(id){
 
-  const el = document.getElementById(id);
+  const el =
+    document.getElementById(id);
+
+  if(!el) return;
 
   el.style.display =
     el.style.display === "block"
@@ -246,20 +465,14 @@ function toggleTopic(id){
       : "block";
 }
 
-/* lesson navigation */
-
 function openLessonSPA(id){
 
   console.log("OPEN LESSON:", id);
 
-  /*
-    TẠM THỜI:
-    vẫn dùng page cũ
-  */
-
   if(id === "organic_2"){
 
-    window.location.href = "alkane.html";
+    window.location.href =
+      "alkane.html";
 
     return;
   }
@@ -273,15 +486,18 @@ function openLessonSPA(id){
 ========================= */
 
 const totals = {
-  organic_1: 15,
-  organic_2: 15,
-  organic_3: 15,
-  organic_4: 15
+
+  organic_1:15,
+  organic_2:15,
+  organic_3:15,
+  organic_4:15
+
 };
 
 function toggleCourse(id){
 
-  const el = document.getElementById(id);
+  const el =
+    document.getElementById(id);
 
   if(!el) return;
 
@@ -291,7 +507,7 @@ function toggleCourse(id){
       : "none";
 }
 
-function openCourseLesson(id, name){
+function openCourseLesson(id,name){
 
   localStorage.setItem(
     "currentLessonName",
@@ -299,57 +515,112 @@ function openCourseLesson(id, name){
   );
 
   const map = {
-    "organic_1": "alkane.html",
-    "organic_2": "alkane.html",
-    "organic_3": "alkene.html",
-    "organic_4": "null"
+
+    organic_1:"alkane.html",
+    organic_2:"alkane.html",
+    organic_3:"alkene.html",
+    organic_4:"fuel.html"
+
   };
 
   window.location.href =
-    "lesson/" + map[id] + "?lesson=" + id;
+    "lesson/" +
+    map[id] +
+    "?lesson=" +
+    id;
+}
+
+function bindCourseEvents(){
+
+  const buttons =
+    document.querySelectorAll(
+      ".lesson-btn"
+    );
+
+  buttons.forEach(btn=>{
+
+    btn.onclick = ()=>{
+
+      const lesson =
+        btn.dataset.lesson;
+
+      const name =
+        btn.dataset.name;
+
+      openCourseLesson(
+        lesson,
+        name
+      );
+
+    };
+
+  });
+
 }
 
 function getCoursePercent(id){
 
   const wallet =
-    localStorage.getItem("wallet") || "guest";
+    localStorage.getItem("wallet")
+    || "guest";
 
   const uid =
-    localStorage.getItem("uid") || wallet;
+    localStorage.getItem("uid")
+    || wallet;
 
   const data = JSON.parse(
+
     localStorage.getItem(
-      "progress_" + id + "_" + uid
+      "progress_" +
+      id +
+      "_" +
+      uid
     )
+
   );
 
   if(!data) return 0;
 
   const correct =
-    Object.values(data.answers || {})
-      .filter(v => v === "correct")
-      .length;
+
+    Object.values(
+      data.answers || {}
+    )
+
+    .filter(v=>v==="correct")
+    .length;
 
   const total = totals[id];
 
   return Math.round(
-    (correct / total) * 100
+    (correct/total)*100
   );
 }
 
-function setCourseColor(el, percent){
+function setCourseColor(el,percent){
 
   if(percent < 25){
-    el.style.background = "#F44336";
+
+    el.style.background =
+      "#F44336";
+
   }
   else if(percent < 50){
-    el.style.background = "#FF9800";
+
+    el.style.background =
+      "#FF9800";
+
   }
   else if(percent < 75){
-    el.style.background = "#FFC107";
+
+    el.style.background =
+      "#FFC107";
+
   }
   else{
-    el.style.background = "#4CAF50";
+
+    el.style.background =
+      "#4CAF50";
   }
 }
 
@@ -358,7 +629,9 @@ function checkBossUnlockCourse(
 ){
 
   const boss =
-    document.getElementById("bossStatus");
+    document.getElementById(
+      "bossStatus"
+    );
 
   if(!boss) return;
 
@@ -371,20 +644,24 @@ function checkBossUnlockCourse(
 
     boss.innerText = "GO";
 
-    boss.style.background = "#4CAF50";
+    boss.style.background =
+      "#4CAF50";
 
   }else{
 
     boss.innerText = "LOCK";
 
-    boss.style.background = "#999";
+    boss.style.background =
+      "#999";
   }
 }
 
 function openBossLesson(){
 
   const boss =
-    document.getElementById("bossStatus");
+    document.getElementById(
+      "bossStatus"
+    );
 
   if(
     boss &&
@@ -405,31 +682,49 @@ function openBossLesson(){
 function applyCourseProgress(){
 
   const p1 =
-    getCoursePercent("organic_1");
+    getCoursePercent(
+      "organic_1"
+    );
 
   const p2 =
-    getCoursePercent("organic_2");
+    getCoursePercent(
+      "organic_2"
+    );
 
   const p3 =
-    getCoursePercent("organic_3");
+    getCoursePercent(
+      "organic_3"
+    );
 
   const p4 =
-    getCoursePercent("organic_4");
+    getCoursePercent(
+      "organic_4"
+    );
 
   const el1 =
-    document.getElementById("lesson1Percent");
+    document.getElementById(
+      "lesson1Percent"
+    );
 
   const el2 =
-    document.getElementById("lesson2Percent");
+    document.getElementById(
+      "lesson2Percent"
+    );
 
   const el3 =
-    document.getElementById("lesson3Percent");
+    document.getElementById(
+      "lesson3Percent"
+    );
 
   const el4 =
-    document.getElementById("lesson4Percent");
+    document.getElementById(
+      "lesson4Percent"
+    );
 
   const topicEl =
-    document.getElementById("topicPercent");
+    document.getElementById(
+      "topicPercent"
+    );
 
   if(!el1) return;
 
@@ -444,43 +739,24 @@ function applyCourseProgress(){
   setCourseColor(el4,p4);
 
   const avg =
-    Math.round((p1+p2+p3+p4)/4);
+    Math.round(
+      (p1+p2+p3+p4)/4
+    );
 
-  topicEl.innerText = avg + "%";
+  topicEl.innerText =
+    avg + "%";
 
-  setCourseColor(topicEl,avg);
+  setCourseColor(
+    topicEl,
+    avg
+  );
 
   checkBossUnlockCourse(
     p1,p2,p3,p4
   );
 }
 
-  function bindCourseEvents(){
-
-  const buttons =
-    document.querySelectorAll(".lesson-btn");
-
-  buttons.forEach(btn=>{
-
-    btn.addEventListener("click", ()=>{
-
-      const lesson =
-        btn.dataset.lesson;
-
-      const name =
-        btn.dataset.name;
-
-      openCourseLesson(
-        lesson,
-        name
-      );
-
-    });
-
-  });
-
-}
-  
 </script>
+
 </body>
 </html>
