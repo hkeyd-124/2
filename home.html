@@ -215,7 +215,9 @@ async function loadTab(tab){
     const html = await res.text();
 
     container.innerHTML = html;
-
+if(tab === "courses"){
+  applyCourseProgress();
+}
   }catch(err){
 
     console.error(err);
@@ -264,7 +266,194 @@ function openLessonSPA(id){
     "lesson/lesson1.html?lesson=" + id;
 }
 
-</script>
+/* =========================
+   COURSES TAB
+========================= */
 
+const totals = {
+  organic_1: 15,
+  organic_2: 15,
+  organic_3: 15,
+  organic_4: 15
+};
+
+function toggleCourse(id){
+
+  const el = document.getElementById(id);
+
+  if(!el) return;
+
+  el.style.display =
+    el.style.display === "none"
+      ? "block"
+      : "none";
+}
+
+function openCourseLesson(id, name){
+
+  localStorage.setItem(
+    "currentLessonName",
+    name
+  );
+
+  const map = {
+    "organic_1": "alkane.html",
+    "organic_2": "alkane.html",
+    "organic_3": "alkene.html",
+    "organic_4": "null"
+  };
+
+  window.location.href =
+    "lesson/" + map[id] + "?lesson=" + id;
+}
+
+function getCoursePercent(id){
+
+  const wallet =
+    localStorage.getItem("wallet") || "guest";
+
+  const uid =
+    localStorage.getItem("uid") || wallet;
+
+  const data = JSON.parse(
+    localStorage.getItem(
+      "progress_" + id + "_" + uid
+    )
+  );
+
+  if(!data) return 0;
+
+  const correct =
+    Object.values(data.answers || {})
+      .filter(v => v === "correct")
+      .length;
+
+  const total = totals[id];
+
+  return Math.round(
+    (correct / total) * 100
+  );
+}
+
+function setCourseColor(el, percent){
+
+  if(percent < 25){
+    el.style.background = "#F44336";
+  }
+  else if(percent < 50){
+    el.style.background = "#FF9800";
+  }
+  else if(percent < 75){
+    el.style.background = "#FFC107";
+  }
+  else{
+    el.style.background = "#4CAF50";
+  }
+}
+
+function checkBossUnlockCourse(
+  p1,p2,p3,p4
+){
+
+  const boss =
+    document.getElementById("bossStatus");
+
+  if(!boss) return;
+
+  if(
+    p1>=75 &&
+    p2>=75 &&
+    p3>=75 &&
+    p4>=75
+  ){
+
+    boss.innerText = "GO";
+
+    boss.style.background = "#4CAF50";
+
+  }else{
+
+    boss.innerText = "LOCK";
+
+    boss.style.background = "#999";
+  }
+}
+
+function openBossLesson(){
+
+  const boss =
+    document.getElementById("bossStatus");
+
+  if(
+    boss &&
+    boss.innerText === "LOCK"
+  ){
+
+    alert(
+      "🔒 Hoàn thành tất cả bài ≥ 75% để mở khóa!"
+    );
+
+    return;
+  }
+
+  window.location.href =
+    "lesson/boss.html";
+}
+
+function applyCourseProgress(){
+
+  const p1 =
+    getCoursePercent("organic_1");
+
+  const p2 =
+    getCoursePercent("organic_2");
+
+  const p3 =
+    getCoursePercent("organic_3");
+
+  const p4 =
+    getCoursePercent("organic_4");
+
+  const el1 =
+    document.getElementById("lesson1Percent");
+
+  const el2 =
+    document.getElementById("lesson2Percent");
+
+  const el3 =
+    document.getElementById("lesson3Percent");
+
+  const el4 =
+    document.getElementById("lesson4Percent");
+
+  const topicEl =
+    document.getElementById("topicPercent");
+
+  if(!el1) return;
+
+  el1.innerText = p1 + "%";
+  el2.innerText = p2 + "%";
+  el3.innerText = p3 + "%";
+  el4.innerText = p4 + "%";
+
+  setCourseColor(el1,p1);
+  setCourseColor(el2,p2);
+  setCourseColor(el3,p3);
+  setCourseColor(el4,p4);
+
+  const avg =
+    Math.round((p1+p2+p3+p4)/4);
+
+  topicEl.innerText = avg + "%";
+
+  setCourseColor(topicEl,avg);
+
+  checkBossUnlockCourse(
+    p1,p2,p3,p4
+  );
+}
+
+  
+</script>
 </body>
 </html>
