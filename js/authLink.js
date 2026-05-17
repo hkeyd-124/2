@@ -203,27 +203,45 @@ async function(){
       document.getElementById(
         "linkPasswordInput"
       ).value;
+const confirmPassword =
 
-    if(!email || !password){
+  document.getElementById(
+    "linkConfirmPasswordInput"
+  ).value;
+   if(
+  !email ||
+  !password ||
+  !confirmPassword
+){
 
-      alert(
-        "Nhập email + password!"
-      );
+  alert(
+    "Nhập đầy đủ thông tin!"
+  );
 
-      return;
-    }
+  return;
+}
 
-    const uid =
-      getUID();
+/* PASSWORD MATCH */
 
-    if(!uid){
+if(password !== confirmPassword){
 
-      alert(
-        "Bạn chưa login!"
-      );
+  alert(
+    "Mật khẩu xác nhận không khớp!"
+  );
 
-      return;
-    }
+  return;
+}
+
+/* PASSWORD LENGTH */
+
+if(password.length < 6){
+
+  alert(
+    "Mật khẩu tối thiểu 6 ký tự!"
+  );
+
+  return;
+}
 
     /* =========================
        CHECK EMAIL INDEX
@@ -384,3 +402,40 @@ async function(){
   }
 }
 
+/* =========================
+   TOGGLE PASSWORD
+========================= */
+
+window.toggleLinkPassword =
+function(){
+
+  const input =
+    document.getElementById(
+      "linkPasswordInput"
+    );
+
+  input.type =
+
+    input.type === "password"
+      ? "text"
+      : "password";
+}
+
+/* =========================
+   TOGGLE CONFIRM PASSWORD
+========================= */
+
+window.toggleLinkConfirmPassword =
+function(){
+
+  const input =
+    document.getElementById(
+      "linkConfirmPasswordInput"
+    );
+
+  input.type =
+
+    input.type === "password"
+      ? "text"
+      : "password";
+}
