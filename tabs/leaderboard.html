@@ -6,96 +6,194 @@
   padding:20px;
 }
 
-.leaderboard-container{
-  max-width:1000px;
+.lb-container{
+  max-width:1100px;
   margin:auto;
 }
 
-.leaderboard-header{
+.lb-header{
   display:flex;
   justify-content:space-between;
   align-items:center;
   margin-bottom:25px;
 }
 
-.leaderboard-title{
+.lb-title{
   font-size:32px;
   font-weight:bold;
 }
 
-.leaderboard-card{
-  background:white;
-  border-radius:20px;
-  padding:25px;
-  box-shadow:0 5px 20px rgba(0,0,0,0.05);
-}
-
-.rank-item{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:18px;
-  border-bottom:1px solid #eee;
-  transition:0.2s;
-}
-
-.rank-item:hover{
-  background:#f8fafc;
-}
-
-.rank-left{
-  display:flex;
-  align-items:center;
-  gap:15px;
-}
-
-.rank-number{
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  background:#111;
-  color:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:bold;
-}
-
-.rank-name{
-  font-weight:bold;
-}
-
-.rank-score{
-  font-size:18px;
-  font-weight:bold;
-  color:#2ecc71;
-}
-
-.back-btn{
+.lb-home{
   padding:10px 18px;
   background:#111;
   color:white;
-  border-radius:12px;
+  border-radius:14px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.lb-card{
+
+  background:#d6c2ae;
+
+  border-radius:28px;
+
+  padding:25px;
+
+  overflow:auto;
+}
+
+/* =========================
+   TABLE HEADER
+========================= */
+
+.lb-table-header{
+
+  display:grid;
+
+  grid-template-columns:
+    80px
+    1.5fr
+    120px
+    140px
+    150px
+    120px;
+
+  align-items:center;
+
+  font-weight:bold;
+
+  color:red;
+
+  margin-bottom:8px;
+
+  padding:0 20px;
+}
+
+/* =========================
+   FILTERS
+========================= */
+
+.lb-filters{
+  display:flex;
+  gap:10px;
+  justify-content:flex-end;
+}
+
+.lb-select{
+
+  padding:6px 10px;
+
+  border-radius:8px;
+
+  border:1px solid #999;
+
+  background:white;
+
   cursor:pointer;
 }
 
-.loading-rank{
+/* =========================
+   ROW
+========================= */
+
+.lb-row{
+
+  display:grid;
+
+  grid-template-columns:
+    80px
+    1.5fr
+    120px
+    140px
+    150px
+    120px;
+
+  align-items:center;
+
+  background:#d6c2ae;
+
+  border:1px solid #555;
+
+  border-radius:18px;
+
+  padding:16px 20px;
+
+  margin-bottom:12px;
+
+  transition:0.2s;
+}
+
+.lb-row:hover{
+  transform:translateY(-2px);
+}
+
+.lb-rank{
+  font-size:34px;
+  text-align:center;
+}
+
+.lb-name{
+  font-size:18px;
+  font-weight:bold;
+}
+
+.lb-score{
+  font-size:22px;
+  font-weight:bold;
+}
+
+.lb-badge{
+
+  display:inline-flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  padding:8px 14px;
+
+  border-radius:12px;
+
+  background:#111;
+
+  color:white;
+
+  font-weight:bold;
+}
+
+.lb-me{
+  border:2px solid gold;
+}
+
+.lb-loading{
   text-align:center;
   padding:40px;
-  color:#666;
+  font-size:18px;
+}
+
+@media(max-width:1000px){
+
+  .lb-table-header,
+  .lb-row{
+
+    min-width:900px;
+  }
 }
 
 </style>
 
-<div class="leaderboard-container">
+<div class="lb-container">
 
-  <div class="leaderboard-header">
+  <!-- HEADER -->
 
-    <div class="leaderboard-title">
+  <div class="lb-header">
+
+    <div class="lb-title">
       🏆 Leaderboard
     </div>
 
-    <div class="back-btn"
+    <div class="lb-home"
          onclick="loadHome()">
 
       ← Home
@@ -104,11 +202,53 @@
 
   </div>
 
-  <div class="leaderboard-card">
+  <!-- CARD -->
+
+  <div class="lb-card">
+
+    <!-- TABLE HEADER -->
+
+    <div class="lb-table-header">
+
+      <div>Hạng</div>
+
+      <div>Tên</div>
+
+      <div>Điểm</div>
+
+      <div>Huy hiệu</div>
+
+      <div>
+
+        <select id="topicFilter"
+                class="lb-select"
+                onchange="loadLessons()">
+
+          <option value="topic1">
+            Chủ đề 1
+          </option>
+
+        </select>
+
+      </div>
+
+      <div>
+
+        <select id="lessonFilter"
+                class="lb-select"
+                onchange="loadLeaderboard()">
+
+        </select>
+
+      </div>
+
+    </div>
+
+    <!-- LIST -->
 
     <div id="leaderboardList">
 
-      <div class="loading-rank">
+      <div class="lb-loading">
         ⏳ Loading leaderboard...
       </div>
 
