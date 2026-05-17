@@ -622,37 +622,39 @@ showLoading();
     walletAddress = accounts[0];
 const wallet = walletAddress;
 
-// 🔥 NEW: lấy hoặc tạo UID
-// 🔥 LẤY UID HIỆN TẠI (nếu có)
-let uid = localStorage.getItem("uid");
+/* ============================
+   LOGIN WITH WALLET ONLY
+============================ */
 
-// ============================
-// 🔥 CASE 1: đã login (email trước)
-// ============================
-if(uid){
+let uid = await getUserByWallet(wallet);
 
-  await setDoc(doc(db, "users", uid), {
-    wallet: wallet,
-    "providers.wallet": true
-  }, { merge: true });
+/* ============================
+   WALLET CHƯA TỒN TẠI
+============================ */
 
-  await setDoc(doc(db, "wallet_index", wallet), {
-    uid: uid
+if(!uid){
+
+  uid = await createUser({
+
+    wallet
+
   });
 
-}
+  /* SAVE WALLET INDEX */
 
-// ============================
-// 🔥 CASE 2: chưa login gì
-// ============================
-else{
+  await setDoc(
 
-  uid = await getUserByWallet(wallet);
+    doc(
+      db,
+      "wallet_index",
+      wallet
+    ),
 
-  if(!uid){
-    uid = await createUser({ wallet });
-  }
+    {
+      uid: uid
+    }
 
+  );
 }
     // 2. CHECK NETWORK (Sepolia)
     let chainId = await ethereum.request({
@@ -778,7 +780,8 @@ window.loginEmail = async function(){
 
   try{
 
-    localStorage.clear();
+localStorage.removeItem("uid");
+localStorage.removeItem("wallet");
 
     let result = await loginWithEmail(email, password);
 
