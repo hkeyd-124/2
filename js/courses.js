@@ -29,7 +29,8 @@ window.toggleCourse = function(id){
 }
 
 /* =========================
-   OPEN LESSON
+   OPEN COURSE LESSON
+   (COURSES -> lesson/)
 ========================= */
 
 window.openCourseLesson =
@@ -42,13 +43,13 @@ function(id,name){
 
   const lessonMap = {
 
-    organic_1:"organic.html",
+    organic_1:"lesson/organic.html",
 
-    organic_2:"alkane.html",
+    organic_2:"lesson/alkane.html",
 
-    organic_3:"alkene.html",
+    organic_3:"lesson/alkene.html",
 
-    organic_4:"fuel.html"
+    organic_4:"lesson/fuel.html"
 
   };
 
@@ -236,7 +237,7 @@ function(){
   }
 
   window.location.href =
-    "boss.html";
+    "lesson/boss.html";
 }
 
 /* =========================
