@@ -215,7 +215,9 @@ async function loadTab(tab){
     const html = await res.text();
 
     container.innerHTML = html;
+    
 if(tab === "courses"){
+  bindCourseEvents();
   applyCourseProgress();
 }
   }catch(err){
@@ -453,6 +455,31 @@ function applyCourseProgress(){
   );
 }
 
+  function bindCourseEvents(){
+
+  const buttons =
+    document.querySelectorAll(".lesson-btn");
+
+  buttons.forEach(btn=>{
+
+    btn.addEventListener("click", ()=>{
+
+      const lesson =
+        btn.dataset.lesson;
+
+      const name =
+        btn.dataset.name;
+
+      openCourseLesson(
+        lesson,
+        name
+      );
+
+    });
+
+  });
+
+}
   
 </script>
 </body>
