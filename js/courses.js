@@ -108,11 +108,11 @@ window.getCoursePercent =
 function(id){
 
   const wallet =
-    localStorage.getItem("wallet")
+    getWallet()
     || "guest";
 
   const uid =
-    localStorage.getItem("uid")
+    getUID()
     || wallet;
 
   const data = JSON.parse(
