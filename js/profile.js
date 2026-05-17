@@ -93,7 +93,9 @@ async function(){
 
     window.currentUser =
       snap.data();
-
+setUserState(
+  currentUser
+);
     console.log(
 
       "CURRENT USER:",
