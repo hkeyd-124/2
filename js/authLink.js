@@ -320,3 +320,67 @@ async function(){
     );
   }
 }
+
+/* =========================
+   UPDATE LINK BUTTONS
+========================= */
+
+window.updateLinkButtons =
+async function(){
+
+  try{
+
+    const uid =
+      getUID();
+
+    if(!uid) return;
+
+    const userRef =
+      doc(db,"users",uid);
+
+    const snap =
+      await getDoc(userRef);
+
+    if(!snap.exists()) return;
+
+    const data =
+      snap.data();
+
+    /* WALLET */
+
+    if(data.wallet){
+
+      const btn =
+        document.getElementById(
+          "linkWalletBtn"
+        );
+
+      if(btn){
+
+        btn.style.display =
+          "none";
+      }
+    }
+
+    /* EMAIL */
+
+    if(data.email){
+
+      const btn =
+        document.getElementById(
+          "linkEmailBtn"
+        );
+
+      if(btn){
+
+        btn.style.display =
+          "none";
+      }
+    }
+
+  }catch(err){
+
+    console.error(err);
+  }
+}
+
