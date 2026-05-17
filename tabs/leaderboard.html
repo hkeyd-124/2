@@ -1,0 +1,121 @@
+<div class="leaderboard-page">
+
+<style>
+
+.leaderboard-page{
+  padding:20px;
+}
+
+.leaderboard-container{
+  max-width:1000px;
+  margin:auto;
+}
+
+.leaderboard-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:25px;
+}
+
+.leaderboard-title{
+  font-size:32px;
+  font-weight:bold;
+}
+
+.leaderboard-card{
+  background:white;
+  border-radius:20px;
+  padding:25px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+.rank-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px;
+  border-bottom:1px solid #eee;
+  transition:0.2s;
+}
+
+.rank-item:hover{
+  background:#f8fafc;
+}
+
+.rank-left{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.rank-number{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:#111;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+
+.rank-name{
+  font-weight:bold;
+}
+
+.rank-score{
+  font-size:18px;
+  font-weight:bold;
+  color:#2ecc71;
+}
+
+.back-btn{
+  padding:10px 18px;
+  background:#111;
+  color:white;
+  border-radius:12px;
+  cursor:pointer;
+}
+
+.loading-rank{
+  text-align:center;
+  padding:40px;
+  color:#666;
+}
+
+</style>
+
+<div class="leaderboard-container">
+
+  <div class="leaderboard-header">
+
+    <div class="leaderboard-title">
+      🏆 Leaderboard
+    </div>
+
+    <div class="back-btn"
+         onclick="loadHome()">
+
+      ← Home
+
+    </div>
+
+  </div>
+
+  <div class="leaderboard-card">
+
+    <div id="leaderboardList">
+
+      <div class="loading-rank">
+        ⏳ Loading leaderboard...
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+</div>
