@@ -1,6 +1,7 @@
 import {
   doc,
-  getDoc
+  getDoc,
+  onSnapshot
 }
 
 from
@@ -213,4 +214,80 @@ function(){
     </div>
 
   `;
+}
+
+
+/* =========================
+   REALTIME USER
+========================= */
+
+window.startUserRealtime =
+function(){
+
+  try{
+
+    const uid =
+      getUID();
+
+    if(
+      !uid ||
+      uid === "guest"
+    ){
+
+      return;
+    }
+
+    const ref =
+      doc(
+        db,
+        "users",
+        uid
+      );
+
+    onSnapshot(
+
+      ref,
+
+      (snap)=>{
+
+        if(!snap.exists()){
+
+          return;
+        }
+
+        /* =========================
+           UPDATE USER
+        ========================= */
+
+        window.currentUser =
+          snap.data();
+
+        setUserState(
+          currentUser
+        );
+
+        /* =========================
+           UPDATE UI
+        ========================= */
+
+        renderProfileCard();
+
+        console.log(
+
+          "REALTIME USER:",
+          currentUser
+
+        );
+      }
+    );
+
+  }catch(err){
+
+    console.error(
+
+      "REALTIME ERROR:",
+      err
+
+    );
+  }
 }
