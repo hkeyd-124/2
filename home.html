@@ -330,10 +330,11 @@ import {
   query,
   orderBy,
   limit,
-  getDocs
+  getDocs,
+  doc,
+  getDoc
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
 /* =========================
    GLOBAL
 ========================= */
@@ -445,10 +446,15 @@ window.loadTab = async function(tab){
       applyCourseProgress();
     }
 
-    if(tab === "leaderboard"){
+   if(tab === "leaderboard"){
 
-      loadLeaderboard();
-    }
+  setTimeout(()=>{
+
+    loadLessons();
+
+  },100);
+
+}
 
   }catch(err){
 
@@ -773,11 +779,78 @@ window.applyCourseProgress = function(){
   );
 }
 
+window.lessonMap = {
+
+  topic1:[
+
+    {
+      id:"organic_1",
+      name:"Bài 1"
+    },
+
+    {
+      id:"organic_2",
+      name:"Bài 2"
+    },
+
+    {
+      id:"organic_3",
+      name:"Bài 3"
+    },
+
+    {
+      id:"organic_4",
+      name:"Bài 4"
+    }
+
+  ]
+
+};
+
 /* =========================
-   LEADERBOARD
+   LOAD LESSONS
 ========================= */
 
-window.loadLeaderboard = async function(){
+window.loadLessons = function(){
+
+  const topic =
+    document.getElementById(
+      "topicFilter"
+    ).value;
+
+  const lessonSelect =
+    document.getElementById(
+      "lessonFilter"
+    );
+
+  if(!lessonSelect) return;
+
+  lessonSelect.innerHTML = "";
+
+  const lessons =
+    window.lessonMap[topic];
+
+  lessons.forEach(lesson=>{
+
+    lessonSelect.innerHTML += `
+
+      <option value="${lesson.id}">
+        ${lesson.name}
+      </option>
+
+    `;
+
+  });
+
+  loadLeaderboard();
+}
+
+/* =========================
+   LOAD LEADERBOARD
+========================= */
+
+window.loadLeaderboard =
+async function(){
 
   const container =
     document.getElementById(
@@ -789,101 +862,128 @@ window.loadLeaderboard = async function(){
   try{
 
     container.innerHTML = `
-
-      <div class="loading-box">
+      <div class="lb-loading">
         ⏳ Loading leaderboard...
       </div>
-
     `;
 
-    const q = query(
+    const lesson =
+      document.getElementById(
+        "lessonFilter"
+      ).value;
 
-      collection(db, "users"),
+    const usersSnap =
+      await getDocs(
+        collection(db,"users")
+      );
 
-      orderBy("points", "desc"),
+    let leaderboard = [];
 
-      limit(20)
+    for(const userDoc of usersSnap.docs){
 
+      const userData =
+        userDoc.data();
+
+      const uid =
+        userDoc.id;
+
+      const lessonRef =
+        doc(
+          db,
+          "users",
+          uid,
+          "lessons",
+          lesson
+        );
+
+      const lessonSnap =
+        await getDoc(lessonRef);
+
+      if(lessonSnap.exists()){
+
+        const lessonData =
+          lessonSnap.data();
+
+        leaderboard.push({
+
+          uid,
+
+          name:
+            userData.name
+            || "Unknown",
+
+          score:
+            lessonData.score || 0
+
+        });
+
+      }
+    }
+
+    leaderboard.sort(
+      (a,b)=>b.score-a.score
     );
-
-    const snapshot =
-      await getDocs(q);
 
     container.innerHTML = "";
 
-    let rank = 1;
+    const currentUid =
+      localStorage.getItem("uid");
 
-    snapshot.forEach(doc=>{
+    leaderboard.forEach((user,index)=>{
 
-      const data = doc.data();
+      const isMe =
+        user.uid === currentUid;
 
-      const name =
-        data.name
-        || data.displayName
-        || "Unknown";
+      let badge = "🥉";
 
-      const points =
-        data.points || 0;
+      if(index === 0){
+        badge = "👑";
+      }
+      else if(index === 1){
+        badge = "🥈";
+      }
+      else if(index === 2){
+        badge = "🥉";
+      }
 
       container.innerHTML += `
 
-        <div class="rank-item"
-             style="
-               display:flex;
-               justify-content:space-between;
-               align-items:center;
-               padding:18px;
-               border-bottom:1px solid #eee;
-             ">
+        <div class="lb-row
+             ${isMe ? 'lb-me' : ''}">
 
-          <div style="
-            display:flex;
-            align-items:center;
-            gap:15px;
-          ">
-
-            <div style="
-              width:42px;
-              height:42px;
-              border-radius:50%;
-              background:#111;
-              color:white;
-              display:flex;
-              align-items:center;
-              justify-content:center;
-              font-weight:bold;
-            ">
-              ${rank}
-            </div>
-
-            <div style="font-weight:bold;">
-              ${name}
-            </div>
-
+          <div class="lb-rank">
+            ${index+1}
           </div>
 
-          <div style="
-            font-size:18px;
-            font-weight:bold;
-            color:#2ecc71;
-          ">
-            ${points}
+          <div class="lb-name">
+            ${user.name}
           </div>
+
+          <div class="lb-score">
+            ${user.score}
+          </div>
+
+          <div>
+            <div class="lb-badge">
+              ${badge}
+            </div>
+          </div>
+
+          <div></div>
+
+          <div></div>
 
         </div>
 
       `;
-
-      rank++;
-
     });
 
-    if(rank === 1){
+    if(leaderboard.length === 0){
 
       container.innerHTML = `
 
-        <div class="loading-box">
-          No users found
+        <div class="lb-loading">
+          No leaderboard data
         </div>
 
       `;
@@ -895,7 +995,7 @@ window.loadLeaderboard = async function(){
 
     container.innerHTML = `
 
-      <div class="loading-box">
+      <div class="lb-loading">
         ❌ Failed to load leaderboard
       </div>
 
