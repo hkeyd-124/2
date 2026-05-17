@@ -168,3 +168,155 @@ window.linkWallet = async function(){
     );
   }
 }
+
+/* =========================
+   SHOW EMAIL MODAL
+========================= */
+
+window.showLinkEmailModal =
+function(){
+
+  document.getElementById(
+    "linkEmailModal"
+  ).style.display = "flex";
+}
+
+/* =========================
+   LINK EMAIL
+========================= */
+
+window.linkEmail =
+async function(){
+
+  try{
+
+    const email =
+      document.getElementById(
+        "linkEmailInput"
+      )
+
+      .value
+      .trim()
+      .toLowerCase();
+
+    const password =
+      document.getElementById(
+        "linkPasswordInput"
+      ).value;
+
+    if(!email || !password){
+
+      alert(
+        "Nhập email + password!"
+      );
+
+      return;
+    }
+
+    const uid =
+      getUID();
+
+    if(!uid){
+
+      alert(
+        "Bạn chưa login!"
+      );
+
+      return;
+    }
+
+    /* =========================
+       CHECK EMAIL INDEX
+    ========================= */
+
+    const emailRef =
+      doc(
+        db,
+        "email_index",
+        email
+      );
+
+    const emailSnap =
+      await getDoc(emailRef);
+
+    if(emailSnap.exists()){
+
+      const data =
+        emailSnap.data();
+
+      if(data.uid !== uid){
+
+        alert(
+          "Email này đã thuộc tài khoản khác!"
+        );
+
+        return;
+      }
+    }
+
+    /* =========================
+       UPDATE USER
+    ========================= */
+
+    await setDoc(
+
+      doc(
+        db,
+        "users",
+        uid
+      ),
+
+      {
+
+        email,
+
+        "providers.email":true
+
+      },
+
+      {
+
+        merge:true
+
+      }
+
+    );
+
+    /* =========================
+       SAVE EMAIL INDEX
+    ========================= */
+
+    await setDoc(
+
+      emailRef,
+
+      {
+
+        uid
+
+      }
+
+    );
+
+    localStorage.setItem(
+      "email",
+      email
+    );
+
+    document.getElementById(
+      "linkEmailModal"
+    ).style.display = "none";
+
+    alert(
+      "✅ Link email thành công!"
+    );
+
+  }catch(err){
+
+    console.error(err);
+
+    alert(
+      "❌ Link email thất bại"
+    );
+  }
+}
