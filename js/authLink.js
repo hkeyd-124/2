@@ -15,7 +15,7 @@ window.linkWallet = async function(){
 
   if(!window.ethereum){
 
-    alert("Cần MetaMask!");
+    showToast("Cần MetaMask!");
 
     return;
   }
@@ -31,7 +31,7 @@ window.linkWallet = async function(){
 
     if(!uid){
 
-      alert("Bạn chưa login!");
+      showToast("Bạn chưa login!");
 
       return;
     }
@@ -76,7 +76,7 @@ window.linkWallet = async function(){
 
       if(data.uid !== uid){
 
-        alert(
+        showToast(
           "Ví này đã liên kết với tài khoản khác!"
         );
 
@@ -155,17 +155,18 @@ window.linkWallet = async function(){
       wallet
     );
 updateLinkButtons();
-    alert(
-      "✅ Link wallet thành công!"
-    );
+    showToast(
+  "✅ Link wallet thành công!"
+);
 
   }catch(err){
 
     console.error(err);
 
-    alert(
-      "❌ Link wallet thất bại"
-    );
+    showToast(
+  "❌ Link wallet thất bại",
+  "error"
+);
   }
 }
 
@@ -215,9 +216,9 @@ const confirmPassword =
   !confirmPassword
 ){
 
-  alert(
-    "Nhập đầy đủ thông tin!"
-  );
+  showToast(
+  "Nhập đầy đủ thông tin!"
+);
 
   return;
 }
@@ -226,9 +227,9 @@ const confirmPassword =
 
 if(password !== confirmPassword){
 
-  alert(
-    "Mật khẩu xác nhận không khớp!"
-  );
+  showToast(
+  "Mật khẩu xác nhận không khớp!"
+);
 
   return;
 }
@@ -237,9 +238,9 @@ if(password !== confirmPassword){
 
 if(password.length < 6){
 
-  alert(
-    "Mật khẩu tối thiểu 6 ký tự!"
-  );
+  showToast(
+  "Mật khẩu tối thiểu 6 kí tự!"
+);
 
   return;
 }
@@ -265,9 +266,9 @@ if(password.length < 6){
 
       if(data.uid !== uid){
 
-        alert(
-          "Email này đã thuộc tài khoản khác!"
-        );
+        showToast(
+  "Email đã liên kết với tài khoản khác!"
+);
 
         return;
       }
@@ -326,15 +327,15 @@ if(password.length < 6){
       "linkEmailModal"
     ).style.display = "none";
 updateLinkButtons();
-    alert(
-      "✅ Link email thành công!"
-    );
+    showToast(
+  "✅ Link email thành công!"
+);
 
   }catch(err){
 
     console.error(err);
 
-    alert(
+    showToast(
       "❌ Link email thất bại"
     );
   }
