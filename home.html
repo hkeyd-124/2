@@ -433,7 +433,11 @@ async function loadTab(tab){
 
       applyCourseProgress();
     }
+  if(tab === "leaderboard"){
 
+      loadLeaderboard();
+
+    }
   }catch(err){
 
     console.error(err);
@@ -756,7 +760,79 @@ function applyCourseProgress(){
   );
 }
 
-</script>
+/* =========================
+   LEADERBOARD
+========================= */
 
+async function loadLeaderboard(){
+
+  const container =
+    document.getElementById(
+      "leaderboardList"
+    );
+
+  if(!container) return;
+
+  /*
+    DEMO DATA
+    Sau này thay bằng Firebase
+  */
+
+  const fakeData = [
+
+    {
+      name:"Alice",
+      score:980
+    },
+
+    {
+      name:"Bob",
+      score:870
+    },
+
+    {
+      name:"Charlie",
+      score:820
+    },
+
+    {
+      name:"David",
+      score:760
+    }
+
+  ];
+
+  container.innerHTML = "";
+
+  fakeData.forEach((user,index)=>{
+
+    container.innerHTML += `
+
+      <div class="rank-item">
+
+        <div class="rank-left">
+
+          <div class="rank-number">
+            ${index+1}
+          </div>
+
+          <div class="rank-name">
+            ${user.name}
+          </div>
+
+        </div>
+
+        <div class="rank-score">
+          ${user.score}
+        </div>
+
+      </div>
+    `;
+  });
+}
+
+
+  
+</script>
 </body>
 </html>
