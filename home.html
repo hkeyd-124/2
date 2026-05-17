@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HackChem SPA</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:Arial;
+  background:#f5f7fb;
+  display:flex;
+  min-height:100vh;
+}
+
+.sidebar{
+  width:250px;
+  background:white;
+  border-right:1px solid #eee;
+  padding:20px;
+}
+
+.logo{
+  font-size:24px;
+  font-weight:bold;
+  margin-bottom:30px;
+}
+
+.menu-item{
+  padding:14px;
+  border-radius:12px;
+  cursor:pointer;
+  margin-bottom:10px;
+  transition:0.2s;
+}
+
+.menu-item:hover{
+  background:#f1f5f9;
+}
+
+.menu-item.active{
+  background:#111;
+  color:white;
+}
+
+.main{
+  flex:1;
+  padding:25px;
+}
+
+.hero{
+  background:white;
+  padding:30px;
+  border-radius:24px;
+  margin-bottom:25px;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:white;
+  padding:25px;
+  border-radius:20px;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.card:hover{
+  transform:translateY(-5px);
+}
+
+#spaContainer{
+  display:none;
+}
+
+.tab-page{
+  background:white;
+  padding:30px;
+  border-radius:24px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+  <div class="logo">
+    🧪 HACKCHEM
+  </div>
+
+  <div class="menu-item active" id="menu-home" onclick="loadHome()">
+    🏠 Home
+  </div>
+
+  <div class="menu-item" id="menu-courses" onclick="loadTab('courses')">
+    📘 Courses
+  </div>
+
+  <div class="menu-item" id="menu-resources" onclick="loadTab('resources')">
+    📚 Resources
+  </div>
+
+  <div class="menu-item" id="menu-leaderboard" onclick="loadTab('leaderboard')">
+    🏆 Leaderboard
+  </div>
+
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- HOME CONTENT -->
+  <div id="homeContent">
+
+    <div class="hero">
+      <h1>👋 Welcome to HackChem</h1>
+      <p style="margin-top:10px;color:#666;">
+        Single Layer SPA Version
+      </p>
+    </div>
+
+    <div class="cards">
+
+      <div class="card" onclick="loadTab('courses')">
+        <h3>📘 Courses</h3>
+        <p style="margin-top:10px;color:#666;">
+          Learn chemistry
+        </p>
+      </div>
+
+      <div class="card" onclick="loadTab('resources')">
+        <h3>📚 Resources</h3>
+        <p style="margin-top:10px;color:#666;">
+          Study materials
+        </p>
+      </div>
+
+      <div class="card" onclick="loadTab('leaderboard')">
+        <h3>🏆 Leaderboard</h3>
+        <p style="margin-top:10px;color:#666;">
+          Rankings
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- SPA CONTENT -->
+  <div id="spaContainer"></div>
+
+</div>
+
+<script>
+
+window.currentTab = 'home';
+
+function setActiveMenu(id){
+
+  document.querySelectorAll('.menu-item')
+    .forEach(el=>el.classList.remove('active'));
+
+  const menu = document.getElementById(`menu-${id}`);
+
+  if(menu){
+    menu.classList.add('active');
+  }
+}
+
+function loadHome(){
+
+  setActiveMenu('home');
+
+  document.getElementById('homeContent').style.display = 'block';
+
+  document.getElementById('spaContainer').style.display = 'none';
+}
+
+async function loadTab(tab){
+
+  try{
+
+    setActiveMenu(tab);
+
+    document.getElementById('homeContent').style.display = 'none';
+
+    const container = document.getElementById('spaContainer');
+
+    container.style.display = 'block';
+
+    container.innerHTML = `
+      <div class="tab-page">
+        ⏳ Loading ${tab}...
+      </div>
+    `;
+
+    const res = await fetch(`tabs/${tab}.html`);
+
+    if(!res.ok){
+      throw new Error('Cannot load tab');
+    }
+
+    const html = await res.text();
+
+    container.innerHTML = html;
+
+  }catch(err){
+
+    console.error(err);
+
+    document.getElementById('spaContainer').innerHTML = `
+      <div class="tab-page">
+        ❌ Cannot load ${tab}
+      </div>
+    `;
+  }
+}
+
+</script>
+
+</body>
+</html>
