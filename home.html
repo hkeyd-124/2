@@ -238,6 +238,13 @@ body{
     🏆 Leaderboard
 
   </div>
+<div class="menu-item"
+  onclick="openFaucetModal()"
+>
+
+  🚰 Faucet
+
+</div> 
       
 <div
   id="linkWalletBtn"
@@ -264,7 +271,36 @@ body{
 ========================= -->
 
 <div class="main">
+<div style="
+display:flex;
+justify-content:flex-end;
+margin-bottom:20px;
+">
 
+  <div
+
+    id="ethBox"
+
+    style="
+    background:white;
+    padding:12px 18px;
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    box-shadow:
+      0 5px 20px rgba(0,0,0,0.05);
+
+    font-weight:bold;
+    "
+  >
+
+    Ξ Loading...
+
+  </div>
+
+</div>
   <!-- HOME -->
 
   <div id="homeContent">
@@ -422,6 +458,9 @@ window.getDoc = getDoc;
 </script>
 <script type="module"
         src="js/checkin.js">
+</script>
+<script type="module"
+        src="js/eth.js">
 </script>
  <!-- =========================
      LINK EMAIL MODAL
@@ -639,7 +678,11 @@ window.addEventListener(
 
         startUserRealtime();
       }
-
+if(
+  window.startETHRealtime
+){
+  startETHRealtime();
+}
       console.log(
         "HOME READY"
       );
