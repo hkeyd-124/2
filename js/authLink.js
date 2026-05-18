@@ -21,7 +21,9 @@ window.linkWallet = async function(){
   }
 
   try{
-
+showLoading(
+  "Linking wallet..."
+);
     /* =========================
        CURRENT UID
     ========================= */
@@ -30,7 +32,7 @@ window.linkWallet = async function(){
       getUID();
 
     if(!uid){
-
+hideLoading();
       showToast("Bạn chưa login!");
 
       return;
@@ -75,7 +77,7 @@ window.linkWallet = async function(){
         walletSnap.data();
 
       if(data.uid !== uid){
-
+hideLoading();
         showToast(
           "Ví này đã liên kết với tài khoản khác!"
         );
@@ -155,12 +157,13 @@ window.linkWallet = async function(){
       wallet
     );
 updateLinkButtons();
+    hideLoading();
     showToast(
   "✅ Link wallet thành công!"
 );
 
   }catch(err){
-
+hideLoading();
     console.error(err);
 
     showToast(
@@ -191,7 +194,9 @@ async function(){
   const uid =
     getUID();
   try{
-
+showLoading(
+  "Linking email..."
+);
     const email =
       document.getElementById(
         "linkEmailInput"
@@ -327,12 +332,13 @@ if(password.length < 6){
       "linkEmailModal"
     ).style.display = "none";
 updateLinkButtons();
+    hideLoading();
     showToast(
   "✅ Link email thành công!"
 );
 
   }catch(err){
-
+hideLoading();
     console.error(err);
 
     showToast(
