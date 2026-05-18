@@ -92,25 +92,58 @@ async function(){
        SAVE GLOBAL
     ========================= */
 
-    window.currentUser =
-      snap.data();
+   window.currentUser =
+  snap.data();
+
+window.currentUserData =
+  currentUser;
+
 setUserState(
   currentUser
 );
-    console.log(
 
-      "CURRENT USER:",
-      currentUser
+console.log(
 
-    );
+  "CURRENT USER:",
+  currentUser
 
-    /* =========================
-       UPDATE UI
-    ========================= */
+);
 
-    renderProfileCard();
+/* =========================
+   CHECKIN STATE
+========================= */
 
-    return currentUser;
+document.getElementById(
+  "streak"
+).innerText =
+
+  currentUser.streak || 0;
+
+window.currentUserStreak =
+  currentUser.streak || 0;
+
+window.currentLastCheckin =
+  currentUser.lastCheckin || "";
+
+/* =========================
+   UPDATE UI
+========================= */
+
+renderProfileCard();
+
+if(
+  window.renderDashboardPoints
+){
+  renderDashboardPoints();
+}
+
+if(
+  window.updateCheckinButton
+){
+  updateCheckinButton();
+}
+
+return currentUser;
 
   }catch(err){
 
@@ -259,18 +292,49 @@ function(){
            UPDATE USER
         ========================= */
 
-        window.currentUser =
-          snap.data();
+       window.currentUser =
+  snap.data();
 
-        setUserState(
-          currentUser
-        );
+window.currentUserData =
+  currentUser;
 
-        /* =========================
-           UPDATE UI
-        ========================= */
+setUserState(
+  currentUser
+);
 
-        renderProfileCard();
+/* =========================
+   CHECKIN STATE
+========================= */
+
+document.getElementById(
+  "streak"
+).innerText =
+
+  currentUser.streak || 0;
+
+window.currentUserStreak =
+  currentUser.streak || 0;
+
+window.currentLastCheckin =
+  currentUser.lastCheckin || "";
+
+/* =========================
+   UPDATE UI
+========================= */
+
+renderProfileCard();
+
+if(
+  window.renderDashboardPoints
+){
+  renderDashboardPoints();
+}
+
+if(
+  window.updateCheckinButton
+){
+  updateCheckinButton();
+}
 
         console.log(
 
