@@ -14,7 +14,7 @@ const db = window.db;
 window.linkWallet = async function(){
 
   if(!window.ethereum){
-
+hideLoading();
     showToast("Cần MetaMask!");
 
     return;
@@ -165,7 +165,7 @@ updateLinkButtons();
   }catch(err){
 hideLoading();
     console.error(err);
-
+hideLoading();
     showToast(
   "❌ Link wallet thất bại",
   "error"
@@ -220,7 +220,7 @@ const confirmPassword =
   !password ||
   !confirmPassword
 ){
-
+hideLoading();
   showToast(
   "Nhập đầy đủ thông tin!"
 );
@@ -231,7 +231,7 @@ const confirmPassword =
 /* PASSWORD MATCH */
 
 if(password !== confirmPassword){
-
+hideLoading();
   showToast(
   "Mật khẩu xác nhận không khớp!"
 );
@@ -242,7 +242,7 @@ if(password !== confirmPassword){
 /* PASSWORD LENGTH */
 
 if(password.length < 6){
-
+hideLoading();
   showToast(
   "Mật khẩu tối thiểu 6 kí tự!"
 );
@@ -340,7 +340,7 @@ updateLinkButtons();
   }catch(err){
 hideLoading();
     console.error(err);
-
+hideLoading();
     showToast(
       "❌ Link email thất bại"
     );
