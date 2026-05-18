@@ -270,7 +270,7 @@ if(password.length < 6){
         emailSnap.data();
 
       if(data.uid !== uid){
-
+hideLoading();
         showToast(
   "Email đã liên kết với tài khoản khác!"
 );
