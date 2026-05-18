@@ -234,18 +234,6 @@ function(){
       🦊 ${wallet}
 
     </div>
-
-    <div style="
-      margin-top:15px;
-      font-size:18px;
-      font-weight:bold;
-      color:#4CAF50;
-    ">
-
-      ⭐ ${points} points
-
-    </div>
-
   `;
 }
 
