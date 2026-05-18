@@ -7,12 +7,20 @@ async function(){
 
   try{
 
-    const box =
+    const balanceEl =
       document.getElementById(
-        "ethBox"
+        "ethBalance"
       );
 
-    if(!box) return;
+    const iconEl =
+      document.getElementById(
+        "ethIcon"
+      );
+
+    if(
+      !balanceEl ||
+      !iconEl
+    ) return;
 
     const wallet =
       localStorage.getItem(
@@ -21,19 +29,27 @@ async function(){
 
     if(!wallet){
 
-      box.innerHTML =
-        "🦊 No wallet";
+      iconEl.innerText = "🦊";
+
+      balanceEl.innerText =
+        "No wallet";
 
       return;
     }
 
     if(!window.ethereum){
 
-      box.innerHTML =
-        "⚠️ No provider";
+      iconEl.innerText = "⚠️";
+
+      balanceEl.innerText =
+        "No provider";
 
       return;
     }
+
+    /* =========================
+       GET BALANCE
+    ========================= */
 
     const balanceWei =
 
@@ -59,26 +75,31 @@ async function(){
 
       1e18;
 
-    box.innerHTML = `
+    /* =========================
+       RENDER
+    ========================= */
 
-      <span style="
-        font-size:20px;
-      ">
-        Ξ
-      </span>
+    iconEl.innerText = "Ξ";
 
-      ${eth.toFixed(4)} ETH
+    balanceEl.innerText =
 
-    `;
+      eth.toFixed(4)
+
+      +
+
+      " sETH";
 
   }catch(err){
 
-    console.error(err);
+    console.error(
+      "ETH ERROR:",
+      err
+    );
   }
 }
 
 /* =========================
-   AUTO REFRESH
+   REALTIME
 ========================= */
 
 window.startETHRealtime =
@@ -95,7 +116,7 @@ function(){
 }
 
 /* =========================
-   FAUCET
+   FAUCET MODAL
 ========================= */
 
 window.openFaucetModal =
@@ -118,4 +139,13 @@ function(){
     )
     .style.display =
       "none";
+}
+
+window.openFaucet =
+function(url){
+
+  window.open(
+    url,
+    "_blank"
+  );
 }
