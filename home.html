@@ -268,14 +268,20 @@ body{
   <!-- HOME -->
 
   <div id="homeContent">
-<div
-  id="profileCard"
-
+<div id="profileCard"
   style="
   background:white;
-  padding:25px;
-  border-radius:24px;
+  padding:35px;
+  border-radius:30px;
   margin-bottom:25px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:25px;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.04);
   "
 >
 
@@ -283,77 +289,7 @@ body{
 
 </div>
     <div class="hero">
-<div style="
-margin-top:20px;
-display:flex;
-align-items:center;
-gap:15px;
-flex-wrap:wrap;
-">
 
-  <div
-    id="pointBox"
-
-    onclick="openCheckin()"
-
-    style="
-    background:#111;
-    color:white;
-    padding:14px 18px;
-    border-radius:18px;
-    cursor:pointer;
-    font-weight:bold;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    "
-  >
-
-    🧪
-    <span id="pointValue">
-      0
-    </span>
-
-  </div>
-
-  <div style="
-    background:white;
-    padding:14px 18px;
-    border-radius:18px;
-    font-weight:bold;
-    border:1px solid #eee;
-  ">
-
-    🔥
-    <span id="streak">
-      0
-    </span>
-    ngày
-
-  </div>
-
-  <button
-
-    id="checkinQuickBtn"
-
-    onclick="openCheckin()"
-
-    style="
-    display:none;
-    border:none;
-    padding:14px 18px;
-    border-radius:18px;
-    background:#facc15;
-    cursor:pointer;
-    font-weight:bold;
-    "
-  >
-
-    Check-in
-
-  </button>
-
-</div>
       <h1>
         👋 Welcome to HackChem
       </h1>
