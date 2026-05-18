@@ -586,18 +586,71 @@ document.addEventListener(
 </script>
 
 <script>
-document.addEventListener(
-  "DOMContentLoaded",
+
+window.addEventListener(
+
+  "load",
+
   async ()=>{
-    if(window.updateLinkButtons){
-      updateLinkButtons();
-    }
-    if(window.loadCurrentUser){
-      await loadCurrentUser();
-          startUserRealtime();
+
+    try{
+
+      /* =========================
+         WAIT MODULES
+      ========================= */
+
+      await new Promise(
+
+        resolve=>setTimeout(
+          resolve,
+          300
+        )
+      );
+
+      /* =========================
+         LINK BUTTONS
+      ========================= */
+
+      if(
+        window.updateLinkButtons
+      ){
+
+        updateLinkButtons();
+      }
+
+      /* =========================
+         USER
+      ========================= */
+
+      if(
+        window.loadCurrentUser
+      ){
+
+        await loadCurrentUser();
+      }
+
+      /* =========================
+         REALTIME
+      ========================= */
+
+      if(
+        window.startUserRealtime
+      ){
+
+        startUserRealtime();
+      }
+
+      console.log(
+        "HOME READY"
+      );
+
+    }catch(err){
+
+      console.error(err);
     }
   }
 );
+
 </script>
 <!-- =========================
      CHECKIN MODAL
