@@ -110,6 +110,12 @@ console.log(
 );
 
 /* =========================
+   UPDATE UI
+========================= */
+
+renderProfileCard();
+
+/* =========================
    CHECKIN STATE
 ========================= */
 
@@ -124,12 +130,6 @@ window.currentUserStreak =
 
 window.currentLastCheckin =
   currentUser.lastCheckin || "";
-
-/* =========================
-   UPDATE UI
-========================= */
-
-renderProfileCard();
 
 if(
   window.renderDashboardPoints
@@ -380,6 +380,12 @@ setUserState(
 );
 
 /* =========================
+   UPDATE UI
+========================= */
+
+renderProfileCard();
+
+/* =========================
    CHECKIN STATE
 ========================= */
 
@@ -394,12 +400,6 @@ window.currentUserStreak =
 
 window.currentLastCheckin =
   currentUser.lastCheckin || "";
-
-/* =========================
-   UPDATE UI
-========================= */
-
-renderProfileCard();
 
 if(
   window.renderDashboardPoints
