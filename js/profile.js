@@ -207,19 +207,23 @@ function(){
 
   box.innerHTML = `
 
+  <div>
+
     <div style="
-      font-size:22px;
-      font-weight:bold;
-      margin-bottom:10px;
+      font-size:34px;
+      font-weight:800;
+      margin-bottom:14px;
+      color:#111;
     ">
 
-      👤 ${username}
+      👋 ${username}
 
     </div>
 
     <div style="
       color:#666;
-      margin-bottom:8px;
+      margin-bottom:10px;
+      font-size:15px;
     ">
 
       📧 ${email}
@@ -228,15 +232,100 @@ function(){
 
     <div style="
       color:#666;
-      margin-bottom:8px;
+      font-size:15px;
+      word-break:break-all;
     ">
 
       🦊 ${wallet}
 
     </div>
-  `;
-}
 
+  </div>
+
+  <div style="
+    display:flex;
+    align-items:center;
+    gap:14px;
+    flex-wrap:wrap;
+  ">
+
+    <div
+      onclick="openCheckin()"
+
+      style="
+      background:#111;
+      color:white;
+      padding:14px 20px;
+      border-radius:18px;
+      font-weight:bold;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      cursor:pointer;
+      min-width:110px;
+      justify-content:center;
+      "
+    >
+
+      🧪
+
+      <span id="pointValue">
+        0
+      </span>
+
+    </div>
+
+    <div style="
+      background:#fff7ed;
+      color:#ea580c;
+      padding:14px 20px;
+      border-radius:18px;
+      font-weight:bold;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:110px;
+      justify-content:center;
+      border:1px solid #fed7aa;
+    ">
+
+      🔥
+
+      <span id="streak">
+        0
+      </span>
+
+      ngày
+
+    </div>
+
+    <button
+
+      id="checkinQuickBtn"
+
+      onclick="openCheckin()"
+
+      style="
+      border:none;
+      background:#facc15;
+      color:#111;
+      padding:14px 22px;
+      border-radius:18px;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow:
+        0 8px 20px rgba(250,204,21,0.3);
+      "
+    >
+
+      ✅ Check-in
+
+    </button>
+
+  </div>
+
+`;
+}
 
 /* =========================
    REALTIME USER
