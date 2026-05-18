@@ -80,19 +80,20 @@ async function(){
     ========================= */
 
    iconEl.innerHTML = `
-
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="18"
-  height="18"
-  viewBox="0 0 320 512"
-  fill="#111"
->
-
-<path d="M310.6 246.6l-127.1 76.2V512l127.1-178.9V246.6zM183.5 0v217.1l127.1 76L183.5 0zM136.5 0L9.4 293.1l127.1-76V0zM9.4 333.1L136.5 512V322.8L9.4 333.1z"/>
-
+<svg width="14" height="14" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg">
+  <path fill="#343434"
+    d="M127.9 0L124.7 10.9V279.1L127.9 282.3L255.8 210.7Z"/>
+  <path fill="#8C8C8C"
+    d="M127.9 0L0 210.7L127.9 282.3V150.1Z"/>
+  <path fill="#3C3C3B"
+    d="M127.9 306.8L126.1 309V414.2L127.9 416.9L255.9 235.3Z"/>
+  <path fill="#8C8C8C"
+    d="M127.9 416.9V306.8L0 235.3Z"/>
+  <path fill="#141414"
+    d="M127.9 282.3L255.8 210.7L127.9 150.1Z"/>
+  <path fill="#393939"
+    d="M0 210.7L127.9 282.3V150.1Z"/>
 </svg>
-
 `;
 
     balanceEl.innerText =
