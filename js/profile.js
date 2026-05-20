@@ -212,7 +212,7 @@ const avatar =
 
     "Not linked";
 
- box.innerHTML = `
+  box.innerHTML = `
 
 <div style="
 display:flex;
@@ -529,6 +529,8 @@ width:100%;
 </div>
 
 `;
+}
+
 /* =========================
    REALTIME USER
 ========================= */
@@ -762,4 +764,3 @@ function(){
     }
   };
 }
-
