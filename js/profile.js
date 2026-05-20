@@ -1,7 +1,8 @@
 import {
   doc,
   getDoc,
-  onSnapshot
+  onSnapshot,
+  setDoc
 }
 
 from
@@ -180,7 +181,13 @@ function(){
     ||
 
     "Unnamed";
+const avatar =
 
+  currentUser.avatar
+
+  ||
+
+  "assets/images/default-avatar.png";
   const points =
 
     currentUser.points
@@ -210,37 +217,98 @@ function(){
   <div>
 
     <div style="
-      font-size:34px;
-      font-weight:800;
-      margin-bottom:14px;
-      color:#111;
-    ">
+display:flex;
+align-items:center;
+gap:18px;
+margin-bottom:18px;
+">
 
-      👋 ${username}
+  <!-- AVATAR -->
 
-    </div>
+  <div style="
+    position:relative;
+  ">
 
-    <div style="
-      color:#666;
-      margin-bottom:10px;
-      font-size:15px;
-    ">
+    <img
 
-      📧 ${email}
+      id="profileAvatar"
 
-    </div>
+      src="${avatar}"
 
-    <div style="
-      color:#666;
-      font-size:15px;
-      word-break:break-all;
-    ">
+      style="
+      width:74px;
+      height:74px;
 
-      🦊 ${wallet}
+      border-radius:50%;
+      object-fit:cover;
+
+      border:3px solid #f1f5f9;
+      "
+
+    >
+
+    <!-- EDIT -->
+
+    <div
+
+      onclick="changeAvatar()"
+
+      style="
+      position:absolute;
+      right:-2px;
+      bottom:-2px;
+
+      width:28px;
+      height:28px;
+
+      border-radius:50%;
+      background:white;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      cursor:pointer;
+
+      border:1px solid #ddd;
+
+      font-size:14px;
+      "
+    >
+
+      ✏️
 
     </div>
 
   </div>
+
+  <!-- TEXT -->
+
+  <div>
+
+    <div style="
+      font-size:18px;
+      color:#666;
+      margin-bottom:2px;
+    ">
+
+      Xin chào
+
+    </div>
+
+    <div style="
+      font-size:34px;
+      font-weight:800;
+      color:#111;
+    ">
+
+      ${username}
+
+    </div>
+
+  </div>
+
+</div>
 
   <div style="
     display:flex;
@@ -432,3 +500,133 @@ if(
     );
   }
 }
+/* =========================
+   CHANGE AVATAR
+========================= */
+
+window.changeAvatar =
+function(){
+
+  const input =
+    document.getElementById(
+      "avatarInput"
+    );
+
+  if(!input) return;
+
+  input.click();
+}
+
+/* =========================
+   AVATAR PICKER
+========================= */
+
+window.initAvatarPicker =
+function(){
+
+  const input =
+    document.getElementById(
+      "avatarInput"
+    );
+
+  if(!input) return;
+
+  input.onchange =
+  async (e)=>{
+
+    try{
+
+      const file =
+        e.target.files[0];
+
+      if(!file) return;
+
+      /* =========================
+         ONLY IMAGE
+      ========================= */
+
+      if(
+        !file.type.startsWith(
+          "image/"
+        )
+      ){
+
+        showToast(
+          "File phải là ảnh"
+        );
+
+        return;
+      }
+
+      /* =========================
+         READER
+      ========================= */
+
+      const reader =
+        new FileReader();
+
+      reader.onload =
+      async ()=>{
+
+        try{
+
+          const base64 =
+            reader.result;
+
+          const uid =
+            getUID();
+
+          if(!uid) return;
+
+          /* =========================
+             SAVE FIRESTORE
+          ========================= */
+
+          await setDoc(
+
+            doc(
+              db,
+              "users",
+              uid
+            ),
+
+            {
+
+              avatar:
+                base64
+
+            },
+
+            {
+
+              merge:true
+
+            }
+          );
+
+          showToast(
+            "Đã cập nhật avatar"
+          );
+
+        }catch(err){
+
+          console.error(err);
+
+          showToast(
+            "Upload thất bại"
+          );
+        }
+      };
+
+      reader.readAsDataURL(
+        file
+      );
+
+    }catch(err){
+
+      console.error(err);
+    }
+  };
+}
+
+
