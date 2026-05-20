@@ -384,7 +384,10 @@ margin-bottom:20px;
 ========================= -->
 
 <script type="module">
-
+if( !localStorage.getItem("uid")){
+ window.location.href =
+    "index.html";
+}
 /* =========================
    FIREBASE
 ========================= */
