@@ -195,7 +195,11 @@ const avatar =
     ||
 
     0;
+const streak =
 
+  currentUser.streak
+
+  || 0;
   const email =
 
     currentUser.email
@@ -214,95 +218,247 @@ const avatar =
 
   box.innerHTML = `
 
-  <div>
-
-    <div style="
+<div style="
 display:flex;
-align-items:center;
-gap:18px;
-margin-bottom:18px;
+justify-content:space-between;
+align-items:flex-start;
+gap:30px;
+flex-wrap:wrap;
 ">
 
-  <!-- AVATAR -->
+  <!-- LEFT -->
 
-  <div style="
-    position:relative;
-  ">
+  <div>
 
-    <img
+    <!-- HEADER -->
 
-      id="profileAvatar"
+    <div style="
+    display:flex;
+    align-items:center;
+    gap:18px;
+    margin-bottom:18px;
+    ">
 
-      src="${avatar}"
+      <!-- AVATAR -->
 
-      style="
-      width:74px;
-      height:74px;
+      <div style="
+      position:relative;
+      ">
 
-      border-radius:50%;
-      object-fit:cover;
+        <img
 
-      border:3px solid #f1f5f9;
-      "
+          id="profileAvatar"
 
-    >
+          src="${avatar}"
 
-    <!-- EDIT -->
+          style="
+          width:74px;
+          height:74px;
 
-    <div
+          border-radius:50%;
+          object-fit:cover;
 
-      onclick="changeAvatar()"
+          border:3px solid #f1f5f9;
+          "
 
-      style="
-      position:absolute;
-      right:-2px;
-      bottom:-2px;
+        >
 
-      width:28px;
-      height:28px;
+        <!-- EDIT -->
 
-      border-radius:50%;
-      background:white;
+        <div
+
+          onclick="changeAvatar()"
+
+          style="
+          position:absolute;
+          right:-2px;
+          bottom:-2px;
+
+          width:28px;
+          height:28px;
+
+          border-radius:50%;
+          background:white;
+
+          display:flex;
+          align-items:center;
+          justify-content:center;
+
+          cursor:pointer;
+
+          border:1px solid #ddd;
+
+          font-size:14px;
+          "
+        >
+
+          ✏️
+
+        </div>
+
+      </div>
+
+      <!-- TEXT -->
+
+      <div>
+
+        <div style="
+        font-size:18px;
+        color:#666;
+        margin-bottom:2px;
+        ">
+
+          Xin chào
+
+        </div>
+
+        <div style="
+        font-size:34px;
+        font-weight:800;
+        color:#111;
+        ">
+
+          ${username}
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- POINTS -->
+
+    <div style="
+    display:flex;
+    gap:16px;
+    margin-top:10px;
+    ">
+
+      <!-- POINT -->
+
+      <div style="
+      background:#111;
+      color:white;
+
+      padding:16px 28px;
+
+      border-radius:18px;
+
+      font-weight:700;
 
       display:flex;
       align-items:center;
-      justify-content:center;
+      gap:10px;
+      ">
 
-      cursor:pointer;
+        🧪 ${points}
 
-      border:1px solid #ddd;
+      </div>
 
-      font-size:14px;
-      "
-    >
+      <!-- STREAK -->
 
-      ✏️
+      <div style="
+      background:#fff7ed;
+
+      color:#ea580c;
+
+      border:1px solid #fdba74;
+
+      padding:16px 28px;
+
+      border-radius:18px;
+
+      font-weight:700;
+
+      display:flex;
+      align-items:center;
+      gap:10px;
+      ">
+
+        🔥
+
+        ${streak} ngày
+
+      </div>
 
     </div>
 
   </div>
 
-  <!-- TEXT -->
+  <!-- RIGHT -->
 
-  <div>
+  <div style="
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:14px;
+
+  min-width:320px;
+  ">
+
+    <!-- WALLET -->
 
     <div style="
-      font-size:18px;
-      color:#666;
-      margin-bottom:2px;
+    color:#444;
+    font-size:15px;
+    text-align:right;
+
+    word-break:break-all;
     ">
 
-      Xin chào
+      🦊
+
+      ${
+        wallet ||
+
+        "Chưa liên kết ví"
+      }
 
     </div>
 
+    <!-- EMAIL -->
+
     <div style="
-      font-size:34px;
-      font-weight:800;
-      color:#111;
+    color:#444;
+    font-size:15px;
+    text-align:right;
+
+    word-break:break-all;
     ">
 
-      ${username}
+      📧
+
+      ${
+        email ||
+
+        "Chưa liên kết email"
+      }
+
+    </div>
+
+    <!-- LOGOUT -->
+
+    <div
+
+      onclick="logout()"
+
+      style="
+      margin-top:6px;
+
+      cursor:pointer;
+
+      color:#111;
+      font-weight:600;
+
+      display:flex;
+      align-items:center;
+      gap:8px;
+      "
+    >
+
+      Đăng xuất
+
+      ↩️
 
     </div>
 
@@ -310,91 +466,7 @@ margin-bottom:18px;
 
 </div>
 
-  <div style="
-    display:flex;
-    align-items:center;
-    gap:14px;
-    flex-wrap:wrap;
-  ">
-
-    <div
-      onclick="openCheckin()"
-
-      style="
-      background:#111;
-      color:white;
-      padding:14px 20px;
-      border-radius:18px;
-      font-weight:bold;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      cursor:pointer;
-      min-width:110px;
-      justify-content:center;
-      "
-    >
-
-      🧪
-
-      <span id="pointValue">
-        0
-      </span>
-
-    </div>
-
-    <div style="
-      background:#fff7ed;
-      color:#ea580c;
-      padding:14px 20px;
-      border-radius:18px;
-      font-weight:bold;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      min-width:110px;
-      justify-content:center;
-      border:1px solid #fed7aa;
-    ">
-
-      🔥
-
-      <span id="streak">
-        0
-      </span>
-
-      ngày
-
-    </div>
-
-    <button
-
-      id="checkinQuickBtn"
-
-      onclick="openCheckin()"
-
-      style="
-      border:none;
-      background:#facc15;
-      color:#111;
-      padding:14px 22px;
-      border-radius:18px;
-      font-weight:700;
-      cursor:pointer;
-      box-shadow:
-        0 8px 20px rgba(250,204,21,0.3);
-      "
-    >
-
-      ✅ Check-in
-
-    </button>
-
-  </div>
-
 `;
-}
-
 /* =========================
    REALTIME USER
 ========================= */
