@@ -214,7 +214,13 @@ const avatar =
 
   box.innerHTML = `
 
-  <div>
+  <div style="
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+gap:40px;
+flex-wrap:wrap;
+">
 
     <div style="
 display:flex;
@@ -392,6 +398,91 @@ margin-bottom:18px;
 
   </div>
 
+<!-- RIGHT SIDE -->
+
+<div style="
+display:flex;
+flex-direction:column;
+align-items:flex-end;
+justify-content:flex-start;
+
+gap:16px;
+
+min-width:320px;
+
+padding-top:10px;
+">
+
+  <!-- WALLET -->
+
+  <div style="
+  font-size:15px;
+  color:#444;
+
+  text-align:right;
+
+  word-break:break-all;
+  ">
+
+    🦊
+
+    ${
+      wallet ||
+
+      "Chưa liên kết ví"
+    }
+
+  </div>
+
+  <!-- EMAIL -->
+
+  <div style="
+  font-size:15px;
+  color:#444;
+
+  text-align:right;
+
+  word-break:break-all;
+  ">
+
+    📧
+
+    ${
+      email ||
+
+      "Chưa liên kết email"
+    }
+
+  </div>
+
+  <!-- LOGOUT -->
+
+  <div
+
+    onclick="logout()"
+
+    style="
+    margin-top:10px;
+
+    cursor:pointer;
+
+    font-weight:700;
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    color:#111;
+    "
+  >
+
+    Đăng xuất
+
+    ↩️
+
+  </div>
+
+</div>
 `;
 }
 
