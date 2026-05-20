@@ -212,280 +212,323 @@ const avatar =
 
     "Not linked";
 
-  box.innerHTML = `
+ box.innerHTML = `
 
-  <div style="
+<div style="
 display:flex;
 justify-content:space-between;
 align-items:flex-start;
 gap:40px;
 flex-wrap:wrap;
+width:100%;
 ">
 
-    <div style="
-display:flex;
-align-items:center;
-gap:18px;
-margin-bottom:18px;
-">
-
-  <!-- AVATAR -->
+  <!-- LEFT SIDE -->
 
   <div style="
-    position:relative;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
   ">
 
-    <img
-
-      id="profileAvatar"
-
-      src="${avatar}"
-
-      style="
-      width:74px;
-      height:74px;
-
-      border-radius:50%;
-      object-fit:cover;
-
-      border:3px solid #f1f5f9;
-      "
-
-    >
-
-    <!-- EDIT -->
-
-    <div
-
-      onclick="changeAvatar()"
-
-      style="
-      position:absolute;
-      right:-2px;
-      bottom:-2px;
-
-      width:28px;
-      height:28px;
-
-      border-radius:50%;
-      background:white;
-
-      display:flex;
-      align-items:center;
-      justify-content:center;
-
-      cursor:pointer;
-
-      border:1px solid #ddd;
-
-      font-size:14px;
-      "
-    >
-
-      ✏️
-
-    </div>
-
-  </div>
-
-  <!-- TEXT -->
-
-  <div>
+    <!-- TOP PROFILE -->
 
     <div style="
-      font-size:18px;
-      color:#666;
-      margin-bottom:2px;
+    display:flex;
+    align-items:center;
+    gap:18px;
     ">
 
-      Xin chào
+      <!-- AVATAR -->
+
+      <div style="
+      position:relative;
+      ">
+
+        <img
+
+          id="profileAvatar"
+
+          src="${avatar}"
+
+          style="
+          width:74px;
+          height:74px;
+
+          border-radius:50%;
+          object-fit:cover;
+
+          border:3px solid #f1f5f9;
+          "
+
+        >
+
+        <!-- EDIT -->
+
+        <div
+
+          onclick="changeAvatar()"
+
+          style="
+          position:absolute;
+          right:-2px;
+          bottom:-2px;
+
+          width:28px;
+          height:28px;
+
+          border-radius:50%;
+          background:white;
+
+          display:flex;
+          align-items:center;
+          justify-content:center;
+
+          cursor:pointer;
+
+          border:1px solid #ddd;
+
+          font-size:14px;
+          "
+        >
+
+          ✏️
+
+        </div>
+
+      </div>
+
+      <!-- NAME -->
+
+      <div>
+
+        <div style="
+        font-size:18px;
+        color:#666;
+        margin-bottom:2px;
+        ">
+
+          Xin chào
+
+        </div>
+
+        <div style="
+        font-size:34px;
+        font-weight:800;
+        color:#111;
+        line-height:1.1;
+        ">
+
+          ${username}
+
+        </div>
+
+      </div>
 
     </div>
+
+    <!-- POINTS ROW -->
 
     <div style="
-      font-size:34px;
-      font-weight:800;
-      color:#111;
-    ">
-
-      ${username}
-
-    </div>
-
-  </div>
-
-</div>
-
-  <div style="
     display:flex;
     align-items:center;
     gap:14px;
     flex-wrap:wrap;
-  ">
-
-    <div
-      onclick="openCheckin()"
-
-      style="
-      background:#111;
-      color:white;
-      padding:14px 20px;
-      border-radius:18px;
-      font-weight:bold;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      cursor:pointer;
-      min-width:110px;
-      justify-content:center;
-      "
-    >
-
-      🧪
-
-      <span id="pointValue">
-        0
-      </span>
-
-    </div>
-
-    <div style="
-      background:#fff7ed;
-      color:#ea580c;
-      padding:14px 20px;
-      border-radius:18px;
-      font-weight:bold;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      min-width:110px;
-      justify-content:center;
-      border:1px solid #fed7aa;
     ">
 
-      🔥
+      <!-- POINTS -->
 
-      <span id="streak">
-        0
-      </span>
+      <div
+        onclick="openCheckin()"
 
-      ngày
+        style="
+        background:#111;
+        color:white;
+
+        padding:14px 20px;
+
+        border-radius:18px;
+
+        font-weight:bold;
+
+        display:flex;
+        align-items:center;
+        gap:10px;
+
+        cursor:pointer;
+
+        min-width:110px;
+        justify-content:center;
+        "
+      >
+
+        🧪
+
+        <span id="pointValue">
+          0
+        </span>
+
+      </div>
+
+      <!-- STREAK -->
+
+      <div style="
+      background:#fff7ed;
+      color:#ea580c;
+
+      padding:14px 20px;
+
+      border-radius:18px;
+
+      font-weight:bold;
+
+      display:flex;
+      align-items:center;
+      gap:10px;
+
+      min-width:110px;
+      justify-content:center;
+
+      border:1px solid #fed7aa;
+      ">
+
+        🔥
+
+        <span id="streak">
+          0
+        </span>
+
+        ngày
+
+      </div>
+
+      <!-- CHECKIN -->
+
+      <button
+
+        id="checkinQuickBtn"
+
+        onclick="openCheckin()"
+
+        style="
+        border:none;
+
+        background:#facc15;
+        color:#111;
+
+        padding:14px 22px;
+
+        border-radius:18px;
+
+        font-weight:700;
+
+        cursor:pointer;
+
+        box-shadow:
+          0 8px 20px rgba(250,204,21,0.3);
+        "
+      >
+
+        ✅ Check-in
+
+      </button>
 
     </div>
 
-    <button
+  </div>
 
-      id="checkinQuickBtn"
+  <!-- RIGHT SIDE -->
 
-      onclick="openCheckin()"
+  <div style="
+  display:flex;
+  flex-direction:column;
+
+  align-items:flex-end;
+  justify-content:flex-start;
+
+  gap:18px;
+
+  margin-left:auto;
+
+  padding-top:10px;
+
+  min-width:320px;
+  ">
+
+    <!-- WALLET -->
+
+    <div style="
+    font-size:15px;
+    color:#444;
+
+    text-align:right;
+
+    word-break:break-all;
+    ">
+
+      🦊
+
+      ${
+        wallet ||
+
+        "Chưa liên kết ví"
+      }
+
+    </div>
+
+    <!-- EMAIL -->
+
+    <div style="
+    font-size:15px;
+    color:#444;
+
+    text-align:right;
+
+    word-break:break-all;
+    ">
+
+      📧
+
+      ${
+        email ||
+
+        "Chưa liên kết email"
+      }
+
+    </div>
+
+    <!-- LOGOUT -->
+
+    <div
+
+      onclick="logout()"
 
       style="
-      border:none;
-      background:#facc15;
-      color:#111;
-      padding:14px 22px;
-      border-radius:18px;
-      font-weight:700;
+      margin-top:6px;
+
       cursor:pointer;
-      box-shadow:
-        0 8px 20px rgba(250,204,21,0.3);
+
+      font-weight:700;
+
+      display:flex;
+      align-items:center;
+      gap:8px;
+
+      color:#111;
       "
     >
 
-      ✅ Check-in
+      Đăng xuất
 
-    </button>
+      ↩️
 
-  </div>
-
-<!-- RIGHT SIDE -->
-
-<div style="
-display:flex;
-flex-direction:column;
-align-items:flex-end;
-justify-content:flex-start;
-
-gap:16px;
-
-min-width:320px;
-
-padding-top:10px;
-">
-
-  <!-- WALLET -->
-
-  <div style="
-  font-size:15px;
-  color:#444;
-
-  text-align:right;
-
-  word-break:break-all;
-  ">
-
-    🦊
-
-    ${
-      wallet ||
-
-      "Chưa liên kết ví"
-    }
-
-  </div>
-
-  <!-- EMAIL -->
-
-  <div style="
-  font-size:15px;
-  color:#444;
-
-  text-align:right;
-
-  word-break:break-all;
-  ">
-
-    📧
-
-    ${
-      email ||
-
-      "Chưa liên kết email"
-    }
-
-  </div>
-
-  <!-- LOGOUT -->
-
-  <div
-
-    onclick="logout()"
-
-    style="
-    margin-top:10px;
-
-    cursor:pointer;
-
-    font-weight:700;
-
-    display:flex;
-    align-items:center;
-    gap:8px;
-
-    color:#111;
-    "
-  >
-
-    Đăng xuất
-
-    ↩️
+    </div>
 
   </div>
 
 </div>
-`;
-}
 
+`;
 /* =========================
    REALTIME USER
 ========================= */
