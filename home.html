@@ -676,6 +676,11 @@ if(
 ){
   startETHRealtime();
 }
+if(
+  window.initAvatarPicker
+){
+  initAvatarPicker();
+}
       console.log(
         "HOME READY"
       );
@@ -1055,6 +1060,14 @@ if(
     </div>
   </div>
 </div>
+<input
+  type="file"
+  id="avatarInput"
+  accept="image/*"
+  style="display:none;"
+/>
+
+
 
       
 </body>
