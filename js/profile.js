@@ -764,3 +764,85 @@ function(){
     }
   };
 }
+/* =========================
+   LOGOUT
+========================= */
+
+window.logout =
+async function(){
+
+  try{
+
+    /* =========================
+       CLEAR LOCAL
+    ========================= */
+
+    localStorage.removeItem(
+      "uid"
+    );
+
+    localStorage.removeItem(
+      "wallet"
+    );
+
+    localStorage.removeItem(
+      "username"
+    );
+
+    localStorage.removeItem(
+      "currentLessonName"
+    );
+
+    /* =========================
+       RESET GLOBAL
+    ========================= */
+
+    window.currentUser = null;
+
+    window.currentUserData = null;
+
+    /* =========================
+       OPTIONAL WALLET RESET
+    ========================= */
+
+    if(window.ethereum){
+
+      try{
+
+        await window.ethereum.request({
+
+          method:
+            "wallet_revokePermissions",
+
+          params:[{
+            eth_accounts:{}
+          }]
+        });
+
+      }catch(err){
+
+        console.log(
+          "Wallet revoke skipped"
+        );
+      }
+    }
+
+    /* =========================
+       REDIRECT
+    ========================= */
+
+    window.location.href =
+      "index.html";
+
+  }catch(err){
+
+    console.error(
+      "LOGOUT ERROR:",
+      err
+    );
+
+    alert(
+      "Logout thất bại"
+    );
+  }
+}
