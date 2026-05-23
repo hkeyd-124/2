@@ -72,7 +72,10 @@ await new Promise(
       }
 
     });
-
+localStorage.setItem(
+  "manual_disconnect",
+  "true"
+);
     // =========================
     // REDIRECT
     // =========================
