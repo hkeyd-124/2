@@ -41,8 +41,31 @@ async function(){
        GET BALANCE
     ========================= */
 
-    const provider =
-  window.modal?.getWalletProvider();
+    let provider = null;
+
+// =========================
+// REOWN PROVIDER
+// =========================
+
+if(window.modal){
+
+  provider =
+    window.modal.getWalletProvider();
+}
+
+// =========================
+// FALLBACK METAMASK
+// =========================
+
+if(!provider && window.ethereum){
+
+  provider =
+    window.ethereum;
+}
+
+// =========================
+// NO PROVIDER
+// =========================
 
 if(!provider){
 
