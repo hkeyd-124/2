@@ -768,118 +768,30 @@ function(){
    LOGOUT
 ========================= */
 
+/* =========================
+   LOGOUT
+========================= */
+
 window.logout =
 async function(){
 
   try{
 
-    /* =========================
-       REOWN DISCONNECT
-    ========================= */
+    if(
+      window.fullWalletDisconnect
+    ){
 
-    if(window.modal){
+      await fullWalletDisconnect();
 
-      try{
+    }else{
 
-        await window.modal.disconnect();
+      localStorage.clear();
 
-      }catch(err){
+      sessionStorage.clear();
 
-        console.log(
-          "Modal disconnect skipped"
-        );
-      }
+      window.location.href =
+        "index.html";
     }
-
-    /* =========================
-       METAMASK RESET
-    ========================= */
-
-    if(window.ethereum){
-
-      try{
-
-        await window.ethereum.request({
-
-          method:
-            "wallet_revokePermissions",
-
-          params:[{
-            eth_accounts:{}
-          }]
-        });
-
-      }catch(err){
-
-        console.log(
-          "Wallet revoke skipped"
-        );
-      }
-    }
-
-    /* =========================
-       CLEAR STORAGE
-    ========================= */
-
-    Object.keys(localStorage)
-    .forEach(key=>{
-
-      if(
-
-        key.includes("walletconnect")
-
-        ||
-
-        key.includes("WALLETCONNECT")
-
-        ||
-
-        key.includes("wc@2")
-
-        ||
-
-        key.includes("reown")
-
-      ){
-
-        localStorage.removeItem(
-          key
-        );
-      }
-    });
-
-    localStorage.removeItem(
-      "uid"
-    );
-
-    localStorage.removeItem(
-      "wallet"
-    );
-
-    localStorage.removeItem(
-      "username"
-    );
-
-    localStorage.removeItem(
-      "currentLessonName"
-    );
-
-    sessionStorage.clear();
-
-    /* =========================
-       RESET GLOBAL
-    ========================= */
-
-    window.currentUser = null;
-
-    window.currentUserData = null;
-
-    /* =========================
-       REDIRECT
-    ========================= */
-
-    window.location.href =
-      "index.html";
 
   }catch(err){
 
