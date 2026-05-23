@@ -626,24 +626,6 @@ const modal = createAppKit({
   window.doc = doc;
   window.getDoc = getDoc;
   window.updateDoc = updateDoc;
-
- /* =========================
-   FORCE CLEAN SESSION
-========================= */
-window.addEventListener(
-  "load",
-  async ()=>{
-    try{
-      if(window.modal){
-        await window.modal.disconnect();
-      }
-    }catch(err){
-      console.log(
-        "No old session"
-      );
-    }
-  }
-);
  
   window.saveUser = async function(uid) {
   await setDoc(doc(db, "users", uid), {
