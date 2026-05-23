@@ -13,6 +13,8 @@ async function(){
 
         await window.modal.disconnect();
 
+        await window.modal.clearStorage();
+
       }catch(e){
 
         console.log(
