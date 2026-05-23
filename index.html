@@ -715,17 +715,46 @@ const provider = modal.getWalletProvider();
 
 if(network.chainId !== 11155111n){
 
-  alert("Vui lòng chuyển sang Sepolia");
+  try{
 
-  hideLoading();
+    await provider.request({
+      method: "wallet_switchEthereumChain",
+      params: [{ chainId: "0xaa36a7" }]
+    });
 
-  return;
+  }catch(err){
+
+    // chain chưa có
+    if(err.code === 4902){
+
+      await provider.request({
+        method: "wallet_addEthereumChain",
+        params: [{
+          chainId: "0xaa36a7",
+          chainName: "Sepolia",
+          rpcUrls: ["https://rpc.sepolia.org"],
+          nativeCurrency: {
+            name: "ETH",
+            symbol: "ETH",
+            decimals: 18
+          },
+          blockExplorerUrls: [
+            "https://sepolia.etherscan.io"
+          ]
+        }]
+      });
+
+    }else{
+
+      hideLoading();
+
+      return;
+    }
+
+  }
+
 }
 
-    // SIGN MESSAGE
-    const message = "Login HackChem - " + Date.now();
-
-    await signer.signMessage(message);
 
     // RESET OLD UID
     const oldWallet = localStorage.getItem("wallet");
@@ -940,40 +969,6 @@ function hideLoading(){
   document.getElementById("loadingOverlay").style.display = "none";
 }
 
- // AUTO RECONNECT
-window.addEventListener("load", async () => {
-
-  try {
-
-    const provider = modal.getWalletProvider();
-
-    if (!provider) return;
-
-    const ethersProvider = new BrowserProvider(provider);
-
-    const signer = await ethersProvider.getSigner();
-
-    const address = (
-      await signer.getAddress()
-    ).toLowerCase();
-
-    const savedWallet = localStorage
-      .getItem("wallet");
-
-    if (
-      savedWallet &&
-      savedWallet.toLowerCase() === address
-    ) {
-
-      console.log("Wallet reconnected");
-
-    }
-
-  } catch (err) {
-    console.log(err);
-  }
-
-});
  
 </script>
  <div id="loadingOverlay" style="
