@@ -642,30 +642,15 @@ window.connectWallet = async function () {
 
    await modal.open();
   showLoading();
-   
-await new Promise((resolve, reject) => {
+   await new Promise(
+  resolve=>setTimeout(
+    resolve,
+    2500
+  )
+);
 
-  let tries = 0;
-
-  const check = setInterval(() => {
-
-    tries++;
-
-    const provider = modal.getWalletProvider();
-
-    if (provider) {
-      clearInterval(check);
-      resolve();
-    }
-
-    // timeout 30s
-    if (tries > 60) {
-      clearInterval(check);
-      reject("Wallet connect timeout");
-    }
-
-  }, 500);
-
+const provider =
+  modal.getWalletProvider();
 });
 
 const provider = modal.getWalletProvider();
