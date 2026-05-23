@@ -774,35 +774,25 @@ async function(){
   try{
 
     /* =========================
-       CLEAR LOCAL
+       REOWN DISCONNECT
     ========================= */
 
-    localStorage.removeItem(
-      "uid"
-    );
+    if(window.modal){
 
-    localStorage.removeItem(
-      "wallet"
-    );
+      try{
 
-    localStorage.removeItem(
-      "username"
-    );
+        await window.modal.disconnect();
 
-    localStorage.removeItem(
-      "currentLessonName"
-    );
+      }catch(err){
+
+        console.log(
+          "Modal disconnect skipped"
+        );
+      }
+    }
 
     /* =========================
-       RESET GLOBAL
-    ========================= */
-
-    window.currentUser = null;
-
-    window.currentUserData = null;
-
-    /* =========================
-       OPTIONAL WALLET RESET
+       METAMASK RESET
     ========================= */
 
     if(window.ethereum){
@@ -828,6 +818,63 @@ async function(){
     }
 
     /* =========================
+       CLEAR STORAGE
+    ========================= */
+
+    Object.keys(localStorage)
+    .forEach(key=>{
+
+      if(
+
+        key.includes("walletconnect")
+
+        ||
+
+        key.includes("WALLETCONNECT")
+
+        ||
+
+        key.includes("wc@2")
+
+        ||
+
+        key.includes("reown")
+
+      ){
+
+        localStorage.removeItem(
+          key
+        );
+      }
+    });
+
+    localStorage.removeItem(
+      "uid"
+    );
+
+    localStorage.removeItem(
+      "wallet"
+    );
+
+    localStorage.removeItem(
+      "username"
+    );
+
+    localStorage.removeItem(
+      "currentLessonName"
+    );
+
+    sessionStorage.clear();
+
+    /* =========================
+       RESET GLOBAL
+    ========================= */
+
+    window.currentUser = null;
+
+    window.currentUserData = null;
+
+    /* =========================
        REDIRECT
     ========================= */
 
@@ -841,8 +888,7 @@ async function(){
       err
     );
 
-    alert(
-      "Logout thất bại"
-    );
+    window.location.href =
+      "index.html";
   }
 }
