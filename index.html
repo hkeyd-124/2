@@ -564,10 +564,12 @@ h1 {
 </div>
 </div>
 
-<!-- FIREBASE + JS GIỮ NGUYÊN -->
-<!-- DÁN NGUYÊN SCRIPT CŨ CỦA BẠN Ở ĐÂY -->
 <!-- FIREBASE -->
 <script type="module">
+import { createAppKit } from 'https://esm.sh/@reown/appkit'
+import { EthersAdapter } from 'https://esm.sh/@reown/appkit-adapter-ethers'
+import { sepolia } from 'https://esm.sh/@reown/appkit/networks'
+import { BrowserProvider } from 'https://esm.sh/ethers'
  import { 
   getAuth, 
   sendEmailVerification,
@@ -595,6 +597,29 @@ window.createUser = createUser;
   };
 
   const app = initializeApp(firebaseConfig);
+ /* =========================
+   REOWN APPKIT
+========================= */
+const projectId = "a9297c8ae834401d3652a5fe0b85060d";
+
+const metadata = {
+  name: "HackChem",
+  description: "HackChem Web3 Learning",
+  url: window.location.origin,
+  icons: [`${window.location.origin}/assets/images/favicon.png`]
+};
+
+const modal = createAppKit({
+  adapters: [new EthersAdapter()],
+  networks: [sepolia],
+  metadata,
+  projectId,
+  features: {
+    analytics: true
+  }
+});
+
+ 
   const db = getFirestore(app);
   window.db = db;
   window.doc = doc;
@@ -610,123 +635,134 @@ window.createUser = createUser;
 let walletAddress = "";
 
 // CONNECT WALLET (MetaMask chuẩn)
-window.connectWallet = async function() {
-showLoading();
-  if (!window.ethereum) {
-    alert("Bạn cần cài MetaMask!");
-    return;
-  }
+window.connectWallet = async function () {
 
   try {
 
-    // 1. CONNECT
-    const accounts = await window.ethereum.request({
-      method: "eth_requestAccounts"
-    });
+   await modal.open();
+  showLoading();
+   
+await new Promise((resolve, reject) => {
 
-    walletAddress = accounts[0];
-const wallet = walletAddress;
+  let tries = 0;
 
-/* ============================
-   LOGIN WITH WALLET ONLY
-============================ */
+  const check = setInterval(() => {
 
-let uid = await getUserByWallet(wallet);
+    tries++;
 
-/* ============================
-   WALLET CHƯA TỒN TẠI
-============================ */
+    const provider = modal.getWalletProvider();
 
-if(!uid){
-
-  uid = await createUser({
-
-    wallet
-
-  });
-
-  /* SAVE WALLET INDEX */
-
-  await setDoc(
-
-    doc(
-      db,
-      "wallet_index",
-      wallet
-    ),
-
-    {
-      uid: uid
+    if (provider) {
+      clearInterval(check);
+      resolve();
     }
 
-  );
-}
-    // 2. CHECK NETWORK (Sepolia)
-    let chainId = await ethereum.request({
-      method: "eth_chainId"
-    });
+    // timeout 30s
+    if (tries > 60) {
+      clearInterval(check);
+      reject("Wallet connect timeout");
+    }
 
-    if (chainId !== "0xaa36a7") {
-      try {
-        await ethereum.request({
-          method: "wallet_switchEthereumChain",
-          params: [{ chainId: "0xaa36a7" }]
-        });
-      } catch (err) {
+  }, 500);
 
-        // nếu chưa có mạng → thêm luôn
-        if (err.code === 4902) {
-          await ethereum.request({
-            method: "wallet_addEthereumChain",
-            params: [{
-              chainId: "0xaa36a7",
-              chainName: "Sepolia",
-              rpcUrls: ["https://rpc.sepolia.org"],
-              nativeCurrency: {
-                name: "ETH",
-                symbol: "ETH",
-                decimals: 18
-              },
-              blockExplorerUrls: ["https://sepolia.etherscan.io"]
-            }]
-          });
+});
+
+const provider = modal.getWalletProvider();
+
+    if (!provider) {
+      hideLoading();
+      return;
+    }
+
+    // ETHERS PROVIDER
+    const ethersProvider = new BrowserProvider(provider);
+
+    const signer = await ethersProvider.getSigner();
+
+    // WALLET ADDRESS
+    walletAddress = (await signer.getAddress()).toLowerCase();
+
+    const wallet = walletAddress;
+
+    /* ============================
+       LOGIN WITH WALLET ONLY
+    ============================ */
+
+    let uid = await getUserByWallet(wallet);
+
+    /* ============================
+       WALLET CHƯA TỒN TẠI
+    ============================ */
+
+    if (!uid) {
+
+      uid = await createUser({
+        wallet
+      });
+
+      /* SAVE WALLET INDEX */
+
+      await setDoc(
+        doc(db, "wallet_index", wallet),
+        {
+          uid: uid
         }
-      }
+      );
     }
 
-    // 3. SIGN (bắt buộc)
+    // CHECK NETWORK
+    const network = await ethersProvider.getNetwork();
+
+if(network.chainId !== 11155111n){
+
+  alert("Vui lòng chuyển sang Sepolia");
+
+  hideLoading();
+
+  return;
+}
+
+    // SIGN MESSAGE
     const message = "Login HackChem - " + Date.now();
 
-    await ethereum.request({
-      method: "personal_sign",
-      params: [message, walletAddress]
-    });
+    await signer.signMessage(message);
 
-    // 4. SAVE
+    // RESET OLD UID
     const oldWallet = localStorage.getItem("wallet");
 
-if(oldWallet && oldWallet !== walletAddress){
-  localStorage.removeItem("uid"); // 🔥 reset toàn bộ
+if(
+  oldWallet &&
+  oldWallet.toLowerCase() !== walletAddress
+){
+  localStorage.removeItem("uid");
 }
-    localStorage.setItem("wallet", walletAddress);
-localStorage.setItem("uid", uid);
 
-    // 5. FIREBASE
+    // SAVE STORAGE
+    localStorage.setItem("wallet", walletAddress);
+    localStorage.setItem("uid", uid);
+
+    // SAVE USER
     await window.saveUser(uid);
 
-    // 6. CHECK FIRST TIME
+    // CHECK FIRST TIME
     const isFirst = await checkFirstTime();
 
     if (!isFirst) {
       window.location.href = "home.html";
     }
 
-  }catch (err) {
-  console.error(err);
-  alert("Kết nối ví thất bại");
-  hideLoading(); // 🔥 THÊM
+  } catch (err) {
+
+    console.error(err);
+
+    alert("Kết nối ví thất bại");
+
+    hideLoading();
+  }
 }
-}
+
+
+ 
 
 // CHECK FIRST
 async function checkFirstTime() {
@@ -903,6 +939,42 @@ localStorage.removeItem("uid");
 function hideLoading(){
   document.getElementById("loadingOverlay").style.display = "none";
 }
+
+ // AUTO RECONNECT
+window.addEventListener("load", async () => {
+
+  try {
+
+    const provider = modal.getWalletProvider();
+
+    if (!provider) return;
+
+    const ethersProvider = new BrowserProvider(provider);
+
+    const signer = await ethersProvider.getSigner();
+
+    const address = (
+      await signer.getAddress()
+    ).toLowerCase();
+
+    const savedWallet = localStorage
+      .getItem("wallet");
+
+    if (
+      savedWallet &&
+      savedWallet.toLowerCase() === address
+    ) {
+
+      console.log("Wallet reconnected");
+
+    }
+
+  } catch (err) {
+    console.log(err);
+  }
+
+});
+ 
 </script>
  <div id="loadingOverlay" style="
   display:none;
