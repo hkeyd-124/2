@@ -640,21 +640,37 @@ window.connectWallet = async function () {
 
   try {
 
-   await modal.open();
-  showLoading();
-   await new Promise(
-  resolve=>setTimeout(
-    resolve,
-    2500
-  )
-);
+  await modal.open();
 
-const provider = modal.getWalletProvider();
+showLoading();
 
-    if (!provider) {
-      hideLoading();
-      return;
-    }
+// =========================
+// WAIT PROVIDER READY
+// =========================
+
+let provider = null;
+
+for(let i=0;i<40;i++){
+
+  provider = modal.getWalletProvider();
+
+  if(provider){
+    break;
+  }
+
+  await new Promise(
+    resolve=>setTimeout(resolve,300)
+  );
+}
+
+if(!provider){
+
+  hideLoading();
+
+  alert("Không tìm thấy wallet provider");
+
+  return;
+}
 
     // ETHERS PROVIDER
     const ethersProvider = new BrowserProvider(provider);
