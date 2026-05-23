@@ -69,14 +69,11 @@ const balanceWei =
 
     const eth =
 
-      parseInt(
-        balanceWei,
-        16
-      )
+  Number(
+    BigInt(balanceWei)
+  )
 
-      /
-
-      1e18;
+  / 1e18;
 
     /* =========================
        RENDER
