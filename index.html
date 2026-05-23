@@ -649,29 +649,34 @@ showLoading();
 // WAIT PROVIDER READY
 // =========================
 
-let provider = null;
+await modal.open();
 
-for(let i=0;i<40;i++){
+showLoading();
 
-  provider = modal.getWalletProvider();
+// =========================
+// WAIT USER CONNECT
+// =========================
 
-  if(provider){
-    break;
-  }
+await new Promise(resolve => {
 
-  await new Promise(
-    resolve=>setTimeout(resolve,300)
-  );
-}
+  const check = setInterval(()=>{
 
-if(!provider){
+    const provider =
+      modal.getWalletProvider();
 
-  hideLoading();
+    if(provider){
 
-  alert("Không tìm thấy wallet provider");
+      clearInterval(check);
 
-  return;
-}
+      resolve();
+    }
+
+  }, 500);
+
+});
+
+const provider =
+  modal.getWalletProvider();
 
     // ETHERS PROVIDER
     const ethersProvider = new BrowserProvider(provider);
