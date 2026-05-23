@@ -37,32 +37,35 @@ async function(){
       return;
     }
 
-    if(!window.ethereum){
-
-      iconEl.innerText = "⚠️";
-
-      balanceEl.innerText =
-        "No provider";
-
-      return;
-    }
-
     /* =========================
        GET BALANCE
     ========================= */
 
-    const balanceWei =
+    const provider =
+  window.modal?.getWalletProvider();
 
-      await ethereum.request({
+if(!provider){
 
-        method:
-          "eth_getBalance",
+  iconEl.innerText = "⚠️";
 
-        params:[
-          wallet,
-          "latest"
-        ]
-      });
+  balanceEl.innerText =
+    "No provider";
+
+  return;
+}
+
+const balanceWei =
+
+  await provider.request({
+
+    method:
+      "eth_getBalance",
+
+    params:[
+      wallet,
+      "latest"
+    ]
+  });
 
     const eth =
 
