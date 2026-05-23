@@ -37,66 +37,43 @@ async function(){
       return;
     }
 
+    if(!window.ethereum){
+
+      iconEl.innerText = "⚠️";
+
+      balanceEl.innerText =
+        "No provider";
+
+      return;
+    }
+
     /* =========================
        GET BALANCE
     ========================= */
 
-    let provider = null;
+    const balanceWei =
 
-// =========================
-// REOWN PROVIDER
-// =========================
+      await ethereum.request({
 
-if(window.modal){
+        method:
+          "eth_getBalance",
 
-  provider =
-    window.modal.getWalletProvider();
-}
-
-// =========================
-// FALLBACK METAMASK
-// =========================
-
-if(!provider && window.ethereum){
-
-  provider =
-    window.ethereum;
-}
-
-// =========================
-// NO PROVIDER
-// =========================
-
-if(!provider){
-
-  iconEl.innerText = "⚠️";
-
-  balanceEl.innerText =
-    "No provider";
-
-  return;
-}
-
-const balanceWei =
-
-  await provider.request({
-
-    method:
-      "eth_getBalance",
-
-    params:[
-      wallet,
-      "latest"
-    ]
-  });
+        params:[
+          wallet,
+          "latest"
+        ]
+      });
 
     const eth =
 
-  Number(
-    BigInt(balanceWei)
-  )
+      parseInt(
+        balanceWei,
+        16
+      )
 
-  / 1e18;
+      /
+
+      1e18;
 
     /* =========================
        RENDER
