@@ -610,6 +610,7 @@ const metadata = {
 };
 
 const modal = createAppKit({
+ window.modal = modal;
   adapters: [new EthersAdapter()],
   networks: [sepolia],
   metadata,
