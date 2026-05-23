@@ -14,7 +14,12 @@ async function(){
         await window.modal.disconnect();
 
         await window.modal.clearStorage();
-
+await new Promise(
+  resolve=>setTimeout(
+    resolve,
+    1500
+  )
+);
       }catch(e){
 
         console.log(
