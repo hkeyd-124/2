@@ -801,32 +801,7 @@ async function(){
 
     window.currentUserData = null;
 
-    /* =========================
-       OPTIONAL WALLET RESET
-    ========================= */
-
-    if(window.ethereum){
-
-      try{
-
-        await window.ethereum.request({
-
-          method:
-            "wallet_revokePermissions",
-
-          params:[{
-            eth_accounts:{}
-          }]
-        });
-
-      }catch(err){
-
-        console.log(
-          "Wallet revoke skipped"
-        );
-      }
-    }
-
+   
     /* =========================
        REDIRECT
     ========================= */
