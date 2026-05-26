@@ -678,7 +678,8 @@ async function(){
 
   await lessonEngine
     .saveCloudProgress();
-showToast(
+
+  showToast(
     "📤 Đã nộp bài!"
   );
 
