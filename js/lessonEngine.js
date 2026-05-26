@@ -13,7 +13,9 @@ window.lessonEngine = {
   questions:[],
 
   saveKey:null,
+cloudSaveTimeout:null,
 
+cloudLoaded:false,
   config:null,
 
   content:null,
@@ -95,7 +97,7 @@ window.lessonEngine = {
       this.config.startScore;
 
     this.loadProgress();
-
+await this.loadCloudProgress();
     // UI
 
     this.renderTools();
@@ -338,6 +340,17 @@ window.lessonEngine = {
     this.renderNav();
 
     this.saveProgress();
+    clearTimeout(
+  this.cloudSaveTimeout
+);
+
+this.cloudSaveTimeout =
+
+  setTimeout(()=>{
+
+    this.saveCloudProgress();
+
+  },3000);
   },
 
   /* =========================
@@ -411,7 +424,85 @@ if(
     });
 
   },
+/* =========================
+   LOAD CLOUD
+========================= */
 
+loadCloudProgress:
+async function(){
+
+  try{
+
+    const uid =
+      localStorage.getItem(
+        "uid"
+      );
+
+    if(!uid) return;
+
+    const ref =
+
+      doc(
+
+        db,
+
+        "users",
+
+        uid,
+
+        "lessons",
+
+        this.lessonId
+
+      );
+
+    const snap =
+      await getDoc(ref);
+
+    if(!snap.exists()){
+
+      this.cloudLoaded = true;
+
+      return;
+    }
+
+    const data =
+      snap.data();
+
+    // LOCAL FIRST
+
+    const localRaw =
+
+      localStorage.getItem(
+        this.saveKey
+      );
+
+    if(localRaw){
+
+      this.cloudLoaded = true;
+
+      return;
+    }
+
+    this.current =
+      data.current || 0;
+
+    this.score =
+      data.score || 150;
+
+    this.answers =
+      data.answers || {};
+
+    this.cloudLoaded = true;
+
+  }catch(err){
+
+    console.error(
+      "CLOUD LOAD ERROR",
+      err
+    );
+  }
+},
   /* =========================
      LOAD PROGRESS
   ========================= */
@@ -449,7 +540,72 @@ if(
       );
     }
   },
+/* =========================
+   SAVE CLOUD
+========================= */
 
+saveCloudProgress:
+async function(){
+
+  try{
+
+    const uid =
+      localStorage.getItem(
+        "uid"
+      );
+
+    if(!uid) return;
+
+    const ref =
+
+      doc(
+
+        db,
+
+        "users",
+
+        uid,
+
+        "lessons",
+
+        this.lessonId
+
+      );
+
+    await setDoc(
+
+      ref,
+
+      {
+
+        current:
+          this.current,
+
+        score:
+          this.score,
+
+        answers:
+          this.answers,
+
+        updatedAt:
+          serverTimestamp()
+
+      },
+
+      {
+        merge:true
+      }
+
+    );
+
+  }catch(err){
+
+    console.error(
+      "CLOUD SAVE ERROR",
+      err
+    );
+  }
+},
   /* =========================
      SAVE PROGRESS
   ========================= */
