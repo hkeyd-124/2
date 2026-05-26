@@ -1,1 +1,365 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
 
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<title>Lesson</title>
+
+<style>
+
+body{
+  margin:0;
+  font-family:Arial;
+  background:#f5f5f5;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header-bar{
+
+  position:fixed;
+  top:0;
+  left:0;
+
+  width:100%;
+  height:60px;
+
+  background:#b7d7e0;
+
+  display:flex;
+  align-items:center;
+
+  padding:0 15px;
+
+  z-index:1000;
+}
+
+.score-box,
+.best-box{
+
+  position:absolute;
+
+  top:10px;
+
+  background:white;
+
+  padding:6px 12px;
+
+  border-radius:8px;
+}
+
+.score-box{
+  right:20px;
+}
+
+.best-box{
+  right:170px;
+}
+
+#scoreValue{
+  color:red;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.container{
+
+  display:flex;
+
+  height:100vh;
+
+  margin-top:60px;
+}
+
+/* =========================
+   LEFT PANEL
+========================= */
+
+.left-panel{
+
+  width:50%;
+
+  background:white;
+
+  border-right:
+    1px solid #ddd;
+
+  display:flex;
+
+  flex-direction:column;
+}
+
+/* TOOL BAR */
+
+.tool-bar{
+
+  display:flex;
+
+  gap:10px;
+
+  padding:10px;
+
+  border-bottom:
+    1px solid #ddd;
+
+  background:#fafafa;
+}
+
+.tool-btn{
+
+  padding:8px 12px;
+
+  border:none;
+
+  background:#eee;
+
+  border-radius:6px;
+
+  cursor:pointer;
+}
+
+.tool-btn.active{
+  background:#4CAF50;
+  color:white;
+}
+
+/* CONTENT */
+
+#leftContent{
+
+  flex:1;
+
+  overflow:auto;
+}
+
+/* =========================
+   RIGHT PANEL
+========================= */
+
+.right-panel{
+
+  width:50%;
+
+  padding:20px;
+
+  overflow:auto;
+}
+
+/* NAV */
+
+#navBar{
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:6px;
+}
+
+.nav-item{
+
+  padding:6px 10px;
+
+  border:1px solid #ccc;
+
+  cursor:pointer;
+
+  background:white;
+}
+
+/* XP */
+
+.xp-bar{
+
+  height:8px;
+
+  background:#ddd;
+
+  margin:10px 0;
+
+  border-radius:5px;
+
+  position:relative;
+}
+
+.xp-fill{
+
+  height:100%;
+
+  width:0%;
+
+  background:#4CAF50;
+
+  border-radius:5px;
+}
+
+/* OPTIONS */
+
+.options{
+
+  display:grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:10px;
+}
+
+.options button{
+
+  padding:12px;
+
+  border:1px solid #ccc;
+
+  cursor:pointer;
+}
+
+.selected{
+  background:#fff3cd;
+}
+
+.correct{
+  background:#4CAF50;
+  color:white;
+}
+
+.wrong{
+  background:red;
+  color:white;
+}
+
+/* BOTTOM */
+
+.bottom-bar{
+
+  position:fixed;
+
+  bottom:20px;
+
+  left:calc(50% + 20px);
+
+  right:20px;
+
+  display:flex;
+
+  justify-content:space-between;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<div class="header-bar">
+
+  <button onclick="goBack()">
+    ← Quay lại
+  </button>
+
+  <div class="best-box">
+    Thành tích:
+    <span id="bestScore">
+      0
+    </span>
+  </div>
+
+  <div class="score-box">
+    Điểm:
+    <span id="scoreValue">
+      150
+    </span>
+  </div>
+
+</div>
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<div class="container">
+
+  <!-- LEFT -->
+
+  <div class="left-panel">
+
+    <div id="toolBar"
+      class="tool-bar">
+    </div>
+
+    <div id="leftContent">
+    </div>
+
+  </div>
+
+  <!-- RIGHT -->
+
+  <div class="right-panel">
+
+    <div id="navBar"></div>
+
+    <div class="xp-bar">
+
+      <div id="xpFill"
+        class="xp-fill">
+      </div>
+
+    </div>
+
+    <h2 id="questionText"></h2>
+
+    <div id="options"
+      class="options">
+    </div>
+
+  </div>
+
+</div>
+
+<!-- =========================
+     BOTTOM
+========================= -->
+
+<div class="bottom-bar">
+
+  <button onclick="showHint()">
+    Gợi ý
+  </button>
+
+  <button onclick="checkAnswer()">
+    Kiểm tra
+  </button>
+
+</div>
+
+<!-- =========================
+     ENGINE
+========================= -->
+
+<script src="./js/lessonEngine.js">
+</script>
+
+<script>
+
+window.addEventListener(
+  "DOMContentLoaded",
+  ()=>{
+    lessonEngine.start();
+  }
+);
+
+</script>
+
+</body>
+</html>
