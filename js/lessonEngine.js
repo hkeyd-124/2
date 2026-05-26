@@ -674,7 +674,10 @@ function(){
 };
 
 window.goBack =
-function(){
+async function(){
+
+  await lessonEngine
+    .saveCloudProgress();
 
   window.location.href =
     "home.html#courses";
@@ -687,18 +690,3 @@ function(){
     "Hint system phase sau 😄"
   );
 };
-window.addEventListener(
-
-  "beforeunload",
-
-  ()=>{
-
-    if(
-      window.lessonEngine
-    ){
-
-      lessonEngine
-        .saveCloudProgress();
-    }
-  }
-);
