@@ -16,6 +16,7 @@ window.lessonEngine = {
 cloudSaveTimeout:null,
 
 cloudLoaded:false,
+  unsavedChanges:0,
   config:null,
 
   content:null,
@@ -338,19 +339,37 @@ await this.loadCloudProgress();
     this.updateScore();
 
     this.renderNav();
+const totalCorrect =
 
+  Object.values(
+    this.answers
+  )
+
+  .filter(v=>
+    v==="correct"
+  )
+
+  .length;
+
+if(
+  totalCorrect
+  ===
+  this.questions.length
+){
+
+  this.saveCloudProgress();
+}
     this.saveProgress();
-    clearTimeout(
-  this.cloudSaveTimeout
-);
+    this.unsavedChanges++;
 
-this.cloudSaveTimeout =
+if(
+  this.unsavedChanges >= 5
+){
 
-  setTimeout(()=>{
+  this.saveCloudProgress();
 
-    this.saveCloudProgress();
-
-  },3000);
+  this.unsavedChanges = 0;
+}
   },
 
   /* =========================
@@ -668,3 +687,18 @@ function(){
     "Hint system phase sau 😄"
   );
 };
+window.addEventListener(
+
+  "beforeunload",
+
+  ()=>{
+
+    if(
+      window.lessonEngine
+    ){
+
+      lessonEngine
+        .saveCloudProgress();
+    }
+  }
+);
