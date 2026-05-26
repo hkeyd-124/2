@@ -346,7 +346,36 @@ body{
 <!-- =========================
      ENGINE
 ========================= -->
+<script type="module">
 
+import {
+  db
+}
+from "./firebase.js";
+
+import {
+
+  doc,
+  getDoc,
+  setDoc,
+  serverTimestamp
+
+}
+
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+window.db = db;
+
+window.doc = doc;
+
+window.getDoc = getDoc;
+
+window.setDoc = setDoc;
+
+window.serverTimestamp =
+  serverTimestamp;
+
+</script>
 <script src="./js/lessonEngine.js">
 </script>
 
