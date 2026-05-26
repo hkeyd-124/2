@@ -688,7 +688,7 @@ async function(){
     window.location.href =
       "home.html#courses";
 
-  },1200);
+  },400);
 };
 
 window.showHint =
