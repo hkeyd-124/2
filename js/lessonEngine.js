@@ -678,11 +678,16 @@ async function(){
 
   await lessonEngine
     .saveCloudProgress();
-alert(
+showToast(
     "📤 Đã nộp bài!"
   );
-  window.location.href =
-    "home.html#courses";
+
+  setTimeout(()=>{
+
+    window.location.href =
+      "home.html#courses";
+
+  },1200);
 };
 
 window.showHint =
