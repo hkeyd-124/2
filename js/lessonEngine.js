@@ -678,7 +678,9 @@ async function(){
 
   await lessonEngine
     .saveCloudProgress();
-
+alert(
+    "📤 Đã nộp bài!"
+  );
   window.location.href =
     "home.html#courses";
 };
