@@ -41,18 +41,6 @@ function(id,name){
     name
   );
 
-  const lessonMap = {
-
-    organic_1:"lesson/organic.html",
-
-    organic_2:"lesson/alkane.html",
-
-    organic_3:"lesson/alkene.html",
-
-    organic_4:"lesson/fuel.html"
-
-  };
-
   const file =
     lessonMap[id];
 
@@ -63,10 +51,8 @@ function(id,name){
     return;
   }
 
-  window.location.href =
-    file +
-    "?lesson=" +
-    id;
+ window.location.href =
+  "lesson.html?id=" + id;
 }
 
 /* =========================
