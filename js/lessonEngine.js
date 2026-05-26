@@ -63,18 +63,19 @@ window.lessonEngine = {
       return;
     }
 
-    // LOAD FILES
+
+     // LOAD FILES
 
     await this.loadScript(
-      `./lesson/${this.lessonId}/config.js`
+      `./lessons/${this.lessonId}/config.js`
     );
 
     await this.loadScript(
-      `./lesson/${this.lessonId}/content.js`
+      `./lessons/${this.lessonId}/content.js`
     );
 
     await this.loadScript(
-      `./lesson/${this.lessonId}/questions.js`
+      `./lessons/${this.lessonId}/questions.js`
     );
 
     // SAVE
