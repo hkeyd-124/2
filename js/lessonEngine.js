@@ -12,6 +12,8 @@ window.lessonEngine = {
 
   questions:[],
 
+  saveKey:null,
+
   config:null,
 
   content:null,
@@ -25,6 +27,34 @@ window.lessonEngine = {
 
     this.lessonId =
       params.get("id");
+
+    const uid =
+
+      localStorage.getItem("uid")
+
+      ||
+
+      localStorage.getItem("wallet")
+
+      ||
+
+      "guest";
+
+    this.saveKey =
+
+      "progress_"
+
+      +
+
+      this.lessonId
+
+      +
+
+      "_"
+
+      +
+
+      uid;
 
     if(!this.lessonId){
 
@@ -63,15 +93,17 @@ window.lessonEngine = {
     this.score =
       this.config.startScore;
 
+    this.loadProgress();
+
     // UI
 
     this.renderTools();
 
     this.loadTool("pdf");
 
-    this.renderQuestion();
-
     this.renderNav();
+
+    this.renderQuestion();
 
     this.updateScore();
   },
@@ -197,6 +229,14 @@ window.lessonEngine = {
 
     this.selected = null;
 
+    if(
+      this.answers[this.current]
+      === "correct"
+    ){
+
+      this.selected = q.a;
+    }
+
     if(q.type==="single"){
 
       q.opt.forEach((opt,i)=>{
@@ -208,6 +248,14 @@ window.lessonEngine = {
 
         btn.innerHTML =
           opt;
+
+        if(
+          this.selected === i
+        ){
+
+          btn.classList
+            .add("selected");
+        }
 
         btn.onclick = ()=>{
 
@@ -273,6 +321,8 @@ window.lessonEngine = {
     this.updateScore();
 
     this.renderNav();
+
+    this.saveProgress();
   },
 
   /* =========================
@@ -313,6 +363,8 @@ window.lessonEngine = {
 
         this.current = i;
 
+        this.saveProgress();
+
         this.renderQuestion();
 
         this.renderNav();
@@ -322,6 +374,70 @@ window.lessonEngine = {
 
     });
 
+  },
+
+  /* =========================
+     LOAD PROGRESS
+  ========================= */
+
+  loadProgress:function(){
+
+    const raw =
+
+      localStorage.getItem(
+        this.saveKey
+      );
+
+    if(!raw) return;
+
+    try{
+
+      const data =
+        JSON.parse(raw);
+
+      this.current =
+        data.current || 0;
+
+      this.score =
+        data.score
+        || this.score;
+
+      this.answers =
+        data.answers || {};
+
+    }catch(err){
+
+      console.error(
+        "LOAD PROGRESS ERROR",
+        err
+      );
+    }
+  },
+
+  /* =========================
+     SAVE PROGRESS
+  ========================= */
+
+  saveProgress:function(){
+
+    localStorage.setItem(
+
+      this.saveKey,
+
+      JSON.stringify({
+
+        current:
+          this.current,
+
+        score:
+          this.score,
+
+        answers:
+          this.answers
+
+      })
+
+    );
   },
 
   /* =========================
