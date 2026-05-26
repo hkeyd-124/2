@@ -407,7 +407,9 @@ import {
   collection,
   getDocs,
   doc,
-  getDoc
+  getDoc,
+  setDoc,
+  serverTimestamp
 
 }
 
@@ -426,7 +428,10 @@ window.getDocs = getDocs;
 window.doc = doc;
 
 window.getDoc = getDoc;
+window.setDoc = setDoc;
 
+window.serverTimestamp =
+  serverTimestamp;
 </script>
 
 <!-- =========================
