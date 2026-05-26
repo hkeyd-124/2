@@ -66,15 +66,15 @@ window.lessonEngine = {
     // LOAD FILES
 
     await this.loadScript(
-      `./lessons/${this.lessonId}/config.js`
+      `./lesson/${this.lessonId}/config.js`
     );
 
     await this.loadScript(
-      `./lessons/${this.lessonId}/content.js`
+      `./lesson/${this.lessonId}/content.js`
     );
 
     await this.loadScript(
-      `./lessons/${this.lessonId}/questions.js`
+      `./lesson/${this.lessonId}/questions.js`
     );
 
     // SAVE
