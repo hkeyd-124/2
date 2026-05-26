@@ -9,7 +9,7 @@ window.lessonEngine = {
   selected:null,
 
   answers:{},
-answeredQuestions:{},
+
   questions:[],
 
   saveKey:null,
@@ -296,23 +296,21 @@ answeredQuestions:{},
         this.current
       ];
 
-    if(q.type==="single"){
+   if(q.type==="single"){
 
   if(
     this.selected === null
   ) return;
 
+  // LOCK nếu đã đúng
+
   if(
-    this.answeredQuestions[
+    this.answers[
       this.current
-    ]
+    ] === "correct"
   ){
     return;
   }
-
-  this.answeredQuestions[
-    this.current
-  ] = true;
 
   if(
     this.selected === q.a
@@ -364,17 +362,38 @@ answeredQuestions:{},
       div.innerText =
         i+1;
 
-      if(
-        this.answers[i]
-        === "correct"
-      ){
+     if(i === this.current){
 
-        div.style.background =
-          "#4CAF50";
+  div.style.background =
+    "#FFC107";
 
-        div.style.color =
-          "white";
-      }
+  div.style.color =
+    "black";
+}
+
+if(
+  this.answers[i]
+  === "wrong"
+){
+
+  div.style.background =
+    "#F44336";
+
+  div.style.color =
+    "white";
+}
+
+if(
+  this.answers[i]
+  === "correct"
+){
+
+  div.style.background =
+    "#4CAF50";
+
+  div.style.color =
+    "white";
+}
 
       div.onclick = ()=>{
 
@@ -421,9 +440,7 @@ answeredQuestions:{},
 
       this.answers =
         data.answers || {};
-this.answeredQuestions =
-  data.answeredQuestions
-  || {};
+
     }catch(err){
 
       console.error(
@@ -454,8 +471,6 @@ this.answeredQuestions =
         answers:
   this.answers,
 
-answeredQuestions:
-  this.answeredQuestions
       })
 
     );
