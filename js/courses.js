@@ -41,15 +41,7 @@ function(id,name){
     name
   );
 
-  const file =
-    lessonMap[id];
-
-  if(!file){
-
-    alert("Lesson not found");
-
-    return;
-  }
+ 
 
  window.location.href =
   "lesson.html?id=" + id;
