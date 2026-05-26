@@ -350,7 +350,7 @@ window.goBack =
 function(){
 
   window.location.href =
-    "courses.html";
+    "home.html#courses";
 };
 
 window.showHint =
