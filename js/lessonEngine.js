@@ -9,7 +9,7 @@ window.lessonEngine = {
   selected:null,
 
   answers:{},
-
+answeredQuestions:{},
   questions:[],
 
   saveKey:null,
@@ -298,26 +298,42 @@ window.lessonEngine = {
 
     if(q.type==="single"){
 
-      if(
-        this.selected === null
-      ) return;
+  if(
+    this.selected === null
+  ) return;
 
-      if(
-        this.selected === q.a
-      ){
+  if(
+    this.answeredQuestions[
+      this.current
+    ]
+  ){
+    return;
+  }
 
-        this.answers[
-          this.current
-        ] = "correct";
+  this.answeredQuestions[
+    this.current
+  ] = true;
 
-        this.score += 20;
+  if(
+    this.selected === q.a
+  ){
 
-      }else{
+    this.answers[
+      this.current
+    ] = "correct";
 
-        this.score -= 5;
-      }
+    this.score += 20;
 
-    }
+  }else{
+
+    this.answers[
+      this.current
+    ] = "wrong";
+
+    this.score -= 5;
+  }
+
+}
 
     this.updateScore();
 
@@ -405,7 +421,9 @@ window.lessonEngine = {
 
       this.answers =
         data.answers || {};
-
+this.answeredQuestions =
+  data.answeredQuestions
+  || {};
     }catch(err){
 
       console.error(
@@ -434,8 +452,10 @@ window.lessonEngine = {
           this.score,
 
         answers:
-          this.answers
+  this.answers,
 
+answeredQuestions:
+  this.answeredQuestions
       })
 
     );
