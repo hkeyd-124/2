@@ -39,31 +39,32 @@ body{
   z-index:1000;
 }
 
+.score-group{
+
+  margin-left:auto;
+
+  display:flex;
+
+  gap:14px;
+
+  padding-right:30px;
+}
+
 .score-box,
 .best-box,
 .rank-box{
-
-  position:absolute;
-
-  top:10px;
 
   background:white;
 
   padding:6px 12px;
 
   border-radius:8px;
+
+  min-width:110px;
+
+  text-align:center;
 }
 
-.score-box{
-  right:20px;
-}
-
-.best-box{
-  right:170px;
-}
-.rank-box{
-  right:320px;
-}
 #scoreValue{
   color:red;
 }
