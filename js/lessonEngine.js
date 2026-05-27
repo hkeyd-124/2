@@ -717,11 +717,12 @@ completed:
 
   updateScore:function(){
 
-    scoreValue.innerText =
-      this.score;
-  }
+  scoreValue.innerText =
+    this.score;
 
-};
+  bestScoreValue.innerText =
+    this.bestScore;
+}
 
 /* =========================
    GLOBAL
