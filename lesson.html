@@ -40,7 +40,8 @@ body{
 }
 
 .score-box,
-.best-box{
+.best-box,
+.rank-box{
 
   position:absolute;
 
@@ -60,7 +61,9 @@ body{
 .best-box{
   right:170px;
 }
-
+.rank-box{
+  right:320px;
+}
 #scoreValue{
   color:red;
 }
@@ -274,7 +277,14 @@ body{
       0
     </span>
   </div>
+<div class="rank-box">
 
+  Rank:
+  <span id="rankValue">
+    C
+  </span>
+
+</div>
   <div class="score-box">
     Điểm:
     <span id="scoreValue">
