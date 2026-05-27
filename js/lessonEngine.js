@@ -17,6 +17,9 @@ cloudSaveTimeout:null,
 
 cloudLoaded:false,
   unsavedChanges:0,
+  bestScore:150,
+firstScore:null,
+completed:false,
   config:null,
 
   content:null,
@@ -337,7 +340,14 @@ await this.loadCloudProgress();
 }
 
     this.updateScore();
+if(
+  this.score >
+  this.bestScore
+){
 
+  this.bestScore =
+    this.score;
+}
     this.renderNav();
 const totalCorrect =
 
@@ -356,6 +366,19 @@ if(
   ===
   this.questions.length
 ){
+
+  this.completed = true;
+
+  // FIRST SCORE LOCK
+
+  if(
+    this.firstScore
+    === null
+  ){
+
+    this.firstScore =
+      this.score;
+  }
 
   this.saveCloudProgress();
 }
@@ -432,7 +455,16 @@ if(
         this.current = i;
 
         this.saveProgress();
+this.unsavedChanges++;
 
+if(
+  this.unsavedChanges >= 5
+){
+
+  this.saveCloudProgress();
+
+  this.unsavedChanges = 0;
+}
         this.renderQuestion();
 
         this.renderNav();
@@ -511,7 +543,14 @@ async function(){
 
     this.answers =
       data.answers || {};
+this.bestScore =
+  data.bestScore || this.score;
 
+this.firstScore =
+  data.firstScore || null;
+
+this.completed =
+  data.completed || false;
     this.cloudLoaded = true;
 
   }catch(err){
@@ -550,7 +589,14 @@ async function(){
 
       this.answers =
         data.answers || {};
+this.bestScore =
+  data.bestScore || this.score;;
 
+this.firstScore =
+  data.firstScore || null;
+
+this.completed =
+  data.completed || false;
     }catch(err){
 
       console.error(
@@ -605,7 +651,14 @@ async function(){
 
         answers:
           this.answers,
+bestScore:
+  this.bestScore,
 
+firstScore:
+  this.firstScore,
+
+completed:
+  this.completed,
         updatedAt:
           serverTimestamp()
 
@@ -645,7 +698,14 @@ async function(){
 
         answers:
   this.answers,
+bestScore:
+  this.bestScore,
 
+firstScore:
+  this.firstScore,
+
+completed:
+  this.completed,
       })
 
     );
