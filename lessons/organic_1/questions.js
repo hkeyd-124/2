@@ -36,27 +36,6 @@ opt:["123,95","317,85","540","743,7"],
 a:1
 },
 
-/* TRUE FALSE */
-{
-type:"truefalse",
-q:"Nhận định nào đúng/sai trong các nhận định sau:",
-opt:[
-"Các hydrocarbon chỉ có liên kết đơn trong phân tử là alkane",
-"Chỉ các alkane là chất khí ở điều kiện thường được dùng làm nhiên liệu",
-"Các alkane lỏng được dùng sản xuất xăng, dầu và làm dung môi",
-"Khi đốt cháy alkane sinh ra sản phẩm gồm CO<sub>2</sub> và H<sub>2</sub>O"
-],
-a:[false,false,true,true]
-},
-
-/* SHORT */
-{
-type:"short",
-q:"Đốt cháy hoàn toàn m gam butane (C<sub>4</sub>H<sub>10</sub>), thu được tổng thể tích CO2 và hơi nước là 22,311 lít (đkc). Tìm giá trị của m (làm tròn đến hàng phần mười)",
-a:"5.8"
-},
-
-/* SINGLE tiếp */
 {
 type:"single",
 q:"Trong phân tử methane có bao nhiêu liên kết?",
@@ -95,30 +74,6 @@ opt:["CH<sub>4</sub>","CH<sub>3</sub>-CH<sub>3</sub>","CH<sub>3</sub>-CH<sub>2</
 a:2
 },
 
-/* SHORT */
-{
-type:"short",
-q:`
-Cho phương trình phản ứng đốt cháy butane:<br><br>
-
-<div style="text-align:center; display:flex; justify-content:center; align-items:center; gap:10px;">
-
-  <span>aC<sub>4</sub>H<sub>10</sub> + bO<sub>2</sub></span>
-
-  <span style="display:flex; flex-direction:column; align-items:center;">
-    <span style="font-size:12px;">t<sup>°</sup></span>
-    <span>&rarr;</span>
-  </span>
-
-  <span>cCO<sub>2</sub> + dH<sub>2</sub>O</span>
-
-</div><br>
-
-Nếu a = 2 thì b + c bằng bao nhiêu?
-`,
-a:"13"
-},
-
 {
 type:"single",
 q:"Phát biểu nào sau đây về ứng dụng của alkane không đúng?",
@@ -136,20 +91,6 @@ type:"single",
 q:"Trong phân tử propane có số liên kết đơn là",
 opt:["10","9","8","11"],
 a:0
-},
-
-/* TRUE FALSE */
-{
-type:"truefalse",
-q:"Nhận định nào đúng/sai trong các nhận định sau:",
-opt:[
-"Methane là alkane đơn giản nhất",
-"Propane có công thức C₃H₆",
-"Alkane có thể cháy sinh nhiệt.",
-"Ethane là chất khí"
-],
-a:[true,false,true,true]
 }
-
 
 ];
