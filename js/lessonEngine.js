@@ -722,7 +722,7 @@ completed:
 
   bestScoreValue.innerText =
     this.bestScore;
-}
+};
 
 /* =========================
    GLOBAL
