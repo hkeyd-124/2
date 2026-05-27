@@ -20,6 +20,7 @@ cloudLoaded:false,
   bestScore:150,
 firstScore:null,
 completed:false,
+  rank:"C",
   config:null,
 
   content:null,
@@ -713,18 +714,50 @@ completed:
   },
 
   /* =========================
-     SCORE
+     RANK + SCORE
   ========================= */
+getRank:function(score){
 
+  if(score >= 450){
+    return "SSS";
+  }
+
+  if(score >= 400){
+    return "SS";
+  }
+
+  if(score >= 350){
+    return "S";
+  }
+
+  if(score >= 300){
+    return "A";
+  }
+
+  if(score >= 250){
+    return "B";
+  }
+
+  return "C";
+},
+
+  
   updateScore:function(){
+
+  this.rank =
+    this.getRank(
+      this.bestScore
+    );
 
   scoreValue.innerText =
     this.score;
 
   bestScoreValue.innerText =
     this.bestScore;
-}
-};
+
+  rankValue.innerText =
+    this.rank;
+},
 /* =========================
    GLOBAL
 ========================= */
