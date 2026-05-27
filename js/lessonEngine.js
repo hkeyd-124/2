@@ -339,8 +339,7 @@ await this.loadCloudProgress();
 
 }
 
-    this.updateScore();
-if(
+ if(
   this.score >
   this.bestScore
 ){
@@ -348,6 +347,8 @@ if(
   this.bestScore =
     this.score;
 }
+
+this.updateScore();
     this.renderNav();
 const totalCorrect =
 
