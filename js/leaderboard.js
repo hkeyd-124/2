@@ -144,7 +144,7 @@ async function(){
             || "Unknown",
 
           score:
-            lessonData.score || 0
+           lessonData.firstScore || 0
 
         });
 
