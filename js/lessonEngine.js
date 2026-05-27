@@ -757,7 +757,7 @@ getRank:function(score){
 
   rankValue.innerText =
     this.rank;
-},
+}};
 /* =========================
    GLOBAL
 ========================= */
