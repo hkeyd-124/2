@@ -220,182 +220,291 @@ await this.loadCloudProgress();
   },
 
   /* =========================
-     QUESTIONS
-  ========================= */
+QUESTIONS
+========================= */
 
-  renderQuestion:function(){
+renderQuestion:function(){
 
-    const q =
-      this.questions[
-        this.current
-      ];
+const q =
+this.questions[
+this.current
+];
 
-    questionText.innerHTML =
-      q.q;
+// RESET
 
-    options.innerHTML = "";
+questionText.innerHTML =
+"";
 
-    this.selected = null;
+options.innerHTML =
+"";
+this.selected = null;
+// ROUTER
 
-    if(
-      this.answers[this.current]
-      === "correct"
-    ){
+switch(q.type){
 
-      this.selected = q.a;
-    }
+```
+case "single":
 
-    if(q.type==="single"){
+  this.renderSingle(q);
 
-      q.opt.forEach((opt,i)=>{
+  break;
+```
 
-        const btn =
-          document.createElement(
-            "button"
-          );
+}
+},
 
-        btn.innerHTML =
-          opt;
+/* =========================
+SINGLE RENDER
+========================= */
 
-        if(
-          this.selected === i
-        ){
+renderSingle:function(q){
 
-          btn.classList
-            .add("selected");
-        }
+questionText.innerHTML =
+q.q;
+if(
+  this.answers[
+    this.current
+  ]
+  === "correct"
+){
 
-        btn.onclick = ()=>{
+  this.selected = q.a;
+}
+q.opt.forEach((opt,i)=>{
 
-          this.selected = i;
+```
+const btn =
+  document.createElement(
+    "button"
+  );
 
-          document
-            .querySelectorAll(
-              "#options button"
-            )
-            .forEach(b=>
-              b.classList
-               .remove(
-                 "selected"
-               )
-            );
+btn.innerHTML = opt;
 
-          btn.classList
-            .add("selected");
-        };
+const state =
+  this.answers[
+    this.current
+  ];
 
-        options.appendChild(btn);
+// CORRECT
 
-      });
+if(
+  state === "correct"
+  &&
+  i === q.a
+){
 
-    }
+  btn.classList.add(
+    "correct"
+  );
+}
 
-  },
+// WRONG
 
-  /* =========================
-     CHECK
-  ========================= */
+if(
+  state === "wrong"
+  &&
+  this.selected === i
+){
 
-  checkAnswer:function(){
+  btn.classList.add(
+    "wrong"
+  );
+}
 
-    const q =
-      this.questions[
-        this.current
-      ];
+// SELECTED
 
-   if(q.type==="single"){
+if(
+  this.selected === i
+){
 
-  if(
-    this.selected === null
-  ) return;
+  btn.classList.add(
+    "selected"
+  );
+}
 
-  // LOCK nếu đã đúng
+// CLICK
+
+btn.onclick = ()=>{
+
+  // LOCK IF CORRECT
 
   if(
     this.answers[
       this.current
-    ] === "correct"
+    ]
+    === "correct"
   ){
     return;
   }
 
-  if(
-    this.selected === q.a
-  ){
+  this.selected = i;
 
-    this.answers[
-      this.current
-    ] = "correct";
+  this.renderQuestion();
+};
 
-    this.score += 20;
+options.appendChild(btn);
+```
 
-  }else{
+});
+},
 
-    this.answers[
-      this.current
-    ] = "wrong";
+/* =========================
+CHECK
+========================= */
 
-    this.score -= 5;
-  }
+checkAnswer:function(){
+
+const q =
+this.questions[
+this.current
+];
+
+// ROUTER
+
+switch(q.type){
+
+```
+case "single":
+
+  this.checkSingle(q);
+
+  break;
+```
+
+}
+},
+
+/* =========================
+SINGLE CHECK
+========================= */
+
+checkSingle:function(q){
+
+if(
+this.selected
+=== null
+){
+return;
+}
+
+// LOCK
+
+if(
+this.answers[
+this.current
+]
+=== "correct"
+){
+return;
+}
+
+// CORRECT
+
+if(
+this.selected
+=== q.a
+){
+
+```
+this.answers[
+  this.current
+] = "correct";
+
+this.score += 20;
+```
+
+}else{
+
+```
+this.answers[
+  this.current
+] = "wrong";
+
+this.score -= 5;
+```
 
 }
 
- if(
-  this.score >
-  this.bestScore
+// BEST SCORE
+
+if(
+this.score >
+this.bestScore
 ){
 
-  this.bestScore =
+```
+this.bestScore =
+  this.score;
+```
+
+}
+
+// UPDATE UI
+
+this.updateScore();
+
+this.renderQuestion();
+
+this.renderNav();
+
+// SAVE
+
+this.unsavedChanges++;
+
+this.saveProgress();
+
+if(
+this.unsavedChanges >= 5
+){
+
+```
+this.saveCloudProgress();
+
+this.unsavedChanges = 0;
+```
+
+}
+
+// COMPLETE
+
+const totalCorrect =
+
+```
+Object.values(
+  this.answers
+)
+
+.filter(
+  v=>v==="correct"
+)
+.length;
+```
+
+if(
+totalCorrect
+===
+this.questions.length
+){
+
+```
+this.completed = true;
+
+// FIRST SCORE LOCK
+
+if(
+  this.firstScore
+  === null
+){
+
+  this.firstScore =
     this.score;
 }
 
-this.updateScore();
-    this.renderNav();
-const totalCorrect =
+this.saveCloudProgress();
+```
 
-  Object.values(
-    this.answers
-  )
-
-  .filter(v=>
-    v==="correct"
-  )
-
-  .length;
-
-if(
-  totalCorrect
-  ===
-  this.questions.length
-){
-
-  this.completed = true;
-
-  // FIRST SCORE LOCK
-
-  if(
-    this.firstScore
-    === null
-  ){
-
-    this.firstScore =
-      this.score;
-  }
-
-  this.saveCloudProgress();
 }
-    this.saveProgress();
-    this.unsavedChanges++;
-
-if(
-  this.unsavedChanges >= 5
-){
-
-  this.saveCloudProgress();
-
-  this.unsavedChanges = 0;
-}
-  },
+},
 
   /* =========================
      NAV
