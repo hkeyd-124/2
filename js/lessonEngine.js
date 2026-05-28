@@ -9,6 +9,7 @@ window.lessonEngine = {
   flashWrong:{},
   trueFalseStates:{},
   trueFalseScored:{},
+  wrongTimeouts:{},
   questions:[],
   saveKey:null,
   cloudSaveTimeout:null,
@@ -101,16 +102,13 @@ await this.loadCloudProgress();
     this.renderQuestion();
 
     this.updateScore();
-    if(
-
-  localStorage.getItem(
-
-    "retry_" + this.lessonId
-
-  )
-
+   
+   if(
+  this.completed
+  &&
+  this.firstScore
+  != null
 ){
-
   retryBtn.style.display =
     "inline-block";
 }
@@ -258,17 +256,6 @@ renderSingle:function(q){
 
 questionText.innerHTML =
 q.q;
-if(
-  this.answers[
-    this.current
-  ]
-  === "correct"
-){
-
-  this.selectedAnswers[
-  this.current
-] = q.a;
-}
 q.opt.forEach((opt,i)=>{
 
 const btn =
@@ -328,10 +315,28 @@ if(
 // SELECTED
 
 if(
-  this.selectedAnswers[
-    this.current
-  ] === i
+
+  (
+    this.selectedAnswers[
+      this.current
+    ] === i
+  )
+
+  ||
+
+  (
+
+    this.answers[
+      this.current
+    ] === "correct"
+
+    &&
+
+    i === q.a
+  )
+
 ){
+
   btn.classList.add(
     "selected"
   );
@@ -633,7 +638,7 @@ case "single":
 TRUE FALSE CHECK
 ========================= */
 
-checkTrueFalse:function(q){
+checkTrueFalse:async function(q){
 const questionState =
 
   this.answers[
@@ -736,8 +741,16 @@ if(
   this.trueFalseStates[
     this.current
   ][i] = "wrong";
-setTimeout(()=>{
+      clearTimeout(
 
+  this.wrongTimeouts[
+    this.current + "_" + i
+  ]
+);
+      
+this.wrongTimeouts[
+  this.current + "_" + i
+] = setTimeout(()=>{
   if(
     this.trueFalseStates[
       this.current
@@ -844,13 +857,13 @@ setTimeout(()=>{
 
     this.unsavedChanges = 0;
   }
-  this.checkLessonComplete();
+  await this.checkLessonComplete();
 },
 /* =========================
 SINGLE CHECK
 ========================= */
 
-checkSingle:function(q){
+checkSingle:async function(q){
 
 if(
 this.selectedAnswers[
@@ -947,13 +960,13 @@ this.saveCloudProgress();
 this.unsavedChanges = 0;
 
 }
-this.checkLessonComplete();
+await this.checkLessonComplete();
 },
 /* =========================
 COMPLETE
 ========================= */
 
-checkLessonComplete:function(){
+checkLessonComplete:async function(){
 
   const totalCorrect =
 
@@ -975,6 +988,12 @@ checkLessonComplete:function(){
     return;
   }
 
+  // AVOID DUPLICATE
+
+  if(this.completed){
+    return;
+  }
+
   // COMPLETE
 
   this.completed = true;
@@ -990,21 +1009,17 @@ checkLessonComplete:function(){
       this.score;
   }
 
-  // SHOW RETRY
-
-  localStorage.setItem(
-
-    "retry_" + this.lessonId,
-
-    "true"
-  );
-retryBtn.style.display =
-  "inline-block";
   // SAVE
 
   this.saveProgress();
 
-  this.saveCloudProgress();
+  await this.saveCloudProgress();
+
+  // UNLOCK RETRY
+  // ONLY AFTER CLOUD SAVE
+
+  retryBtn.style.display =
+    "inline-block";
 },
   /* =========================
      NAV
@@ -1573,12 +1588,13 @@ async function(){
   },400);
 };
 
-window.showHint =
-function(){
+window.showHint = function(){
 
   lessonEngine.useHint();
 };
-window.retryLesson = function(){
+
+
+window.retryLesson = async function(){
   lessonEngine.score =
     lessonEngine.config
       .startScore;
@@ -1596,6 +1612,7 @@ window.retryLesson = function(){
 
   lessonEngine.trueFalseStates = {};
   lessonEngine.trueFalseScored = {};
+  lessonEngine.wrongTimeouts = {};
   lessonEngine.unsavedChanges = 0;
   // KEEP:
   // bestScore
@@ -1603,7 +1620,7 @@ window.retryLesson = function(){
   // completed
 
   lessonEngine.saveProgress();
-  lessonEngine.saveCloudProgress();
+  await lessonEngine.saveCloudProgress();
   options.innerHTML = "";
   lessonEngine.renderQuestion();
 
