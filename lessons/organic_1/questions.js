@@ -7,7 +7,14 @@ q:"Alkane là các hydrocarbon",
 opt:["mạch vòng","mạch hở","mạch hở, chỉ có liên kết đơn C-C và C-H","mạch vòng, chứa liên kết C-C, C=C và C-H"],
 a:2
 },
-
+  
+{
+type:"single",
+q:"Trong công nghiệp alkane có ứng dụng là?",
+opt:["Làm nhiên liệu, nguyên liệu","Làm thực phẩm","Làm hương liệu","Làm mỹ phẩm"],
+a:0
+},
+  
 {
 type:"single",
 q:"Công thức phân tử nào sau đây không phải là công thức của một alkane?",
