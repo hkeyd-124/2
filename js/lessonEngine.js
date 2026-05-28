@@ -8,6 +8,7 @@ window.lessonEngine = {
   hiddenOptions:{},
   flashWrong:{},
   trueFalseStates:{},
+  scoredItems,
   questions:[],
   saveKey:null,
   cloudSaveTimeout:null,
@@ -526,18 +527,6 @@ if(
         "wrong"
       );
     }
-
-    setTimeout(()=>{
-
-      this.trueFalseStates[
-        this.current
-      ][i] = null;
-this.selectedAnswers[
-  this.current
-][i] = null;
-      this.renderQuestion();
-
-    },500);
   }
 }
 
@@ -711,28 +700,58 @@ if(
     }
 
     // CORRECT
-
+if(
+  !this.trueFalseScored[
+    this.current
+  ]
+){
+  this.trueFalseScored[
+    this.current
+  ] = {};
+}
     if(
-      selected[i]
-      === answer
-    ){
+  selected[i]
+  === answer
+){
 
-      this.trueFalseStates[
-        this.current
-      ][i] = "correct";
+  this.trueFalseStates[
+    this.current
+  ][i] = "correct";
 
-      this.score += 5;
+  if(
+    !this.trueFalseScored[
+      this.current
+    ][i]
+  ){
 
-    }else{
+    this.score += 5;
 
-      this.trueFalseStates[
-        this.current
-      ][i] = "wrong";
+    this.trueFalseScored[
+      this.current
+    ][i] = true;
+  }
 
-      this.score -= 5;
+}else{
 
-      allCorrect = false;
-    }
+  this.trueFalseStates[
+    this.current
+  ][i] = "wrong";
+
+  if(
+    !this.trueFalseScored[
+      this.current
+    ][i]
+  ){
+
+    this.score -= 5;
+
+    this.trueFalseScored[
+      this.current
+    ][i] = true;
+  }
+
+  allCorrect = false;
+}
 
     // IF ANY CORRECT
     // => NOT ALL WRONG
@@ -1021,16 +1040,7 @@ if(
         this.current = i;
 
         this.saveProgress();
-this.unsavedChanges++;
 
-if(
-  this.unsavedChanges >= 5
-){
-
-  this.saveCloudProgress();
-
-  this.unsavedChanges = 0;
-}
         this.renderQuestion();
 
         this.renderNav();
@@ -1239,6 +1249,8 @@ async function(){
           this.hiddenOptions,
         trueFalseStates:
           this.trueFalseStates,
+        trueFalseScored:
+  this.trueFalseScored,
         bestScore:
           this.bestScore,
         firstScore:
@@ -1291,6 +1303,8 @@ completed:
           this.hiddenOptions,
         trueFalseStates:
           this.trueFalseStates,
+        trueFalseScored:
+  this.trueFalseScored,
         bestScore:
           this.bestScore,
         firstScore:
@@ -1376,6 +1390,16 @@ if(used){
     this.updateScore();
 
     this.saveProgress();
+  this.unsavedChanges++;
+
+if(
+  this.unsavedChanges >= 5
+){
+
+  this.saveCloudProgress();
+
+  this.unsavedChanges = 0;
+}
   }
 },
 
@@ -1542,6 +1566,7 @@ window.retryLesson = function(){
   lessonEngine.flashWrong = {};
 
   lessonEngine.trueFalseStates = {};
+  lessonEngine.trueFalseScored = {};
   lessonEngine.unsavedChanges = 0;
   // KEEP:
   // bestScore
