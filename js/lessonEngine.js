@@ -7,6 +7,7 @@ window.lessonEngine = {
   hints:{},
   hiddenOptions:{},
   flashWrong:{},
+  trueFalseStates:{},
   questions:[],
   saveKey:null,
   cloudSaveTimeout:null,
@@ -461,77 +462,101 @@ renderTrueFalse:function(q){
 
     // QUESTION STATE
 
-    const state =
-      this.answers[
-        this.current
-      ];
+    const states =
 
-    // CORRECT UI
+  this.trueFalseStates[
+    this.current
+  ] || {};
 
-    if(
-      state === "correct"
-    ){
+const itemState =
+  states[i];
 
-      if(q.a[i] === true){
+// CORRECT
 
-        trueBtn.classList.add(
-          "correct"
-        );
+if(
+  itemState === "correct"
+){
 
-      }else{
+  if(q.a[i] === true){
 
-        falseBtn.classList.add(
-          "correct"
-        );
-      }
-    }
+    trueBtn.classList.add(
+      "correct"
+    );
+
+  }else{
+
+    falseBtn.classList.add(
+      "correct"
+    );
+  }
+}
 
     // FLASH WRONG
 
     if(
-      this.flashWrong[
-        this.current
-      ]
-    ){
+  itemState === "wrong"
+){
 
-      if(
-        currentValue !== q.a[i]
-      ){
+  if(
+    currentValue !== q.a[i]
+  ){
 
-        if(currentValue === true){
+    if(currentValue === true){
 
-          trueBtn.classList.add(
-            "wrong"
-          );
+      trueBtn.classList.add(
+        "wrong"
+      );
 
-        }else{
+    }else{
 
-          falseBtn.classList.add(
-            "wrong"
-          );
-        }
-      }
+      falseBtn.classList.add(
+        "wrong"
+      );
     }
+
+    setTimeout(()=>{
+
+      this.trueFalseStates[
+        this.current
+      ][i] = null;
+
+      this.renderQuestion();
+
+    },500);
+  }
+}
 
     // CLICK TRUE
 
     trueBtn.onclick = ()=>{
 
-      this.selectTrueFalse(
-        i,
-        true
-      );
-    };
+  if(
+    itemState === "correct"
+  ){
+    return;
+  }
+
+  this.selectTrueFalse(
+    i,
+    true
+  );
+};
 
     // CLICK FALSE
 
     falseBtn.onclick = ()=>{
 
-      this.selectTrueFalse(
-        i,
-        false
-      );
-    };
+  if(
+    itemState === "correct"
+  ){
+    return;
+  }
+
+  this.selectTrueFalse(
+    i,
+    false
+  );
+};
 
     actions.appendChild(
       trueBtn
@@ -612,14 +637,50 @@ checkTrueFalse:function(q){
       this.current
     ] || [];
 
-  let correctCount = 0;
+  // INIT
+
+  if(
+    !this.trueFalseStates[
+      this.current
+    ]
+  ){
+
+    this.trueFalseStates[
+      this.current
+    ] = {};
+  }
+
+  let allCorrect = true;
+
+  let allWrong = true;
 
   q.a.forEach((answer,i)=>{
+
+    const state =
+
+      this.trueFalseStates[
+        this.current
+      ][i];
+
+    // LOCK CORRECT
+
+    if(
+      state === "correct"
+    ){
+      return;
+    }
+
+    // NOT ANSWERED
 
     if(
       selected[i]
       == null
     ){
+
+      allCorrect = false;
+
+      allWrong = false;
+
       return;
     }
 
@@ -630,46 +691,53 @@ checkTrueFalse:function(q){
       === answer
     ){
 
-      correctCount++;
+      this.trueFalseStates[
+        this.current
+      ][i] = "correct";
 
       this.score += 5;
 
     }else{
 
+      this.trueFalseStates[
+        this.current
+      ][i] = "wrong";
+
       this.score -= 5;
+
+      allCorrect = false;
+    }
+
+    // IF ANY CORRECT
+    // => NOT ALL WRONG
+
+    if(
+      selected[i]
+      === answer
+    ){
+      allWrong = false;
     }
   });
 
-  // COMPLETE
+  // NAV STATE
 
-  if(
-    correctCount
-    === q.a.length
-  ){
+  if(allCorrect){
 
     this.answers[
       this.current
     ] = "correct";
 
-  }else{
+  }else if(allWrong){
 
     this.answers[
       this.current
     ] = "wrong";
 
-    this.flashWrong[
+  }else{
+
+    delete this.answers[
       this.current
-    ] = true;
-
-    setTimeout(()=>{
-
-      this.flashWrong[
-        this.current
-      ] = false;
-
-      this.renderQuestion();
-
-    },500);
+    ];
   }
 
   // BEST SCORE
