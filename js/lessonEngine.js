@@ -100,6 +100,19 @@ await this.loadCloudProgress();
     this.renderQuestion();
 
     this.updateScore();
+    if(
+
+  localStorage.getItem(
+
+    "retry_" + this.lessonId
+
+  )
+
+){
+
+  retryBtn.style.display =
+    "inline-block";
+}
   },
 
   /* =========================
@@ -519,7 +532,9 @@ if(
       this.trueFalseStates[
         this.current
       ][i] = null;
-
+this.selectedAnswers[
+  this.current
+][i] = null;
       this.renderQuestion();
 
     },500);
@@ -630,7 +645,18 @@ TRUE FALSE CHECK
 ========================= */
 
 checkTrueFalse:function(q){
+const questionState =
 
+  this.answers[
+    this.current
+  ];
+
+if(
+  questionState
+  === "correct"
+){
+  return;
+}
   const selected =
 
     this.selectedAnswers[
@@ -773,6 +799,7 @@ checkTrueFalse:function(q){
 
     this.unsavedChanges = 0;
   }
+  this.checkLessonComplete();
 },
 /* =========================
 SINGLE CHECK
@@ -874,50 +901,66 @@ this.saveCloudProgress();
 
 this.unsavedChanges = 0;
 
-
 }
-
-// COMPLETE
-
-const totalCorrect =
-
-
-Object.values(
-  this.answers
-)
-
-.filter(
-  v=>v==="correct"
-)
-.length;
-
-
-if(
-totalCorrect
-===
-this.questions.length
-){
-
-
-this.completed = true;
-
-// FIRST SCORE LOCK
-
-if(
-  this.firstScore
-  === null
-){
-
-  this.firstScore =
-    this.score;
-}
-
-this.saveCloudProgress();
-
-
-}
+this.checkLessonComplete();
 },
+/* =========================
+COMPLETE
+========================= */
 
+checkLessonComplete:function(){
+
+  const totalCorrect =
+
+    Object.values(
+      this.answers
+    )
+
+    .filter(
+      v=>v==="correct"
+    )
+
+    .length;
+
+  if(
+    totalCorrect
+    !==
+    this.questions.length
+  ){
+    return;
+  }
+
+  // COMPLETE
+
+  this.completed = true;
+
+  // FIRST SCORE
+
+  if(
+    this.firstScore
+    === null
+  ){
+
+    this.firstScore =
+      this.score;
+  }
+
+  // SHOW RETRY
+
+  localStorage.setItem(
+
+    "retry_" + this.lessonId,
+
+    "true"
+  );
+retryBtn.style.display =
+  "inline-block";
+  // SAVE
+
+  this.saveProgress();
+
+  this.saveCloudProgress();
+},
   /* =========================
      NAV
   ========================= */
@@ -1072,6 +1115,8 @@ async function(){
   data.hints || {};
     this.hiddenOptions =
   data.hiddenOptions || {};
+    this.trueFalseStates =
+  data.trueFalseStates || {};
 this.bestScore =
   data.bestScore || this.score;
 
@@ -1124,6 +1169,8 @@ this.completed =
   data.hints || {};
       this.hiddenOptions =
   data.hiddenOptions || {};
+      this.trueFalseStates =
+  data.trueFalseStates || {};
 this.bestScore =
   data.bestScore || this.score;;
 
@@ -1180,23 +1227,22 @@ async function(){
 
         current:
           this.current,
-
         score:
           this.score,
-
         answers:
           this.answers,
         selectedAnswers:
-  this.selectedAnswers,
+          this.selectedAnswers,
         hints:
-  this.hints,
+          this.hints,
         hiddenOptions:
-  this.hiddenOptions,
-bestScore:
-  this.bestScore,
-
-firstScore:
-  this.firstScore,
+          this.hiddenOptions,
+        trueFalseStates:
+          this.trueFalseStates,
+        bestScore:
+          this.bestScore,
+        firstScore:
+          this.firstScore,
 
 completed:
   this.completed,
@@ -1233,26 +1279,24 @@ completed:
 
         current:
           this.current,
-
         score:
           this.score,
-
         answers:
-  this.answers,
+          this.answers,
         selectedAnswers:
-  this.selectedAnswers,
+          this.selectedAnswers,
         hints:
-  this.hints,
+          this.hints,
         hiddenOptions:
-  this.hiddenOptions,
-bestScore:
-  this.bestScore,
-
-firstScore:
-  this.firstScore,
-
-completed:
-  this.completed,
+          this.hiddenOptions,
+        trueFalseStates:
+          this.trueFalseStates,
+        bestScore:
+          this.bestScore,
+        firstScore:
+          this.firstScore,
+        completed:
+           this.completed,
       })
 
     );
@@ -1480,4 +1524,39 @@ window.showHint =
 function(){
 
   lessonEngine.useHint();
+};
+window.retryLesson = function(){
+  lessonEngine.score =
+    lessonEngine.config
+      .startScore;
+
+  lessonEngine.answers = {};
+  lessonEngine.current = 0;
+  lessonEngine.selectedAnswers = {};
+
+  lessonEngine.hints = {};
+
+  lessonEngine.hiddenOptions = {};
+
+  lessonEngine.flashWrong = {};
+
+  lessonEngine.trueFalseStates = {};
+  lessonEngine.unsavedChanges = 0;
+  // KEEP:
+  // bestScore
+  // firstScore
+  // completed
+
+  lessonEngine.saveProgress();
+  lessonEngine.saveCloudProgress();
+  options.innerHTML = "";
+  lessonEngine.renderQuestion();
+
+  lessonEngine.renderNav();
+
+  lessonEngine.updateScore();
+
+  showToast(
+    "🔄 Đã reset bài làm!"
+  );
 };
