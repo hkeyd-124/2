@@ -143,17 +143,39 @@ async function(){
             userData.name
             || "Unknown",
 
-          score:
-           lessonData.firstScore || 0
+          score:lessonData.bestScore || 0,
+          updatedAt:lessonData.updatedAt || null
 
         });
 
       }
     }
+leaderboard = leaderboard.filter(
+  u=>u.score > 0
+);
+    leaderboard.sort((a,b)=>{
 
-    leaderboard.sort(
-      (a,b)=>b.score-a.score
-    );
+  // PRIORITY 1
+  // BEST SCORE
+
+  if(
+    b.score !== a.score
+  ){
+
+    return b.score - a.score;
+  }
+
+  // PRIORITY 2
+  // EARLIER TIME WINS
+
+  const aTime =
+    a.updatedAt?.seconds || 0;
+
+  const bTime =
+    b.updatedAt?.seconds || 0;
+
+  return aTime - bTime;
+});
 leaderboard.forEach(
   (u,i)=>{
     u.rank = i + 1;
