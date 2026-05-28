@@ -6,10 +6,10 @@ window.lessonEngine = {
 
   score:150,
 
-  selected:null,
-
   answers:{},
+  selectedAnswers:{},
 hints:{},
+  hiddenOptions:{},
   questions:[],
 
   saveKey:null,
@@ -237,7 +237,7 @@ questionText.innerHTML =
 
 options.innerHTML =
 "";
-this.selected = null;
+
 // ROUTER
 
 switch(q.type){
@@ -264,7 +264,9 @@ if(
   === "correct"
 ){
 
-  this.selected = q.a;
+  this.selectedAnswers[
+  this.current
+] = q.a;
 }
 q.opt.forEach((opt,i)=>{
 
@@ -274,7 +276,21 @@ const btn =
   );
 
 btn.innerHTML = opt;
+const hidden =
 
+  this.hiddenOptions[
+    this.current
+  ] || [];
+
+if(
+  hidden.includes(i)
+){
+
+  btn.style.opacity =
+    "0.3";
+
+  btn.disabled = true;
+}
 const state =
   this.answers[
     this.current
@@ -296,8 +312,11 @@ if(
 
 if(
   state === "wrong"
+  btn.disabled = false;
   &&
-  this.selected === i
+  this.selectedAnswers[
+  this.current
+] === i
 ){
 
   btn.classList.add(
@@ -308,9 +327,12 @@ if(
 // SELECTED
 
 if(
-  this.selected === i
+  state !== "wrong"
+  &&
+  this.selectedAnswers[
+    this.current
+  ] === i
 ){
-
   btn.classList.add(
     "selected"
   );
@@ -331,8 +353,10 @@ btn.onclick = ()=>{
     return;
   }
 
-  this.selected = i;
-
+  
+this.selectedAnswers[
+  this.current
+] = i;
   this.renderQuestion();
 };
 
@@ -373,8 +397,9 @@ SINGLE CHECK
 checkSingle:function(q){
 
 if(
-this.selected
-=== null
+this.selectedAnswers[
+  this.current
+] == null
 ){
 return;
 }
@@ -393,8 +418,9 @@ return;
 // CORRECT
 
 if(
-this.selected
-=== q.a
+this.selectedAnswers[
+  this.current
+] === q.a
 ){
 
 
@@ -644,8 +670,12 @@ async function(){
 
     this.answers =
       data.answers || {};
+    this.selectedAnswers =
+  data.selectedAnswers || {};
     this.hints =
   data.hints || {};
+    this.hiddenOptions =
+  data.hiddenOptions || {};
 this.bestScore =
   data.bestScore || this.score;
 
@@ -692,8 +722,12 @@ this.completed =
 
       this.answers =
         data.answers || {};
+      this.selectedAnswers =
+  data.selectedAnswers || {};
       this.hints =
   data.hints || {};
+      this.hiddenOptions =
+  data.hiddenOptions || {};
 this.bestScore =
   data.bestScore || this.score;;
 
@@ -756,8 +790,12 @@ async function(){
 
         answers:
           this.answers,
+        selectedAnswers:
+  this.selectedAnswers,
         hints:
   this.hints,
+        hiddenOptions:
+  this.hiddenOptions,
 bestScore:
   this.bestScore,
 
@@ -805,8 +843,12 @@ completed:
 
         answers:
   this.answers,
+        selectedAnswers:
+  this.selectedAnswers,
         hints:
   this.hints,
+        hiddenOptions:
+  this.hiddenOptions,
 bestScore:
   this.bestScore,
 
@@ -868,12 +910,6 @@ completed:
 
 singleHint:function(q){
 
-  const buttons =
-
-    document.querySelectorAll(
-      "#options button"
-    );
-
   let wrongIndexes = [];
 
   q.opt.forEach((_,i)=>{
@@ -890,18 +926,13 @@ singleHint:function(q){
     ()=>Math.random()-0.5
   );
 
-  // REMOVE 2 WRONG
+  // SAVE HIDDEN
 
-  wrongIndexes
-  .slice(0,2)
-  .forEach(i=>{
+  this.hiddenOptions[
+    this.current
+  ] = wrongIndexes.slice(0,2);
 
-    buttons[i].style.opacity =
-      "0.3";
-
-    buttons[i].disabled =
-      true;
-  });
+  this.renderQuestion();
 },
   /* =========================
      RANK + SCORE
