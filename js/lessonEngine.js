@@ -1366,7 +1366,41 @@ completed:
     hint
   ========================= */
  useHint:function(){
-
+const q =
+  this.questions[
+    this.current
+  ];
+   // SINGLE
+if(
+  q.type === "single"
+  &&
+  this.answers[
+    this.current
+  ] === "correct"
+){
+  return;
+}
+   
+   // TRUE FALSE
+if(
+  q.type === "truefalse"
+){
+  const states =
+    this.trueFalseStates[
+      this.current
+    ] || {};
+  const allCorrect =
+    q.a.every(
+      (_,i)=>
+      states[i]
+      ===
+      "correct"
+    );
+  if(allCorrect){
+    return;
+  }
+}
+   
   const q =
     this.questions[
       this.current
