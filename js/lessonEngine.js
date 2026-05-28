@@ -1,50 +1,35 @@
 window.lessonEngine = {
-
   lessonId:null,
-
   current:0,
-
   score:150,
-
   answers:{},
   selectedAnswers:{},
-hints:{},
+  hints:{},
   hiddenOptions:{},
+  flashWrong:{},
   questions:[],
-
   saveKey:null,
-cloudSaveTimeout:null,
-
-cloudLoaded:false,
+  cloudSaveTimeout:null,
+  cloudLoaded:false,
   unsavedChanges:0,
   bestScore:150,
-firstScore:null,
-completed:false,
+  firstScore:null,
+  completed:false,
   rank:"C",
   config:null,
-
   content:null,
-
   start:async function(){
-
     const params =
       new URLSearchParams(
         window.location.search
       );
-
     this.lessonId =
       params.get("id");
-
     const uid =
-
       localStorage.getItem("uid")
-
       ||
-
       localStorage.getItem("wallet")
-
       ||
-
       "guest";
 
     this.saveKey =
@@ -311,15 +296,14 @@ if(
 // WRONG
 
 if(
-  state === "wrong"
+  this.flashWrong[
+    this.current
+  ]
   &&
   this.selectedAnswers[
     this.current
   ] === i
 ){
-
-  btn.disabled = false;
-
   btn.classList.add(
     "wrong"
   );
@@ -328,8 +312,6 @@ if(
 // SELECTED
 
 if(
-  state !== "wrong"
-  &&
   this.selectedAnswers[
     this.current
   ] === i
@@ -440,7 +422,19 @@ this.answers[
 ] = "wrong";
 
 this.score -= 5;
+this.flashWrong[
+  this.current
+] = true;
 
+setTimeout(()=>{
+
+  this.flashWrong[
+    this.current
+  ] = false;
+
+  this.renderQuestion();
+
+},500);
 
 }
 
