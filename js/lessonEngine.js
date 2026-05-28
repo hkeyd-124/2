@@ -9,7 +9,7 @@ window.lessonEngine = {
   selected:null,
 
   answers:{},
-
+hints:{},
   questions:[],
 
   saveKey:null,
@@ -545,6 +545,8 @@ async function(){
 
     this.answers =
       data.answers || {};
+    this.hints =
+  data.hints || {};
 this.bestScore =
   data.bestScore || this.score;
 
@@ -591,6 +593,8 @@ this.completed =
 
       this.answers =
         data.answers || {};
+      this.hints =
+  data.hints || {};
 this.bestScore =
   data.bestScore || this.score;;
 
@@ -653,6 +657,8 @@ async function(){
 
         answers:
           this.answers,
+        hints:
+  this.hints,
 bestScore:
   this.bestScore,
 
@@ -700,6 +706,8 @@ completed:
 
         answers:
   this.answers,
+        hints:
+  this.hints,
 bestScore:
   this.bestScore,
 
@@ -713,6 +721,89 @@ completed:
     );
   },
 
+
+
+ /* =========================
+    hint
+  ========================= */
+  useHint:function(){
+
+  const q =
+    this.questions[
+      this.current
+    ];
+
+  // ALREADY USED
+
+  if(
+    this.hints[
+      this.current
+    ]
+  ){
+    return;
+  }
+
+  // COST
+
+  this.score -= 15;
+
+  // SAVE HINT
+
+  this.hints[
+    this.current
+  ] = true;
+
+  // SINGLE CHOICE
+
+  if(
+    q.type === "single"
+  ){
+
+    this.singleHint(q);
+  }
+
+  this.updateScore();
+
+  this.saveProgress();
+},
+
+singleHint:function(q){
+
+  const buttons =
+
+    document.querySelectorAll(
+      "#options button"
+    );
+
+  let wrongIndexes = [];
+
+  q.opt.forEach((_,i)=>{
+
+    if(i !== q.a){
+
+      wrongIndexes.push(i);
+    }
+  });
+
+  // SHUFFLE
+
+  wrongIndexes.sort(
+    ()=>Math.random()-0.5
+  );
+
+  // REMOVE 2 WRONG
+
+  wrongIndexes
+  .slice(0,2)
+  .forEach(i=>{
+
+    buttons[i].style.opacity =
+      "0.3";
+
+    buttons[i].disabled =
+      true;
+  });
+},
   /* =========================
      RANK + SCORE
   ========================= */
@@ -789,7 +880,5 @@ async function(){
 window.showHint =
 function(){
 
-  alert(
-    "Hint system phase sau 😄"
-  );
+  lessonEngine.useHint();
 };
