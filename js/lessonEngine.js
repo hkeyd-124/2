@@ -1307,10 +1307,24 @@ completed:
   // ONLY COST
   // IF HINT WORKED
 
-  if(used){
+if(used){
 
-    this.score -= 15;
+  // SINGLE
+  if(
+    q.type === "single"
+  ){
+    this.score -= 6;
+  }
 
+  // TRUE FALSE
+  if(
+    q.type === "truefalse"
+  ){
+    this.score -= 3;
+  }
+
+
+  
     this.hints[
       this.current
     ] = true;
