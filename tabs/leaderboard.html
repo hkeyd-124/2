@@ -103,29 +103,107 @@
 
   grid-template-columns:
     80px
-    1.5fr
+    1fr
     120px
-    140px
-    150px
     120px;
 
   align-items:center;
 
-  background:#d6c2ae;
+  padding:10px 20px;
 
-  border:1px solid #555;
+  margin-bottom:6px;
 
   border-radius:18px;
 
-  padding:16px 20px;
+  border:
+    1px solid #777;
 
-  margin-bottom:12px;
+  background:#d9c7b3;
 
   transition:0.2s;
 }
+  .lb-row:hover{
 
-.lb-row:hover{
   transform:translateY(-2px);
+
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.12);
+}
+
+/* ======================
+   TOP 1
+====================== */
+
+.lb-gold{
+
+  background:
+    linear-gradient(
+      135deg,
+      #FFD700,
+      #FFECB3
+    );
+
+  border:
+    2px solid #ffcc00;
+}
+
+/* ======================
+   TOP 2
+====================== */
+
+.lb-silver{
+
+  background:
+    linear-gradient(
+      135deg,
+      #d9d9d9,
+      #f5f5f5
+    );
+
+  border:
+    2px solid #c0c0c0;
+}
+
+/* ======================
+   TOP 3
+====================== */
+
+.lb-bronze{
+
+  background:
+    linear-gradient(
+      135deg,
+      #cd7f32,
+      #e6b17e
+    );
+
+  border:
+    2px solid #b87333;
+}
+
+/* ======================
+   CURRENT USER
+====================== */
+
+.lb-me{
+
+  box-shadow:
+    0 0 0 2px gold;
+}
+
+/* ======================
+   SEPARATOR
+====================== */
+
+.lb-separator{
+
+  text-align:center;
+
+  padding:6px;
+
+  font-size:22px;
+
+  opacity:0.6;
 }
 
 .lb-rank{
@@ -160,10 +238,6 @@
   color:white;
 
   font-weight:bold;
-}
-
-.lb-me{
-  border:2px solid gold;
 }
 
 .lb-loading{
