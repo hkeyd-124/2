@@ -330,7 +330,7 @@ async function(){
         doc.data();
 
       total +=
-        data.score || 0;
+        data.bestScore || 0;
     });
 
     return total;
