@@ -242,13 +242,9 @@ this.selected = null;
 
 switch(q.type){
 
-```
 case "single":
-
   this.renderSingle(q);
-
   break;
-```
 
 }
 },
@@ -272,7 +268,6 @@ if(
 }
 q.opt.forEach((opt,i)=>{
 
-```
 const btn =
   document.createElement(
     "button"
@@ -285,7 +280,6 @@ const state =
     this.current
   ];
 
-// CORRECT
 
 if(
   state === "correct"
@@ -343,7 +337,6 @@ btn.onclick = ()=>{
 };
 
 options.appendChild(btn);
-```
 
 });
 },
@@ -363,13 +356,12 @@ this.current
 
 switch(q.type){
 
-```
 case "single":
 
   this.checkSingle(q);
 
   break;
-```
+
 
 }
 },
@@ -405,23 +397,23 @@ this.selected
 === q.a
 ){
 
-```
+
 this.answers[
   this.current
 ] = "correct";
 
 this.score += 20;
-```
+
 
 }else{
 
-```
+
 this.answers[
   this.current
 ] = "wrong";
 
 this.score -= 5;
-```
+
 
 }
 
@@ -432,10 +424,8 @@ this.score >
 this.bestScore
 ){
 
-```
 this.bestScore =
   this.score;
-```
 
 }
 
@@ -457,11 +447,11 @@ if(
 this.unsavedChanges >= 5
 ){
 
-```
+
 this.saveCloudProgress();
 
 this.unsavedChanges = 0;
-```
+
 
 }
 
@@ -469,7 +459,7 @@ this.unsavedChanges = 0;
 
 const totalCorrect =
 
-```
+
 Object.values(
   this.answers
 )
@@ -478,7 +468,7 @@ Object.values(
   v=>v==="correct"
 )
 .length;
-```
+
 
 if(
 totalCorrect
@@ -486,7 +476,7 @@ totalCorrect
 this.questions.length
 ){
 
-```
+
 this.completed = true;
 
 // FIRST SCORE LOCK
@@ -501,7 +491,7 @@ if(
 }
 
 this.saveCloudProgress();
-```
+
 
 }
 },
