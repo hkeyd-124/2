@@ -271,13 +271,7 @@ body{
   <button onclick="goBack()">
     📤 Nộp bài
   </button>
-  <button
-  id="retryBtn"
-  onclick="retryLesson()"
-  style="display:none;"
->
-  🔄 Làm lại
-</button>
+ 
 <div class="score-group">
   <div class="best-box">
     Thành tích:
@@ -325,7 +319,25 @@ body{
 
   <div class="right-panel">
 
-    <div id="navBar"></div>
+   <div
+  style="
+    display:flex;
+    align-items:center;
+    gap:10px;
+  "
+>
+
+  <div id="navBar"></div>
+
+  <button
+    id="retryBtn"
+    onclick="retryLesson()"
+    style="display:none;height:40px;"
+  >
+    🔄 Làm lại
+  </button>
+
+</div>
 
     <div class="xp-bar">
 
