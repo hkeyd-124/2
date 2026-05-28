@@ -92,5 +92,88 @@ q:"Trong phân tử propane có số liên kết đơn là",
 opt:["10","9","8","11"],
 a:0
 }
+,
 
+{
+type:"truefalse",
+
+q:"Nhận định nào đúng/sai trong các nhận định sau:",
+
+opt:[
+
+"Hydrocarbon chỉ có liên kết đơn trong phân tử là alkane",
+
+"Các alkane lỏng được dùng sản xuất xăng, dầu và làm dung môi",
+
+"Chỉ các alkane là chất khí ở điều kiện thường được dùng làm nhiên liệu",
+
+"Khi đốt cháy alkane sinh ra sản phẩm gồm CO2 và H2O"
+
+],
+
+a:[
+
+true,
+true,
+false,
+true
+
+]
+}
+  ,
+
+{
+type:"truefalse",
+
+q:"Nhận định nào đúng/sai trong các nhận định sau:",
+
+opt:[
+
+"Hydrocarbon chỉ có liên kết đơn trong phân tử là alkane",
+
+"Các alkane lỏng được dùng sản xuất xăng, dầu và làm dung môi",
+
+"Chỉ các alkane là chất khí ở điều kiện thường được dùng làm nhiên liệu",
+
+"Khi đốt cháy alkane sinh ra sản phẩm gồm CO2 và H2O"
+
+],
+
+a:[
+
+true,
+true,
+false,
+true
+
+]
+}
+  ,
+
+{
+type:"truefalse",
+
+q:"Nhận định nào đúng/sai trong các nhận định sau:",
+
+opt:[
+
+"Hydrocarbon chỉ có liên kết đơn trong phân tử là alkane",
+
+"Các alkane lỏng được dùng sản xuất xăng, dầu và làm dung môi",
+
+"Chỉ các alkane là chất khí ở điều kiện thường được dùng làm nhiên liệu",
+
+"Khi đốt cháy alkane sinh ra sản phẩm gồm CO2 và H2O"
+
+],
+
+a:[
+
+true,
+true,
+false,
+true
+
+]
+}
 ];
