@@ -1531,6 +1531,7 @@ window.retryLesson = function(){
       .startScore;
 
   lessonEngine.answers = {};
+  navBar.innerHTML = "";
   lessonEngine.current = 0;
   lessonEngine.selectedAnswers = {};
 
