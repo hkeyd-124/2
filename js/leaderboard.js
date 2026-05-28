@@ -154,36 +154,55 @@ async function(){
     leaderboard.sort(
       (a,b)=>b.score-a.score
     );
+leaderboard.forEach(
+  (u,i)=>{
+    u.rank = i + 1;
+  }
+);
 
+const currentUid =
+  localStorage.getItem(
+    "uid"
+  );
+
+const me =
+  leaderboard.find(
+    u=>u.uid===currentUid
+  );
+
+const top10 =
+  leaderboard.slice(0,10);
     container.innerHTML = "";
 
-    const currentUid =
-      localStorage.getItem("uid");
-
-    leaderboard.forEach((user,index)=>{
+   top10.forEach((user,index)=>{
 
       const isMe =
         user.uid === currentUid;
 
       let badge = "🥉";
-
-      if(index === 0){
-        badge = "👑";
-      }
-      else if(index === 1){
-        badge = "🥈";
-      }
-      else if(index === 2){
-        badge = "🥉";
-      }
+      let topClass = "";
+   
+if(index === 0){
+  badge = "👑";
+  topClass = "lb-gold";
+}
+else if(index === 1){
+  badge = "🥈";
+  topClass = "lb-silver";
+}
+else if(index === 2){
+  badge = "🥉";
+  topClass = "lb-bronze";
+}
 
       container.innerHTML += `
 
         <div class="lb-row
-             ${isMe ? 'lb-me' : ''}">
+     ${topClass}
+     ${isMe ? 'lb-me' : ''}">
 
           <div class="lb-rank">
-            ${index+1}
+            ${user.rank}
           </div>
 
           <div class="lb-name">
@@ -209,6 +228,33 @@ async function(){
       `;
     });
 
+    
+    if( me  &&  me.rank > 10 ){
+  container.innerHTML += `
+    <div class="lb-separator">
+      •••
+    </div>
+    <div class="lb-row lb-me">
+      <div class="lb-rank">
+        ${me.rank}
+      </div>
+      <div class="lb-name">
+        ${me.name}
+      </div>
+      <div class="lb-score">
+        ${me.score}
+      </div>
+      <div>
+        <div class="lb-badge">
+          👤
+        </div>
+      </div>
+      <div></div>
+      <div></div>
+    </div>
+  `;
+}
+    
     if(leaderboard.length === 0){
 
       container.innerHTML = `
