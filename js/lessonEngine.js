@@ -226,11 +226,12 @@ options.innerHTML =
 // ROUTER
 
 switch(q.type){
-
-case "single":
-  this.renderSingle(q);
-  break;
-
+  case "single":
+    this.renderSingle(q);
+    break;
+  case "truefalse":
+    this.renderTrueFalse(q);
+    break;
 }
 },
 
@@ -347,32 +348,364 @@ options.appendChild(btn);
 
 });
 },
+/* =========================
+TRUE FALSE
+========================= */
 
+renderTrueFalse:function(q){
+
+  questionText.innerHTML =
+    q.q;
+
+  const wrapper =
+    document.createElement(
+      "div"
+    );
+
+  wrapper.style.display =
+    "grid";
+
+  wrapper.style.gap =
+    "20px";
+
+  q.opt.forEach((text,i)=>{
+
+    const row =
+      document.createElement(
+        "div"
+      );
+
+    row.style.display =
+      "flex";
+
+    row.style.justifyContent =
+      "space-between";
+
+    row.style.alignItems =
+      "center";
+
+    row.style.gap =
+      "20px";
+
+    // TEXT
+
+    const content =
+      document.createElement(
+        "div"
+      );
+
+    content.style.flex = 1;
+
+    content.innerHTML =
+      text;
+
+    // ACTIONS
+
+    const actions =
+      document.createElement(
+        "div"
+      );
+
+    actions.style.display =
+      "flex";
+
+    actions.style.gap =
+      "10px";
+
+    // TRUE BTN
+
+    const trueBtn =
+      document.createElement(
+        "button"
+      );
+
+    trueBtn.innerHTML = "Đ";
+
+    // FALSE BTN
+
+    const falseBtn =
+      document.createElement(
+        "button"
+      );
+
+    falseBtn.innerHTML = "S";
+
+    // LOAD SELECTED
+
+    const selected =
+
+      this.selectedAnswers[
+        this.current
+      ] || [];
+
+    const currentValue =
+      selected[i];
+
+    // SELECTED UI
+
+    if(
+      currentValue === true
+    ){
+      trueBtn.classList.add(
+        "selected"
+      );
+    }
+
+    if(
+      currentValue === false
+    ){
+      falseBtn.classList.add(
+        "selected"
+      );
+    }
+
+    // QUESTION STATE
+
+    const state =
+      this.answers[
+        this.current
+      ];
+
+    // CORRECT UI
+
+    if(
+      state === "correct"
+    ){
+
+      if(q.a[i] === true){
+
+        trueBtn.classList.add(
+          "correct"
+        );
+
+      }else{
+
+        falseBtn.classList.add(
+          "correct"
+        );
+      }
+    }
+
+    // FLASH WRONG
+
+    if(
+      this.flashWrong[
+        this.current
+      ]
+    ){
+
+      if(
+        currentValue !== q.a[i]
+      ){
+
+        if(currentValue === true){
+
+          trueBtn.classList.add(
+            "wrong"
+          );
+
+        }else{
+
+          falseBtn.classList.add(
+            "wrong"
+          );
+        }
+      }
+    }
+
+    // CLICK TRUE
+
+    trueBtn.onclick = ()=>{
+
+      this.selectTrueFalse(
+        i,
+        true
+      );
+    };
+
+    // CLICK FALSE
+
+    falseBtn.onclick = ()=>{
+
+      this.selectTrueFalse(
+        i,
+        false
+      );
+    };
+
+    actions.appendChild(
+      trueBtn
+    );
+
+    actions.appendChild(
+      falseBtn
+    );
+
+    row.appendChild(
+      content
+    );
+
+    row.appendChild(
+      actions
+    );
+
+    wrapper.appendChild(
+      row
+    );
+  });
+
+  options.appendChild(
+    wrapper
+  );
+},
+
+selectTrueFalse:function(index,value){
+
+  if(
+    !this.selectedAnswers[
+      this.current
+    ]
+  ){
+
+    this.selectedAnswers[
+      this.current
+    ] = [];
+  }
+
+  this.selectedAnswers[
+    this.current
+  ][index] = value;
+
+  this.renderQuestion();
+},
+  
 /* =========================
 CHECK
 ========================= */
-
+  
 checkAnswer:function(){
-
 const q =
 this.questions[
 this.current
 ];
-
 // ROUTER
-
 switch(q.type){
-
-case "single":
-
-  this.checkSingle(q);
-
+    
+case "truefalse":
+  this.checkTrueFalse(q);
   break;
-
-
+    
+case "single":
+  this.checkSingle(q);
+  break;
 }
 },
+/* =========================
+TRUE FALSE CHECK
+========================= */
 
+checkTrueFalse:function(q){
+
+  const selected =
+
+    this.selectedAnswers[
+      this.current
+    ] || [];
+
+  let correctCount = 0;
+
+  q.a.forEach((answer,i)=>{
+
+    if(
+      selected[i]
+      == null
+    ){
+      return;
+    }
+
+    // CORRECT
+
+    if(
+      selected[i]
+      === answer
+    ){
+
+      correctCount++;
+
+      this.score += 5;
+
+    }else{
+
+      this.score -= 5;
+    }
+  });
+
+  // COMPLETE
+
+  if(
+    correctCount
+    === q.a.length
+  ){
+
+    this.answers[
+      this.current
+    ] = "correct";
+
+  }else{
+
+    this.answers[
+      this.current
+    ] = "wrong";
+
+    this.flashWrong[
+      this.current
+    ] = true;
+
+    setTimeout(()=>{
+
+      this.flashWrong[
+        this.current
+      ] = false;
+
+      this.renderQuestion();
+
+    },500);
+  }
+
+  // BEST SCORE
+
+  if(
+    this.score >
+    this.bestScore
+  ){
+
+    this.bestScore =
+      this.score;
+  }
+
+  // UPDATE
+
+  this.updateScore();
+
+  this.renderQuestion();
+
+  this.renderNav();
+
+  // SAVE
+
+  this.unsavedChanges++;
+
+  this.saveProgress();
+
+  if(
+    this.unsavedChanges >= 5
+  ){
+
+    this.saveCloudProgress();
+
+    this.unsavedChanges = 0;
+  }
+},
 /* =========================
 SINGLE CHECK
 ========================= */
