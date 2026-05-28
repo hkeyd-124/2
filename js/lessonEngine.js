@@ -1263,7 +1263,7 @@ completed:
  /* =========================
     hint
   ========================= */
-  useHint:function(){
+ useHint:function(){
 
   const q =
     this.questions[
@@ -1280,28 +1280,45 @@ completed:
     return;
   }
 
-  // COST
+  let used = false;
 
-  this.score -= 15;
-
-  // SAVE HINT
-
-  this.hints[
-    this.current
-  ] = true;
-
-  // SINGLE CHOICE
+  // SINGLE
 
   if(
     q.type === "single"
   ){
 
     this.singleHint(q);
+
+    used = true;
   }
 
-  this.updateScore();
+  // TRUE FALSE
 
-  this.saveProgress();
+  if(
+    q.type === "truefalse"
+  ){
+
+    this.trueFalseHint(q);
+
+    used = true;
+  }
+
+  // ONLY COST
+  // IF HINT WORKED
+
+  if(used){
+
+    this.score -= 15;
+
+    this.hints[
+      this.current
+    ] = true;
+
+    this.updateScore();
+
+    this.saveProgress();
+  }
 },
 
 singleHint:function(q){
@@ -1330,6 +1347,48 @@ singleHint:function(q){
 
   this.renderQuestion();
 },
+
+
+  
+  trueFalseHint:function(q){
+
+  // FIND FIRST
+  // UNANSWERED ITEM
+
+  const selected =
+
+    this.selectedAnswers[
+      this.current
+    ] || [];
+
+  for(
+    let i=0;
+    i<q.a.length;
+    i++
+  ){
+
+    if(
+      selected[i]
+      == null
+    ){
+
+      // AUTO REVEAL
+
+      selected[i] =
+        q.a[i];
+
+      this.selectedAnswers[
+        this.current
+      ] = selected;
+
+      break;
+    }
+  }
+
+  this.renderQuestion();
+},
+
+  
   /* =========================
      RANK + SCORE
   ========================= */
