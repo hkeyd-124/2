@@ -1400,11 +1400,6 @@ if(
     return;
   }
 }
-   
-  const q =
-    this.questions[
-      this.current
-    ];
 
   // ALREADY USED
 
