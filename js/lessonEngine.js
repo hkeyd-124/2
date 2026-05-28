@@ -312,12 +312,13 @@ if(
 
 if(
   state === "wrong"
-  btn.disabled = false;
   &&
   this.selectedAnswers[
-  this.current
-] === i
+    this.current
+  ] === i
 ){
+
+  btn.disabled = false;
 
   btn.classList.add(
     "wrong"
