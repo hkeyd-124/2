@@ -8,7 +8,7 @@ window.lessonEngine = {
   hiddenOptions:{},
   flashWrong:{},
   trueFalseStates:{},
-  scoredItems,
+  trueFalseScored:{},
   questions:[],
   saveKey:null,
   cloudSaveTimeout:null,
@@ -736,7 +736,33 @@ if(
   this.trueFalseStates[
     this.current
   ][i] = "wrong";
+setTimeout(()=>{
 
+  if(
+    this.trueFalseStates[
+      this.current
+    ]
+  ){
+
+    this.trueFalseStates[
+      this.current
+    ][i] = null;
+  }
+
+  if(
+    this.selectedAnswers[
+      this.current
+    ]
+  ){
+
+    this.selectedAnswers[
+      this.current
+    ][i] = null;
+  }
+
+  this.renderQuestion();
+
+},500);
   if(
     !this.trueFalseScored[
       this.current
@@ -1055,8 +1081,7 @@ if(
    LOAD CLOUD
 ========================= */
 
-loadCloudProgress:
-async function(){
+loadCloudProgress:async function(){
 
   try{
 
@@ -1127,6 +1152,8 @@ async function(){
   data.hiddenOptions || {};
     this.trueFalseStates =
   data.trueFalseStates || {};
+    this.trueFalseScored =
+  data.trueFalseScored || {};
 this.bestScore =
   data.bestScore || this.score;
 
@@ -1181,6 +1208,8 @@ this.completed =
   data.hiddenOptions || {};
       this.trueFalseStates =
   data.trueFalseStates || {};
+      this.trueFalseScored =
+  data.trueFalseScored || {};
 this.bestScore =
   data.bestScore || this.score;;
 
