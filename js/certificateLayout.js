@@ -28,9 +28,9 @@ window.certificateLayout = {
 
   lessonName:{
 
-    x: 760,
+     x: 765,
 
-    y: 705,
+    y: 680,
 
     align:"center",
 
