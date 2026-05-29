@@ -373,11 +373,67 @@ btn.onclick = ()=>{
   );
 
 const cid =
-
   uploadResult
   ?.data
   ?.IpfsHash;
+const metadata =
 
+  buildCertificateMetadata({
+
+    student:
+      window.currentUserData
+      ?.name,
+
+    lesson:
+      lessonConfig.title,
+
+    score:
+      this.bestScore,
+
+    rank:
+      getTier(
+        this.bestScore
+      ),
+
+    imageCID:
+      cid
+
+  });
+    const metaUpload =
+
+  await fetch(
+
+    "/api/uploadMetadata",
+
+    {
+
+      method:"POST",
+
+      headers:{
+
+        "Content-Type":
+        "application/json"
+
+      },
+
+      body:
+      JSON.stringify(
+        metadata
+      )
+
+    }
+
+  );
+
+const metaData =
+
+  await metaUpload.json();
+
+const metadataCID =
+
+  metaData
+  ?.data
+  ?.IpfsHash;
 console.log(
   "CERT CID:",
   cid
@@ -386,6 +442,9 @@ console.log(
 
   certificateCID:
     cid,
+
+  metadataCID:
+    metadataCID,
 
   certificateMinted:
     true
