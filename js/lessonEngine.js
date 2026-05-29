@@ -356,9 +356,26 @@ canvas.style.width =
 canvas.style.height =
   "auto";
     
-  document.body.appendChild(
-      canvas
-    );
+  const modal =
+
+  document.getElementById(
+    "certificateModal"
+  );
+
+const content =
+
+  document.getElementById(
+    "certificateContent"
+  );
+
+content.innerHTML = "";
+
+content.appendChild(
+  canvas
+);
+
+modal.style.display =
+  "flex";
 },
 /* =========================
 SINGLE RENDER
