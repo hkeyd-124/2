@@ -335,24 +335,31 @@ btn.onclick = ()=>{
       this.bestScore
     );
 
-  alert(
+  const canvas =
+await generateCertificatePreview({
 
-`🎓 HackChem Certificate
+  name:"Test User",
 
-Bài:
-${this.lessonId}
+  lesson:
+    this.config.title,
 
-Best Score:
-${this.bestScore}
+  score:
+    this.bestScore,
 
-Tier:
-${tier}
+  maxScore:
+    this.config.maxScore,
 
-Bạn chỉ được mint
-1 chứng chỉ duy nhất
-cho bài học này.`
+  tier:
+    getTier(
+      this.bestScore
+    )
 
-  );
+});
+
+document.body
+.appendChild(
+  canvas
+);
 },
 /* =========================
 SINGLE RENDER
