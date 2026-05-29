@@ -1008,7 +1008,27 @@ checkLessonComplete:async function(){
     this.firstScore =
       this.score;
   }
+// NFT ELIGIBLE
+// FIRST COMPLETION
 
+await this.saveCertificateState({
+
+  certificateEligible:true,
+
+  certificateMinted:false,
+
+  certificateTier:
+    getTier(
+      this.bestScore
+    ),
+
+  certificateOfferedScore:
+    this.bestScore,
+
+  certificateOfferedAt:
+    serverTimestamp()
+
+});
   // SAVE
 
   this.saveProgress();
