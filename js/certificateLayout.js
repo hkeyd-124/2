@@ -6,13 +6,13 @@ window.certificateLayout = {
 
   avatar:{
 
-    x: 240,
+  x:160,
 
-    y: 560,
+  y:430,
 
-    size: 260
+  radius:85
 
-  },
+},
 
   studentName:{
 
