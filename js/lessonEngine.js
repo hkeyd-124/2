@@ -312,11 +312,33 @@ renderCertificateButton:async function(){
 
     btn.style.display =
       "inline-block";
-btn.onclick = ()=>{
+if(
+  data.certificateMinted
+  &&
+  data.certificateCID
+){
 
-  this.showCertificateModal();
+  btn.onclick = ()=>{
 
-};
+    window.open(
+
+      `https://gateway.pinata.cloud/ipfs/${data.certificateCID}`,
+
+      "_blank"
+
+    );
+
+  };
+
+}else{
+
+  btn.onclick = ()=>{
+
+    this.showCertificateModal();
+
+  };
+
+}
     if(
       data
       .certificateMinted
