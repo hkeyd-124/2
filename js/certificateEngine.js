@@ -126,26 +126,50 @@ if(data.avatar){
 }
   // NAME
 
-  ctx.fillStyle =
-    "#0b2a5b";
+ctx.fillStyle =
+  "#0b2a5b";
 
-  ctx.textAlign =
-    certificateLayout
-    .studentName
-    .align;
+ctx.textAlign =
+  certificateLayout
+  .studentName
+  .align;
 
-  ctx.font =
-
-    `bold ${
-      certificateLayout
-      .studentName
-      .fontSize
-    }px Georgia`;
-
-  ctx.fillText(
+const studentName =
 
   data.name
-    .toUpperCase(),
+  .toUpperCase();
+
+let fontSize =
+
+  certificateLayout
+  .studentName
+  .fontSize;
+
+ctx.font =
+  `bold ${fontSize}px Georgia`;
+
+while(
+
+  ctx.measureText(
+    studentName
+  ).width > 650
+
+  &&
+
+  fontSize > 34
+
+){
+
+  fontSize -= 2;
+
+  ctx.font =
+    `bold ${fontSize}px Georgia`;
+
+}
+
+ctx.fillText(
+
+  studentName,
 
   certificateLayout
     .studentName.x,
