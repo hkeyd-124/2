@@ -8,9 +8,9 @@ window.certificateLayout = {
 
   x:267,
 
-  y:478,
+  y:485,
 
-  radius:150
+  radius:140
 
 },
 
