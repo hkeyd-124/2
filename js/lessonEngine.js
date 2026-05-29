@@ -248,6 +248,81 @@ switch(q.type){
 }
 },
 
+
+  
+renderCertificateButton:async function(){
+
+  const btn =
+
+    document.getElementById(
+      "certificateBtn"
+    );
+
+  if(!btn) return;
+
+  btn.style.display = "none";
+
+  const uid =
+    localStorage.getItem(
+      "uid"
+    );
+
+  if(!uid) return;
+
+  try{
+
+    const ref =
+
+      doc(
+        db,
+        "users",
+        uid,
+        "lessons",
+        this.lessonId
+      );
+
+    const snap =
+      await getDoc(ref);
+
+    if(!snap.exists()){
+      return;
+    }
+
+    const data =
+      snap.data();
+
+    if(
+      !data
+      .certificateEligible
+    ){
+      return;
+    }
+
+    btn.style.display =
+      "inline-block";
+
+    if(
+      data
+      .certificateMinted
+    ){
+
+      btn.innerText =
+        "👁 Xem chứng chỉ";
+
+    }else{
+
+      btn.innerText =
+        "🎓 Lấy chứng chỉ";
+    }
+
+  }catch(err){
+
+    console.error(
+      err
+    );
+  }
+},
+  
 /* =========================
 SINGLE RENDER
 ========================= */
