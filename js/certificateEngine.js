@@ -73,7 +73,7 @@ async function(data){
       certificateLayout
       .studentName
       .fontSize
-    }px Arial`;
+    }px Georgia`;
 
   ctx.fillText(
 
@@ -120,7 +120,8 @@ async function(data){
       .score
       .fontSize
     }px Arial`;
-
+ctx.fillStyle =
+  "#0b2a5b";
   ctx.fillText(
 
     `${data.score}/${data.maxScore}`,
