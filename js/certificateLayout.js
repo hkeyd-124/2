@@ -30,7 +30,7 @@ window.certificateLayout = {
 
     x: 760,
 
-    y: 695,
+    y: 705,
 
     align:"center",
 
@@ -40,7 +40,7 @@ window.certificateLayout = {
 
    score:{
 
-  x:1290,
+  x:1297,
 
   y:520,
 
