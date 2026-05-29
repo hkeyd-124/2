@@ -40,15 +40,15 @@ window.certificateLayout = {
 
    score:{
 
-    x:1225,
+  x:1215,
 
-    y:540,
+  y:520,
 
-    align:"center",
+  align:"center",
 
-    fontSize:50
+  fontSize:48
 
-  },
+},
 
   date:{
 
