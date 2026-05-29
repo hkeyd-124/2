@@ -18,7 +18,7 @@ window.certificateLayout = {
 
     x: 760,
 
-    y: 470,
+    y: 500,
 
     align:"center",
 
@@ -30,7 +30,7 @@ window.certificateLayout = {
 
     x: 760,
 
-    y: 665,
+    y: 695,
 
     align:"center",
 
@@ -38,11 +38,11 @@ window.certificateLayout = {
 
   },
 
-  score:{
+   score:{
 
-    x: 1230,
+    x:1225,
 
-    y: 575,
+    y:540,
 
     align:"center",
 
@@ -52,9 +52,9 @@ window.certificateLayout = {
 
   date:{
 
-    x: 330,
+  x:280,
 
-    y: 900,
+  y:820,
 
     align:"left",
 
