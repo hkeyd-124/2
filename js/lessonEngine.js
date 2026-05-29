@@ -1015,18 +1015,7 @@ await this.saveCertificateState({
 
   certificateEligible:true,
 
-  certificateMinted:false,
-
-  certificateTier:
-    getTier(
-      this.bestScore
-    ),
-
-  certificateOfferedScore:
-    this.bestScore,
-
-  certificateOfferedAt:
-    serverTimestamp()
+  certificateMinted:false
 
 });
   // SAVE
