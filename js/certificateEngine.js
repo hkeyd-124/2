@@ -56,7 +56,74 @@ async function(data){
     canvas.height
 
   );
+// AVATAR
 
+if(data.avatar){
+
+  const avatarImg =
+    new Image();
+
+  avatarImg.src =
+    data.avatar;
+
+  await new Promise(
+    resolve=>{
+      avatarImg.onload =
+        resolve;
+    }
+  );
+
+  ctx.save();
+
+  ctx.beginPath();
+
+  ctx.arc(
+
+    certificateLayout
+      .avatar.x,
+
+    certificateLayout
+      .avatar.y,
+
+    certificateLayout
+      .avatar.radius,
+
+    0,
+
+    Math.PI * 2
+
+  );
+
+  ctx.closePath();
+
+  ctx.clip();
+
+  ctx.drawImage(
+
+    avatarImg,
+
+    certificateLayout
+      .avatar.x
+      -
+      certificateLayout
+      .avatar.radius,
+
+    certificateLayout
+      .avatar.y
+      -
+      certificateLayout
+      .avatar.radius,
+
+    certificateLayout
+      .avatar.radius * 2,
+
+    certificateLayout
+      .avatar.radius * 2
+
+  );
+
+  ctx.restore();
+}
   // NAME
 
   ctx.fillStyle =
