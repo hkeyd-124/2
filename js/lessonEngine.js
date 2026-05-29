@@ -1321,10 +1321,53 @@ completed:
     );
   }
 },
+
+
+  saveCertificateState:
+async function(data){
+
+  try{
+
+    const uid =
+      localStorage.getItem(
+        "uid"
+      );
+
+    if(!uid) return;
+
+    const ref =
+
+      doc(
+        db,
+        "users",
+        uid,
+        "lessons",
+        this.lessonId
+      );
+
+    await setDoc(
+
+      ref,
+
+      data,
+
+      {
+        merge:true
+      }
+
+    );
+
+  }catch(err){
+
+    console.error(
+      "CERT SAVE ERROR",
+      err
+    );
+  }
+},
   /* =========================
      SAVE PROGRESS
   ========================= */
-
   saveProgress:function(){
 
     localStorage.setItem(
