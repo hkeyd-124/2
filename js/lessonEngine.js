@@ -382,6 +382,15 @@ console.log(
   "CERT CID:",
   cid
 );
+    await this.saveCertificateState({
+
+  certificateCID:
+    cid,
+
+  certificateMinted:
+    true
+
+});
 canvas.style.width =
   "500px";
 canvas.style.height =
