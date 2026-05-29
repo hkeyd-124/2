@@ -146,20 +146,31 @@ ctx.fillStyle =
   "#0b2a5b";
 
 ctx.textAlign =
-  "left";
+  "center";
 
 ctx.font =
-  "bold 28px Arial";
+  "bold 22px Arial";
+
+ctx.fillText(
+
+  "NGÀY HOÀN THÀNH",
+
+  285,
+
+  805
+
+);
+
+ctx.font =
+  "bold 24px Arial";
 
 ctx.fillText(
 
   today,
 
-  certificateLayout
-    .date.x,
+  285,
 
-  certificateLayout
-    .date.y
+  865
 
 );
   return canvas;
