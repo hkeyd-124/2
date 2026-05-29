@@ -1,27 +1,11 @@
 window.uploadCertificateToIPFS =
 async function(canvas){
 
-  const blob =
-    await new Promise(
-      resolve=>
-        canvas.toBlob(
-          resolve,
-          "image/png"
-        )
+  const imageData =
+
+    canvas.toDataURL(
+      "image/png"
     );
-
-  const formData =
-    new FormData();
-
-  formData.append(
-
-    "file",
-
-    blob,
-
-    "certificate.png"
-
-  );
 
   const res =
     await fetch(
@@ -32,8 +16,19 @@ async function(canvas){
 
         method:"POST",
 
+        headers:{
+
+          "Content-Type":
+          "application/json"
+
+        },
+
         body:
-          formData
+        JSON.stringify({
+
+          imageData
+
+        })
 
       }
 
