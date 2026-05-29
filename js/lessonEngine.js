@@ -327,39 +327,35 @@ btn.onclick = ()=>{
   }
 },
 
-  showCertificateModal:function(){
-
-  const tier =
-
-    getTier(
-      this.bestScore
-    );
+  showCertificateModal:
+async function(){
 
   const canvas =
-await generateCertificatePreview({
 
-  name:"Test User",
+    await generateCertificatePreview({
 
-  lesson:
-    this.config.title,
+      name:"Test User",
 
-  score:
-    this.bestScore,
+      lesson:
+        lessonConfig.title,
 
-  maxScore:
-    this.config.maxScore,
+      score:
+        this.bestScore,
 
-  tier:
-    getTier(
-      this.bestScore
-    )
+      maxScore:
+        lessonConfig.maxScore,
 
-});
+      tier:
+        getTier(
+          this.bestScore
+        )
 
-document.body
-.appendChild(
-  canvas
-);
+    });
+
+  document.body
+    .appendChild(
+      canvas
+    );
 },
 /* =========================
 SINGLE RENDER
