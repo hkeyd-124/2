@@ -300,7 +300,11 @@ renderCertificateButton:async function(){
 
     btn.style.display =
       "inline-block";
+btn.onclick = ()=>{
 
+  this.showCertificateModal();
+
+};
     if(
       data
       .certificateMinted
@@ -322,7 +326,34 @@ renderCertificateButton:async function(){
     );
   }
 },
-  
+
+  showCertificateModal:function(){
+
+  const tier =
+
+    getTier(
+      this.bestScore
+    );
+
+  alert(
+
+`🎓 HackChem Certificate
+
+Bài:
+${this.lessonId}
+
+Best Score:
+${this.bestScore}
+
+Tier:
+${tier}
+
+Bạn chỉ được mint
+1 chứng chỉ duy nhất
+cho bài học này.`
+
+  );
+},
 /* =========================
 SINGLE RENDER
 ========================= */
