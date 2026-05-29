@@ -6,7 +6,7 @@ window.certificateLayout = {
 
   avatar:{
 
-  x:250,
+  x:262,
 
   y:470,
 
