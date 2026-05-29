@@ -148,18 +148,7 @@ ctx.fillStyle =
 ctx.textAlign =
   "center";
 
-ctx.font =
-  "bold 22px Arial";
 
-ctx.fillText(
-
-  "NGÀY HOÀN THÀNH",
-
-  285,
-
-  805
-
-);
 
 ctx.font =
   "bold 24px Arial";
@@ -168,7 +157,7 @@ ctx.fillText(
 
   today,
 
-  285,
+  380,
 
   865
 
