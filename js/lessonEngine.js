@@ -438,13 +438,39 @@ console.log(
   "CERT CID:",
   cid
 );
-    await this.saveCertificateState({
+    const mintResult =
+
+  await mintCertificateNFT({
+
+    lessonId:
+      this.lessonId,
+
+    metadataCID:
+      metadataCID
+
+  });
+
+console.log(
+  "MINT RESULT:",
+  mintResult
+);
+
+await this.saveCertificateState({
 
   certificateCID:
     cid,
 
   metadataCID:
     metadataCID,
+
+  txHash:
+    mintResult.txHash,
+
+  lessonHash:
+    mintResult.lessonHash,
+
+  tokenURI:
+    mintResult.tokenURI,
 
   certificateMinted:
     true
