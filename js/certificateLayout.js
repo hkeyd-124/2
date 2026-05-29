@@ -46,7 +46,7 @@ window.certificateLayout = {
 
     align:"center",
 
-    fontSize:80
+    fontSize:50
 
   },
 
