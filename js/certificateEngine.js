@@ -98,8 +98,9 @@ async function(data){
       .fontSize
     }px Arial`;
 
+  ctx.fillStyle =
+  "#ffffff";
   ctx.fillText(
-
     data.lesson,
 
     certificateLayout
@@ -147,7 +148,7 @@ ctx.textAlign =
   "left";
 
 ctx.font =
-  "bold 24px Arial";
+  "bold 28px Arial";
 
 ctx.fillText(
 
