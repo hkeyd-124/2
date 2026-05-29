@@ -77,15 +77,16 @@ async function(data){
 
   ctx.fillText(
 
-    data.name,
+  data.name
+    .toUpperCase(),
 
-    certificateLayout
+  certificateLayout
     .studentName.x,
 
-    certificateLayout
+  certificateLayout
     .studentName.y
 
-  );
+);
 
   // LESSON
 
@@ -130,6 +131,34 @@ async function(data){
       .score.y
 
   );
+// DATE
 
+const today =
+
+  new Date()
+  .toLocaleDateString(
+    "vi-VN"
+  );
+
+ctx.fillStyle =
+  "#0b2a5b";
+
+ctx.textAlign =
+  "left";
+
+ctx.font =
+  "bold 24px Arial";
+
+ctx.fillText(
+
+  today,
+
+  certificateLayout
+    .date.x,
+
+  certificateLayout
+    .date.y
+
+);
   return canvas;
 };
