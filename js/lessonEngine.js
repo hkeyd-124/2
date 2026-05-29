@@ -327,8 +327,7 @@ btn.onclick = ()=>{
   }
 },
 
-  showCertificateModal:
-async function(){
+  showCertificateModal:async function(){
 
   const canvas =
 
@@ -351,9 +350,13 @@ async function(){
         )
 
     });
-
-  document.body
-    .appendChild(
+    
+canvas.style.width =
+  "500px";
+canvas.style.height =
+  "auto";
+    
+  document.body.appendChild(
       canvas
     );
 },
