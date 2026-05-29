@@ -8,37 +8,16 @@ export default async function handler(
     const jwt =
       process.env.PINATA_JWT;
 
-    const formData =
-      new FormData();
+    const {
 
-    const blob =
-      new Blob(
+      imageData
 
-        ["HackChem Test"],
-
-        {
-
-          type:
-          "text/plain"
-
-        }
-
-      );
-
-    formData.append(
-
-      "file",
-
-      blob,
-
-      "test.txt"
-
-    );
+    } = req.body;
 
     const upload =
       await fetch(
 
-        "https://api.pinata.cloud/pinning/pinFileToIPFS",
+        "https://api.pinata.cloud/pinning/pinJSONToIPFS",
 
         {
 
@@ -47,12 +26,19 @@ export default async function handler(
           headers:{
 
             Authorization:
-            `Bearer ${jwt}`
+              `Bearer ${jwt}`,
+
+            "Content-Type":
+              "application/json"
 
           },
 
           body:
-          formData
+            JSON.stringify({
+
+              image:imageData
+
+            })
 
         }
 
