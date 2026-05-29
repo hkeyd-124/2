@@ -366,7 +366,15 @@ btn.onclick = ()=>{
         )
 
     });
-    
+    const uploadResult =
+
+  await uploadCertificateToIPFS(
+    canvas
+  );
+
+console.log(
+  uploadResult
+);
 canvas.style.width =
   "500px";
 canvas.style.height =
