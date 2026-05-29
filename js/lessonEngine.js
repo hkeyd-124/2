@@ -333,7 +333,11 @@ btn.onclick = ()=>{
 
     await generateCertificatePreview({
 
-      name:"Test User",
+       name:
+        window.currentUserData?.name || "Unknown",
+
+      avatar:
+    window.currentUserData?.avatar || null,
 
       lesson:
         lessonConfig.title,
