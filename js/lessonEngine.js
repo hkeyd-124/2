@@ -372,8 +372,15 @@ btn.onclick = ()=>{
     canvas
   );
 
-console.log(
+const cid =
+
   uploadResult
+  ?.data
+  ?.IpfsHash;
+
+console.log(
+  "CERT CID:",
+  cid
 );
 canvas.style.width =
   "500px";
