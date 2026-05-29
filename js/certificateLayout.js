@@ -40,7 +40,7 @@ window.certificateLayout = {
 
    score:{
 
-  x:1270,
+  x:1290,
 
   y:520,
 
