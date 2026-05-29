@@ -102,7 +102,7 @@ await this.loadCloudProgress();
     this.renderQuestion();
 
     this.updateScore();
-   
+   await this.renderCertificateButton();
    if(
   this.completed
   &&
@@ -1093,6 +1093,7 @@ await this.saveCertificateState({
   certificateMinted:false
 
 });
+  await this.renderCertificateButton();
   // SAVE
 
   this.saveProgress();
