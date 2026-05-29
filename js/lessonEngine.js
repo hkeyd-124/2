@@ -21,6 +21,7 @@ window.lessonEngine = {
   rank:"C",
   config:null,
   content:null,
+  
   start:async function(){
     const params =
       new URLSearchParams(
@@ -34,7 +35,18 @@ window.lessonEngine = {
       localStorage.getItem("wallet")
       ||
       "guest";
+if(
+  window.loadCurrentUser
+){
 
+  await loadCurrentUser();
+
+  console.log(
+    "LESSON USER:",
+    window.currentUser
+  );
+
+}
     this.saveKey =
 
       "progress_"
