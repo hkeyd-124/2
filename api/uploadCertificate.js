@@ -8,27 +8,72 @@ export default async function handler(
     const jwt =
       process.env.PINATA_JWT;
 
-    if(!jwt){
+    const formData =
+      new FormData();
 
-      return res
-      .status(500)
-      .json({
+    const blob =
+      new Blob(
 
-        error:
-        "PINATA_JWT missing"
+        ["HackChem Test"],
 
-      });
-    }
+        {
 
-    res.status(200).json({
+          type:
+          "text/plain"
 
-      success:true
+        }
+
+      );
+
+    formData.append(
+
+      "file",
+
+      blob,
+
+      "test.txt"
+
+    );
+
+    const upload =
+      await fetch(
+
+        "https://api.pinata.cloud/pinning/pinFileToIPFS",
+
+        {
+
+          method:"POST",
+
+          headers:{
+
+            Authorization:
+            `Bearer ${jwt}`
+
+          },
+
+          body:
+          formData
+
+        }
+
+      );
+
+    const data =
+      await upload.json();
+
+    return res.json({
+
+      success:true,
+
+      data
 
     });
 
   }catch(err){
 
-    res.status(500).json({
+    return res
+    .status(500)
+    .json({
 
       error:
       err.message
