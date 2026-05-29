@@ -60,7 +60,7 @@ async function(data){
   // NAME
 
   ctx.fillStyle =
-    "white";
+    "#0b2a5b";
 
   ctx.textAlign =
     certificateLayout
