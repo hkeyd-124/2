@@ -14,10 +14,48 @@ export default async function handler(
 
     } = req.body;
 
+    const base64 =
+
+      imageData.split(
+        ","
+      )[1];
+
+    const buffer =
+
+      Buffer.from(
+        base64,
+        "base64"
+      );
+
+    const formData =
+      new FormData();
+
+    const blob =
+      new Blob(
+
+        [buffer],
+
+        {
+          type:
+          "image/png"
+        }
+
+      );
+
+    formData.append(
+
+      "file",
+
+      blob,
+
+      "certificate.png"
+
+    );
+
     const upload =
       await fetch(
 
-        "https://api.pinata.cloud/pinning/pinJSONToIPFS",
+        "https://api.pinata.cloud/pinning/pinFileToIPFS",
 
         {
 
@@ -26,19 +64,12 @@ export default async function handler(
           headers:{
 
             Authorization:
-              `Bearer ${jwt}`,
-
-            "Content-Type":
-              "application/json"
+              `Bearer ${jwt}`
 
           },
 
           body:
-            JSON.stringify({
-
-              image:imageData
-
-            })
+            formData
 
         }
 
@@ -58,12 +89,14 @@ export default async function handler(
   }catch(err){
 
     return res
-    .status(500)
-    .json({
+      .status(500)
+      .json({
 
-      error:
-      err.message
+        error:
+        err.message
 
-    });
+      });
+
   }
+
 }
